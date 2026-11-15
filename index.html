@@ -4,388 +4,315 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>mvvisual.co — Portfólio</title>
-<meta name="description" content="mvvisual.co — produtora de vídeo, fotografia, design, social media e eventos.">
+<meta name="description" content="mvvisual.co — vídeo, fotografia, design, social media e eventos.">
+<meta name="theme-color" content="#0B0A09">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --sand:#EAE2D4;
-    --sand-2:#E0D5C2;
-    --sand-3:#CFC1A8;
-    --paper:#F5F0E7;
-    --ink:#1B1814;
-    --ink-2:#4A433A;
-    --muted:#8A7F6F;
-    --accent:#A8522B;
-    --line:rgba(27,24,20,.14);
+    --bg:#0B0A09;
+    --bg-2:#141210;
+    --bg-3:#1D1A17;
+    --sand:#E8DFCF;
+    --sand-2:#B8AC98;
+    --muted:#7D7365;
+    --accent:#D98C5F;
+    --line:rgba(232,223,207,.12);
     --serif:"Instrument Serif", Georgia, serif;
     --sans:"Inter Tight", system-ui, sans-serif;
     --gutter:clamp(16px,4vw,56px);
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth}
-  body{background:var(--sand);color:var(--ink);font-family:var(--sans);font-weight:400;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  html{scroll-behavior:smooth;background:var(--bg)}
+  body{background:var(--bg);color:var(--sand);font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
   a{color:inherit;text-decoration:none}
-  img,iframe{display:block;max-width:100%}
-  ::selection{background:var(--ink);color:var(--sand)}
+  iframe,video{display:block;max-width:100%}
+  ::selection{background:var(--accent);color:var(--bg)}
+  em{font-family:var(--serif);font-style:italic;color:var(--accent)}
 
-  /* grain */
-  body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:100;opacity:.35;mix-blend-mode:multiply;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.35 0 0 0 0 0.3 0 0 0 0 0.22 0 0 0 .18 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+  body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:100;opacity:.07;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 
   .wrap{padding:0 var(--gutter)}
-  .eyebrow{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-2);font-weight:500}
-  .serif{font-family:var(--serif);font-weight:400}
-  em{font-style:italic;font-family:var(--serif)}
+  .eyebrow{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--sand-2);font-weight:500}
 
   /* NAV */
-  nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:18px var(--gutter);transition:background .4s, backdrop-filter .4s}
-  nav.scrolled{background:rgba(234,226,212,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
-  .logo{font-family:var(--serif);font-size:26px;letter-spacing:-.01em}
+  nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:18px var(--gutter);transition:background .4s}
+  nav.scrolled{background:rgba(11,10,9,.78);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+  .logo{font-family:var(--serif);font-size:26px}
   .logo span{color:var(--accent)}
-  nav ul{display:flex;gap:32px;list-style:none;font-size:14px}
-  nav ul a{position:relative}
-  nav ul a::after{content:"";position:absolute;left:0;bottom:-3px;width:100%;height:1px;background:currentColor;transform:scaleX(0);transform-origin:right;transition:transform .4s}
-  nav ul a:hover::after{transform:scaleX(1);transform-origin:left}
-  .btn{display:inline-flex;align-items:center;gap:10px;padding:12px 20px;border-radius:999px;border:1px solid var(--ink);font-size:14px;font-weight:500;transition:background .3s,color .3s}
-  .btn:hover{background:var(--ink);color:var(--sand)}
-  .btn.solid{background:var(--ink);color:var(--sand)}
-  .btn.solid:hover{background:var(--accent);border-color:var(--accent)}
+  .nav-r{display:flex;align-items:center;gap:28px;font-size:14px}
+  .btn{display:inline-flex;align-items:center;gap:10px;padding:13px 22px;border-radius:999px;border:1px solid rgba(232,223,207,.35);font-size:14px;font-weight:500;transition:background .3s,color .3s,border-color .3s;white-space:nowrap}
+  .btn:hover{background:var(--sand);color:var(--bg);border-color:var(--sand)}
+  .btn.solid{background:var(--sand);color:var(--bg);border-color:var(--sand)}
+  .btn.solid:hover{background:var(--accent);border-color:var(--accent);color:var(--bg)}
 
   /* HERO */
-  .hero{min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;padding-top:110px;padding-bottom:40px;position:relative}
-  .hero-top{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;margin-bottom:auto;padding-top:4vh}
-  .hero-top p{max-width:340px;font-size:15px;line-height:1.55;color:var(--ink-2)}
-  .hero h1{font-family:var(--serif);font-weight:400;font-size:clamp(64px,15.5vw,250px);line-height:.86;letter-spacing:-.035em}
-  .hero h1 .line{display:block;overflow:hidden}
+  .hero{position:relative;height:100svh;min-height:600px;overflow:hidden;display:flex;align-items:flex-end}
+  .hero-media{position:absolute;inset:0;background:radial-gradient(120% 80% at 70% 20%,#2a2119 0%,var(--bg) 60%)}
+  .hero-media video{width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.2s}
+  .hero-media video.ready{opacity:1}
+  .hero-media::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,10,9,.55) 0%,rgba(11,10,9,.05) 35%,rgba(11,10,9,.35) 65%,var(--bg) 100%)}
+  .hero-reel{position:absolute;right:var(--gutter);top:50%;transform:translateY(-46%);width:min(360px,30vw);border-radius:16px;overflow:hidden;box-shadow:0 40px 120px -20px rgba(217,140,95,.25);display:none;z-index:1}
+  .hero-reel iframe{width:100%;height:620px;border:0;background:#fff}
+  .hero.no-video .hero-reel{display:block}
+  .hero-content{position:relative;z-index:2;width:100%;padding-bottom:44px}
+  .hero h1{font-family:var(--serif);font-weight:400;font-size:clamp(64px,13.5vw,220px);line-height:.86;letter-spacing:-.035em}
+  .hero h1 .line{display:block;overflow:hidden;padding-bottom:.04em}
   .hero h1 .line > span{display:inline-block;animation:rise 1.2s cubic-bezier(.2,.8,.2,1) backwards}
   .hero h1 .line:nth-child(2) > span{animation-delay:.12s}
-  .hero h1 em{color:var(--accent)}
   @keyframes rise{from{transform:translateY(105%)}to{transform:none}}
-  .hero-bottom{display:flex;justify-content:space-between;align-items:flex-end;border-top:1px solid var(--line);margin-top:36px;padding-top:20px;gap:20px;flex-wrap:wrap}
-  .hero-bottom .tags{display:flex;gap:8px;flex-wrap:wrap}
-  .tag{font-size:12px;padding:7px 12px;border:1px solid var(--line);border-radius:999px;color:var(--ink-2)}
-  .scroll{font-size:12px;letter-spacing:.18em;text-transform:uppercase;display:flex;align-items:center;gap:10px}
-  .scroll i{width:1px;height:34px;background:var(--ink);display:block;animation:drip 2s infinite}
-  @keyframes drip{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+  .hero.no-video h1,.hero.no-video .hero-bar{max-width:calc(100% - min(360px,30vw) - 40px)}
+  .hero-reel iframe{height:min(620px,calc(100svh - 150px))}
+  .hero-bar{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;margin-top:32px;padding-top:22px;border-top:1px solid var(--line)}
+  .hero-bar .btns{display:flex;gap:10px;flex-wrap:wrap}
+  .sound{position:absolute;right:var(--gutter);top:90px;z-index:3;font:inherit;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--sand);background:rgba(11,10,9,.4);border:1px solid var(--line);border-radius:999px;padding:9px 14px;cursor:pointer;backdrop-filter:blur(8px)}
+  .hero.no-video .sound{display:none}
 
   /* MARQUEE */
-  .marquee{background:var(--ink);color:var(--sand);overflow:hidden;padding:22px 0;white-space:nowrap}
-  .marquee-track{display:inline-flex;animation:mq 32s linear infinite}
-  .marquee span{font-family:var(--serif);font-size:clamp(28px,4vw,52px);padding:0 28px;display:inline-flex;align-items:center;gap:56px}
-  .marquee span::after{content:"✦";font-size:.5em;color:var(--sand-3)}
+  .marquee{border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;padding:22px 0;white-space:nowrap}
+  .marquee-track{display:inline-flex;animation:mq 34s linear infinite}
+  .marquee span{font-family:var(--serif);font-size:clamp(28px,4vw,54px);padding:0 28px;display:inline-flex;align-items:center;gap:56px;color:var(--sand)}
+  .marquee span::after{content:"✦";font-size:.45em;color:var(--accent)}
   @keyframes mq{to{transform:translateX(-50%)}}
 
-  /* SECTIONS */
-  section{padding:clamp(80px,12vw,160px) 0}
-  .sec-head{display:grid;grid-template-columns:1fr 1.4fr;gap:40px;align-items:end;margin-bottom:56px}
-  .sec-head h2{font-family:var(--serif);font-weight:400;font-size:clamp(44px,7vw,104px);line-height:.95;letter-spacing:-.025em}
-  .sec-head p{font-size:16px;line-height:1.6;color:var(--ink-2);max-width:460px;justify-self:end}
-
-  /* ABOUT */
-  .about{background:var(--paper)}
-  .about-grid{display:grid;grid-template-columns:.8fr 2fr;gap:40px}
-  .about-text{font-family:var(--serif);font-size:clamp(30px,3.8vw,56px);line-height:1.08;letter-spacing:-.015em}
-  .about-text em{color:var(--accent)}
-  .facts{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:72px;border-top:1px solid var(--line)}
-  .fact{padding:26px 24px 0 0}
-  .fact + .fact{padding-left:24px;border-left:1px solid var(--line)}
-  .fact b{display:block;font-family:var(--serif);font-weight:400;font-size:clamp(40px,5vw,68px);line-height:1}
-  .fact span{font-size:13px;color:var(--muted)}
+  section{padding:clamp(80px,11vw,150px) 0}
+  h2{font-family:var(--serif);font-weight:400;font-size:clamp(48px,7.5vw,112px);line-height:.92;letter-spacing:-.03em}
 
   /* WORK */
-  .filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:36px}
-  .filters button{font:inherit;font-size:13px;background:none;border:1px solid var(--line);color:var(--ink-2);padding:9px 16px;border-radius:999px;cursor:pointer;transition:all .25s}
-  .filters button:hover{border-color:var(--ink)}
-  .filters button.on{background:var(--ink);border-color:var(--ink);color:var(--sand)}
-  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+  .work-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:44px}
+  .filters{display:flex;gap:8px;flex-wrap:wrap}
+  .filters button{font:inherit;font-size:13px;background:none;border:1px solid var(--line);color:var(--sand-2);padding:9px 16px;border-radius:999px;cursor:pointer;transition:all .25s}
+  .filters button:hover{border-color:var(--sand);color:var(--sand)}
+  .filters button.on{background:var(--sand);border-color:var(--sand);color:var(--bg)}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(18px,2.4vw,32px)}
   .card{display:flex;flex-direction:column;gap:14px;opacity:0;transform:translateY(30px);transition:opacity .8s, transform .8s cubic-bezier(.2,.8,.2,1)}
   .card.in{opacity:1;transform:none}
   .card.hide{display:none}
+  .frame{background:var(--bg-2);border-radius:14px;overflow:hidden;border:1px solid var(--line);transition:transform .5s cubic-bezier(.2,.8,.2,1),box-shadow .5s}
+  .card:hover .frame{transform:translateY(-6px);box-shadow:0 30px 80px -30px rgba(217,140,95,.3)}
+  .frame iframe{width:100%;height:600px;border:0;background:#fff}
   .card-meta{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
-  .card-meta h3{font-family:var(--serif);font-weight:400;font-size:28px;line-height:1.05;letter-spacing:-.01em}
-  .card-meta small{font-size:12px;color:var(--muted);white-space:nowrap}
-  .card-cat{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:500}
-  .frame{background:#fff;border-radius:14px;overflow:hidden;border:1px solid var(--line);box-shadow:0 1px 0 rgba(0,0,0,.02),0 30px 60px -40px rgba(60,45,25,.45)}
-  .frame iframe{width:100%;height:600px;border:0}
-  .ph{aspect-ratio:4/5;background:linear-gradient(160deg,var(--sand-2),var(--sand-3));display:flex;flex-direction:column;justify-content:space-between;padding:22px;border:0}
-  .ph .num{font-family:var(--serif);font-size:88px;line-height:.8;color:rgba(27,24,20,.18)}
-  .ph p{font-size:13px;color:var(--ink-2);line-height:1.5}
-  .ph code{font-size:11px;background:rgba(255,255,255,.5);padding:2px 6px;border-radius:4px}
-  .card p.desc{font-size:14px;line-height:1.55;color:var(--ink-2)}
-  .card.featured{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,420px) 1fr;gap:clamp(28px,5vw,80px);align-items:center;padding-bottom:40px;margin-bottom:20px;border-bottom:1px solid var(--line)}
-  .card.featured .frame iframe{height:720px}
-  .feat-text{display:flex;flex-direction:column;gap:18px;align-items:flex-start}
-  .feat-text h3{font-family:var(--serif);font-weight:400;font-size:clamp(44px,6vw,92px);line-height:.95;letter-spacing:-.025em}
-  .feat-text small{font-size:14px;color:var(--muted)}
-  .feat-text p.desc{font-size:17px;max-width:440px}
-  .card-meta small{text-align:right}
-  .clients{display:flex;flex-wrap:wrap;gap:12px 40px;align-items:baseline;margin-top:56px}
-  .clients span{font-family:var(--serif);font-size:clamp(24px,2.6vw,36px);color:var(--ink-2)}
-  .clients .eyebrow{font-family:var(--sans);font-size:12px;width:100%}
+  .card-meta h3{font-family:var(--serif);font-weight:400;font-size:26px;line-height:1.05}
+  .card-meta small{font-size:12px;color:var(--muted);text-align:right}
+  .card-cat{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);font-weight:500}
+
+  /* CLIENTS */
+  .clients{background:var(--bg-2);padding:60px 0}
+  .clients .row{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:18px 40px}
+  .clients b{font-family:var(--serif);font-weight:400;font-size:clamp(24px,2.8vw,40px);color:var(--sand-2);transition:color .3s}
+  .clients b:hover{color:var(--sand)}
 
   /* SERVICES */
-  .services{background:var(--ink);color:var(--sand)}
-  .services .sec-head p{color:var(--sand-3)}
-  .svc{border-top:1px solid rgba(234,226,212,.18)}
-  .svc-row{display:grid;grid-template-columns:80px 1.2fr 1.6fr 40px;gap:24px;align-items:center;padding:30px 0;border-bottom:1px solid rgba(234,226,212,.18);transition:padding .4s}
-  .svc-row:hover{padding-left:14px}
-  .svc-row .n{font-size:13px;color:var(--sand-3)}
-  .svc-row h3{font-family:var(--serif);font-weight:400;font-size:clamp(34px,4.6vw,64px);line-height:1;letter-spacing:-.02em}
-  .svc-row:hover h3{color:#E7B48F}
-  .svc-row p{font-size:15px;line-height:1.55;color:var(--sand-3)}
-  .svc-row .arr{font-size:26px;transition:transform .4s}
-  .svc-row:hover .arr{transform:rotate(-45deg)}
-
-  /* PROCESS */
-  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:28px}
-  .step{border-top:1px solid var(--ink);padding-top:22px}
-  .step b{font-family:var(--serif);font-weight:400;font-size:20px;color:var(--accent)}
-  .step h4{font-family:var(--serif);font-weight:400;font-size:34px;margin:10px 0 12px;letter-spacing:-.01em}
-  .step p{font-size:14px;line-height:1.6;color:var(--ink-2)}
+  .svc{margin-top:48px;border-top:1px solid var(--line)}
+  .svc-row{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:22px 0;border-bottom:1px solid var(--line);transition:padding .4s,color .3s}
+  .svc-row:hover{padding-left:16px;color:var(--accent)}
+  .svc-row h3{font-family:var(--serif);font-weight:400;font-size:clamp(38px,6vw,88px);line-height:1;letter-spacing:-.025em}
+  .svc-row span{font-size:13px;color:var(--muted)}
 
   /* CTA */
-  .cta{background:var(--paper);text-align:center}
-  .cta h2{font-family:var(--serif);font-weight:400;font-size:clamp(56px,11vw,180px);line-height:.88;letter-spacing:-.035em;margin:20px 0 44px}
-  .cta h2 em{color:var(--accent)}
+  .cta{text-align:center;background:radial-gradient(80% 60% at 50% 100%,rgba(217,140,95,.16),transparent 70%)}
+  .cta h2{font-size:clamp(60px,12vw,200px);line-height:.86;margin:0 0 44px}
   .cta .btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
 
-  footer{padding:36px var(--gutter);display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font-size:13px;color:var(--ink-2);border-top:1px solid var(--line)}
-  footer .big{font-family:var(--serif);font-size:22px;color:var(--ink)}
+  footer{padding:30px var(--gutter);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--muted);border-top:1px solid var(--line)}
 
   .reveal{opacity:0;transform:translateY(24px);transition:opacity 1s, transform 1s cubic-bezier(.2,.8,.2,1)}
   .reveal.in{opacity:1;transform:none}
 
   @media (max-width:980px){
     .grid{grid-template-columns:repeat(2,1fr)}
-    .steps{grid-template-columns:repeat(2,1fr)}
-    .sec-head,.about-grid{grid-template-columns:1fr}
-    .sec-head p{justify-self:start}
-    .card.featured{grid-template-columns:1fr}
-    .svc-row{grid-template-columns:50px 1fr 30px}
-    .svc-row p{grid-column:2/3}
-    .svc-row .arr{grid-row:1;grid-column:3}
+    .hero.no-video{height:auto;min-height:100svh;flex-direction:column;justify-content:flex-end;padding-top:100px}
+    .hero.no-video .hero-reel{position:relative;right:auto;top:auto;transform:none;width:min(380px,100% - 2*var(--gutter));margin:0 auto 36px}
+    .hero.no-video h1,.hero.no-video .hero-bar{max-width:none}
+    .hero-reel iframe{height:600px}
   }
   @media (max-width:640px){
-    nav ul{display:none}
-    .hero-top{flex-direction:column}
-    .grid,.steps{grid-template-columns:1fr}
-    .facts{grid-template-columns:1fr}
-    .fact + .fact{padding-left:0;border-left:0;border-top:1px solid var(--line);margin-top:26px}
+    .nav-r a:not(.btn){display:none}
+    .grid{grid-template-columns:1fr}
     .frame iframe{height:560px}
-    .svc-row{grid-template-columns:36px 1fr 24px;gap:14px}
+    .svc-row span{display:none}
+    .hero-reel iframe{height:560px}
   }
   @media (prefers-reduced-motion:reduce){
     *,*::before,*::after{animation:none!important;transition:none!important}
-    .hero h1 .line > span{transform:none}
     .reveal,.card{opacity:1;transform:none}
   }
 </style>
 </head>
 <body>
 
-<!-- ===================================================================
-     EDITE AQUI: seus contatos
-     =================================================================== -->
 <script>
+  /* ================= EDITE AQUI ================= */
+  // Vídeo da capa: coloque o arquivo nesta pasta com este nome (MP4, de preferência até ~15 MB)
+  const VIDEO_CAPA = "showreel.mp4";
+  // Enquanto não houver vídeo, a capa mostra este reel:
+  const REEL_CAPA = "https://www.instagram.com/reel/DdzzxX2OHjW/";
+
   const CONTATO = {
     instagram: "https://www.instagram.com/mvvisual.co/",
-    whatsapp:  "5561982378512",      // só números, com DDI 55
+    whatsapp:  "5561982378512",
     email:     "mvvisualco@gmail.com"
   };
 
-  /* =================================================================
-     EDITE AQUI: seus trabalhos
-     - instagram: cole o link do post ou reel (ex.: https://www.instagram.com/p/ABC123/)
-     - categoria: Vídeo, Fotografia, Design, Social Media ou Eventos
-     ================================================================= */
-  // destaque: true → aparece grande no topo
   const PROJETOS = [
-    { destaque: true, titulo: "Conferência de Mulheres Fidelidade e Fé", cliente: "CCFE", categoria: "Eventos", descricao: "Aftermovie da conferência: dias de adoração, palavra e momentos marcantes, editados para emocionar quem esteve lá e quem não foi.", instagram: "https://www.instagram.com/reel/DdzzxX2OHjW/" },
-    { titulo: "Wellness Day — bastidores", cliente: "Prócapz", categoria: "Eventos", descricao: "Bastidores do evento de autocuidado da marca, gerando expectativa antes do dia.", instagram: "https://www.instagram.com/reel/DXz5gh0vued/" },
-    { titulo: "Academia Informa", cliente: "Academia da Polícia Penal DF", categoria: "Institucional", descricao: "Vídeo explicativo sobre um novo entendimento jurídico. Mais de 1.200 curtidas.", instagram: "https://www.instagram.com/reel/DYmbiDqMVFC/" },
-    { titulo: "Body&Fit Day Sunset", cliente: "Prócapz", categoria: "Eventos", descricao: "Cobertura da participação da marca no evento, com energia, movimento e parceria.", instagram: "https://www.instagram.com/reel/DcZUvgzvQKH/" },
-    { titulo: "Lançamento Termobolic", cliente: "Prócapz", categoria: "Produto", descricao: "Encontro de lançamento dos novos sabores do pré-treino.", instagram: "https://www.instagram.com/reel/DXAI_h5j7Nx/" },
-    { titulo: "Curso Pistola Beretta APX", cliente: "Academia da Polícia Penal DF", categoria: "Institucional", descricao: "Registro da capacitação técnica dos policiais penais com o novo armamento.", instagram: "https://www.instagram.com/reel/DZ40z7Es4Re/" },
-    { titulo: "Planejamento do sorriso", cliente: "Dr. Xavier Odonto", categoria: "Saúde", descricao: "Conteúdo de caso clínico que explica o tratamento e gera agendamentos.", instagram: "https://www.instagram.com/reel/DbwOyyuhGH2/" },
-    { titulo: "Toda Linda Gummy", cliente: "Prócapz", categoria: "Produto", descricao: "Reel de produto com linguagem leve e chamada para interação.", instagram: "https://www.instagram.com/reel/De2Wn-gCp7I/" },
-    { titulo: "Academia Informa — análise", cliente: "Academia da Polícia Penal DF", categoria: "Institucional", descricao: "Série informativa para a corporação, em formato vertical.", instagram: "https://www.instagram.com/reel/DY4XjS7Mlar/" },
-    { titulo: "Trincheira — chamada", cliente: "CCFE", categoria: "Eventos", descricao: "Vídeo de convocação para o encontro de jovens.", instagram: "https://www.instagram.com/reel/Dd7Ql_gBsjJ/" },
-    { titulo: "Lipcapz", cliente: "Prócapz", categoria: "Produto", descricao: "Conteúdo educativo sobre lipedema, apresentando o produto.", instagram: "https://www.instagram.com/reel/DaWNAYXvkZ0/" },
-    { titulo: "Clareamento dental", cliente: "Dr. Xavier Odonto", categoria: "Saúde", descricao: "Reel de antes e depois para atrair novas avaliações.", instagram: "https://www.instagram.com/reel/DcKDVKxBMKF/" }
+    { titulo: "Conferência de Mulheres", cliente: "CCFE", categoria: "Eventos", instagram: "https://www.instagram.com/reel/DdzzxX2OHjW/" },
+    { titulo: "Wellness Day", cliente: "Prócapz", categoria: "Eventos", instagram: "https://www.instagram.com/reel/DXz5gh0vued/" },
+    { titulo: "Academia Informa", cliente: "Polícia Penal DF", categoria: "Institucional", instagram: "https://www.instagram.com/reel/DYmbiDqMVFC/" },
+    { titulo: "Body&Fit Day Sunset", cliente: "Prócapz", categoria: "Eventos", instagram: "https://www.instagram.com/reel/DcZUvgzvQKH/" },
+    { titulo: "Lançamento Termobolic", cliente: "Prócapz", categoria: "Produto", instagram: "https://www.instagram.com/reel/DXAI_h5j7Nx/" },
+    { titulo: "Curso Beretta APX", cliente: "Polícia Penal DF", categoria: "Institucional", instagram: "https://www.instagram.com/reel/DZ40z7Es4Re/" },
+    { titulo: "Planejamento do sorriso", cliente: "Dr. Xavier Odonto", categoria: "Saúde", instagram: "https://www.instagram.com/reel/DbwOyyuhGH2/" },
+    { titulo: "Toda Linda Gummy", cliente: "Prócapz", categoria: "Produto", instagram: "https://www.instagram.com/reel/De2Wn-gCp7I/" },
+    { titulo: "Academia Informa II", cliente: "Polícia Penal DF", categoria: "Institucional", instagram: "https://www.instagram.com/reel/DY4XjS7Mlar/" },
+    { titulo: "Trincheira", cliente: "CCFE", categoria: "Eventos", instagram: "https://www.instagram.com/reel/Dd7Ql_gBsjJ/" },
+    { titulo: "Lipcapz", cliente: "Prócapz", categoria: "Produto", instagram: "https://www.instagram.com/reel/DaWNAYXvkZ0/" },
+    { titulo: "Clareamento dental", cliente: "Dr. Xavier Odonto", categoria: "Saúde", instagram: "https://www.instagram.com/reel/DcKDVKxBMKF/" }
   ];
 </script>
 
 <nav id="nav">
   <a href="#topo" class="logo">mvvisual<span>.</span>co</a>
-  <ul>
-    <li><a href="#trabalhos">Trabalhos</a></li>
-    <li><a href="#servicos">Serviços</a></li>
-    <li><a href="#processo">Processo</a></li>
-    <li><a href="#sobre">Sobre</a></li>
-  </ul>
-  <a href="#contato" class="btn">Vamos conversar</a>
+  <div class="nav-r">
+    <a href="#trabalhos">Trabalhos</a>
+    <a href="#servicos">Serviços</a>
+    <a href="#contato" class="btn">Contato</a>
+  </div>
 </nav>
 
-<header class="hero wrap" id="topo">
-  <div class="hero-top">
-    <span class="eyebrow">Produtora criativa — Brasil</span>
-    <p>Vídeo, fotografia, design e social media para marcas, eventos e pessoas que querem ser lembradas.</p>
+<header class="hero" id="topo">
+  <div class="hero-media">
+    <video id="heroVideo" autoplay muted loop playsinline preload="auto"></video>
   </div>
-  <h1>
-    <span class="line"><span>Imagens que</span></span>
-    <span class="line"><span><em>movem</em> marcas.</span></span>
-  </h1>
-  <div class="hero-bottom">
-    <div class="tags">
-      <span class="tag">Vídeo</span><span class="tag">Fotografia</span><span class="tag">Design</span><span class="tag">Social Media</span><span class="tag">Eventos</span>
+  <button class="sound" id="sound" type="button">Som: off</button>
+  <div class="hero-reel" id="heroReel"></div>
+  <div class="hero-content wrap">
+    <h1>
+      <span class="line"><span>Imagens que</span></span>
+      <span class="line"><span><em>movem</em> marcas.</span></span>
+    </h1>
+    <div class="hero-bar">
+      <span class="eyebrow">Vídeo · Foto · Design · Social · Eventos</span>
+      <div class="btns">
+        <a href="#trabalhos" class="btn">Ver trabalhos ↓</a>
+        <a href="#" class="btn solid" data-wa>Orçamento no WhatsApp</a>
+      </div>
     </div>
-    <a href="#trabalhos" class="scroll"><i></i>Ver trabalhos</a>
   </div>
 </header>
 
 <div class="marquee" aria-hidden="true">
   <div class="marquee-track">
-    <span>Vídeo</span><span>Fotografia</span><span>Design</span><span>Social Media</span><span>Eventos</span><span>Reels</span><span>Campanhas</span>
-    <span>Vídeo</span><span>Fotografia</span><span>Design</span><span>Social Media</span><span>Eventos</span><span>Reels</span><span>Campanhas</span>
+    <span>Vídeo</span><span>Fotografia</span><span>Design</span><span>Social Media</span><span>Eventos</span><span>Reels</span>
+    <span>Vídeo</span><span>Fotografia</span><span>Design</span><span>Social Media</span><span>Eventos</span><span>Reels</span>
   </div>
 </div>
 
-<section class="about" id="sobre">
-  <div class="wrap">
-    <div class="about-grid reveal">
-      <span class="eyebrow">(01) — Sobre</span>
-      <p class="about-text">A <em>mvvisual.co</em> cria do roteiro ao post. Pensamos a imagem, captamos, editamos e entregamos pronto para <em>performar</em> — com a estética de produtora e a agilidade que as redes pedem.</p>
-    </div>
-    <div class="facts reveal">
-      <div class="fact"><b>4</b><span>marcas nesta seleção, de suplementos a segurança pública</span></div>
-      <div class="fact"><b>12</b><span>reels selecionados</span></div>
-      <div class="fact"><b>+2,8 mil</b><span>curtidas somadas nesses reels</span></div>
-    </div>
-    <div class="clients reveal">
-      <span class="eyebrow">Marcas que confiaram na gente</span>
-      <span>Prócapz</span><span>Academia da Polícia Penal DF</span><span>CCFE</span><span>Dr. Xavier Odonto</span>
-    </div>
-  </div>
-</section>
-
 <section id="trabalhos">
   <div class="wrap">
-    <div class="sec-head reveal">
+    <div class="work-head reveal">
       <h2>Trabalhos<br><em>selecionados</em></h2>
-      <p>Alguns projetos recentes. Cada um começou com uma conversa e terminou com conteúdo que a marca tem orgulho de postar.</p>
+      <div class="filters" id="filters"></div>
     </div>
-    <div class="filters" id="filters"></div>
     <div class="grid" id="grid"></div>
   </div>
 </section>
 
-<section class="services" id="servicos">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <h2>O que<br><em>fazemos</em></h2>
-      <p>Uma equipe enxuta que resolve tudo o que sua marca precisa em imagem — sem você ter que coordenar cinco fornecedores.</p>
-    </div>
-    <div class="svc">
-      <a href="#contato" class="svc-row reveal"><span class="n">01</span><h3>Vídeo</h3><p>Reels, filmes institucionais, aftermovies, campanhas e conteúdo vertical com edição e motion.</p><span class="arr">→</span></a>
-      <a href="#contato" class="svc-row reveal"><span class="n">02</span><h3>Fotografia</h3><p>Produto, retrato, gastronomia, campanha e bastidores com direção de arte.</p><span class="arr">→</span></a>
-      <a href="#contato" class="svc-row reveal"><span class="n">03</span><h3>Design</h3><p>Identidade visual, peças para redes, materiais de evento e direção criativa.</p><span class="arr">→</span></a>
-      <a href="#contato" class="svc-row reveal"><span class="n">04</span><h3>Social Media</h3><p>Planejamento, calendário, criação e gestão do feed com olhar de marca.</p><span class="arr">→</span></a>
-      <a href="#contato" class="svc-row reveal"><span class="n">05</span><h3>Eventos</h3><p>Cobertura completa em foto e vídeo, com entregas rápidas para postar no mesmo dia.</p><span class="arr">→</span></a>
-    </div>
+<div class="clients">
+  <div class="wrap row reveal">
+    <span class="eyebrow">Clientes</span>
+    <b>Prócapz</b><b>Polícia Penal DF</b><b>CCFE</b><b>Dr. Xavier Odonto</b>
   </div>
-</section>
+</div>
 
-<section id="processo">
+<section id="servicos">
   <div class="wrap">
-    <div class="sec-head reveal">
-      <h2>Como<br><em>trabalhamos</em></h2>
-      <p>Um processo simples e transparente, para você saber exatamente o que vai receber e quando.</p>
-    </div>
-    <div class="steps">
-      <div class="step reveal"><b>01</b><h4>Conversa</h4><p>Entendemos sua marca, o objetivo e onde o conteúdo vai viver.</p></div>
-      <div class="step reveal"><b>02</b><h4>Roteiro</h4><p>Proposta criativa, referências, cronograma e orçamento fechado.</p></div>
-      <div class="step reveal"><b>03</b><h4>Produção</h4><p>Captação com equipe e equipamento adequados ao projeto.</p></div>
-      <div class="step reveal"><b>04</b><h4>Entrega</h4><p>Edição, ajustes e arquivos prontos nos formatos de cada rede.</p></div>
+    <h2 class="reveal">O que <em>fazemos</em></h2>
+    <div class="svc">
+      <a href="#contato" class="svc-row reveal"><h3>Vídeo</h3><span>Reels · Institucional · Aftermovie</span></a>
+      <a href="#contato" class="svc-row reveal"><h3>Fotografia</h3><span>Produto · Retrato · Campanha</span></a>
+      <a href="#contato" class="svc-row reveal"><h3>Design</h3><span>Identidade · Peças · Direção</span></a>
+      <a href="#contato" class="svc-row reveal"><h3>Social Media</h3><span>Planejamento · Criação · Gestão</span></a>
+      <a href="#contato" class="svc-row reveal"><h3>Eventos</h3><span>Foto e vídeo · Entrega no dia</span></a>
     </div>
   </div>
 </section>
 
 <section class="cta" id="contato">
   <div class="wrap reveal">
-    <span class="eyebrow">(05) — Contato</span>
     <h2>Vamos criar<br>algo <em>juntos?</em></h2>
     <div class="btns" id="ctaBtns"></div>
   </div>
 </section>
 
 <footer>
-  <span class="big">mvvisual<span style="color:var(--accent)">.</span>co</span>
-  <span>Vídeo · Fotografia · Design · Social Media · Eventos</span>
   <span>© <span id="yr"></span> mvvisual.co</span>
+  <a href="https://www.instagram.com/mvvisual.co/" target="_blank" rel="noopener">@mvvisual.co</a>
 </footer>
 
 <script>
-  // ---------- Trabalhos ----------
-  const grid = document.getElementById('grid');
-  const filtersEl = document.getElementById('filters');
-
   function embedUrl(link){
     try{
-      const u = new URL(link);
-      const m = u.pathname.match(/\/(p|reel|reels|tv)\/([^/]+)/);
+      const m = new URL(link).pathname.match(/\/(p|reel|reels|tv)\/([^/]+)/);
       if(!m) return null;
-      const kind = m[1] === 'reels' ? 'reel' : m[1];
-      return `https://www.instagram.com/${kind}/${m[2]}/embed/`;
+      return `https://www.instagram.com/${m[1]==='reels'?'reel':m[1]}/${m[2]}/embed/`;
     }catch(e){ return null; }
   }
+  const iframe = (src, t) => `<iframe src="${src}" loading="lazy" scrolling="no" allowtransparency="true" title="${t}"></iframe>`;
 
-  PROJETOS.forEach((p, i) => {
+  // ---------- Capa ----------
+  const hero = document.querySelector('.hero');
+  const vid = document.getElementById('heroVideo');
+  const noVideo = () => {
+    if(hero.classList.contains('no-video')) return;
+    hero.classList.add('no-video');
+    const src = embedUrl(REEL_CAPA);
+    if(src) document.getElementById('heroReel').innerHTML = iframe(src, 'Reel em destaque');
+  };
+  vid.addEventListener('error', noVideo, true);
+  vid.addEventListener('loadeddata', () => vid.classList.add('ready'));
+  const source = document.createElement('source');
+  source.src = VIDEO_CAPA; source.type = 'video/mp4';
+  source.addEventListener('error', noVideo);
+  vid.appendChild(source);
+  const snd = document.getElementById('sound');
+  snd.onclick = () => { vid.muted = !vid.muted; snd.textContent = 'Som: ' + (vid.muted ? 'off' : 'on'); };
+
+  // ---------- Trabalhos ----------
+  const grid = document.getElementById('grid');
+  PROJETOS.forEach(p => {
+    const src = embedUrl(p.instagram);
+    if(!src) return;
     const card = document.createElement('article');
-    card.className = 'card' + (p.destaque ? ' featured' : '');
+    card.className = 'card';
     card.dataset.cat = p.categoria;
-    const src = p.instagram && embedUrl(p.instagram);
-    const media = src
-      ? `<div class="frame"><iframe src="${src}" loading="lazy" scrolling="no" allowtransparency="true" title="${p.titulo} no Instagram"></iframe></div>`
-      : `<div class="frame ph"><span class="num">${String(i+1).padStart(2,'0')}</span><p>Cole o link do post do Instagram no campo <code>instagram</code> deste projeto.</p></div>`;
-    const sub = [p.cliente, p.ano].filter(Boolean).join(' · ');
-    card.innerHTML = p.destaque ? `
-      ${media}
-      <div class="feat-text">
-        <span class="card-cat">Destaque — ${p.categoria}</span>
-        <h3>${p.titulo}</h3>
-        <small>${sub}</small>
-        ${p.descricao ? `<p class="desc">${p.descricao}</p>` : ''}
-        <a class="btn" target="_blank" rel="noopener" href="${p.instagram}">Assistir no Instagram ↗</a>
-      </div>` : `
+    card.innerHTML = `
       <span class="card-cat">${p.categoria}</span>
-      ${media}
-      <div class="card-meta"><h3>${p.titulo}</h3><small>${sub}</small></div>
-      ${p.descricao ? `<p class="desc">${p.descricao}</p>` : ''}`;
+      <div class="frame">${iframe(src, p.titulo)}</div>
+      <div class="card-meta"><h3>${p.titulo}</h3><small>${p.cliente}</small></div>`;
     grid.appendChild(card);
   });
-
-  const cats = ['Todos', ...new Set(PROJETOS.map(p => p.categoria))];
-  cats.forEach((c, i) => {
+  const filtersEl = document.getElementById('filters');
+  ['Todos', ...new Set(PROJETOS.map(p => p.categoria))].forEach((c, i) => {
     const b = document.createElement('button');
     b.textContent = c;
     if(i === 0) b.classList.add('on');
     b.onclick = () => {
       filtersEl.querySelectorAll('button').forEach(x => x.classList.remove('on'));
       b.classList.add('on');
-      grid.querySelectorAll('.card').forEach(card => {
-        card.classList.toggle('hide', c !== 'Todos' && card.dataset.cat !== c);
-      });
+      grid.querySelectorAll('.card').forEach(card => card.classList.toggle('hide', c !== 'Todos' && card.dataset.cat !== c));
     };
     filtersEl.appendChild(b);
   });
 
   // ---------- Contato ----------
-  const btns = document.getElementById('ctaBtns');
-  if(CONTATO.whatsapp) btns.insertAdjacentHTML('beforeend', `<a class="btn solid" target="_blank" rel="noopener" href="https://wa.me/${CONTATO.whatsapp}?text=${encodeURIComponent('Olá! Vi o portfólio da mvvisual.co e quero conversar sobre um projeto.')}">WhatsApp →</a>`);
-  if(CONTATO.email) btns.insertAdjacentHTML('beforeend', `<a class="btn" href="mailto:${CONTATO.email}">${CONTATO.email}</a>`);
-  btns.insertAdjacentHTML('beforeend', `<a class="btn ${CONTATO.whatsapp ? '' : 'solid'}" target="_blank" rel="noopener" href="${CONTATO.instagram}">Instagram @mvvisual.co</a>`);
+  const wa = `https://wa.me/${CONTATO.whatsapp}?text=${encodeURIComponent('Olá! Vi o portfólio da mvvisual.co e quero um orçamento.')}`;
+  document.querySelectorAll('[data-wa]').forEach(a => { a.href = wa; a.target = '_blank'; a.rel = 'noopener'; });
+  document.getElementById('ctaBtns').innerHTML = `
+    <a class="btn solid" target="_blank" rel="noopener" href="${wa}">WhatsApp →</a>
+    <a class="btn" href="mailto:${CONTATO.email}">${CONTATO.email}</a>
+    <a class="btn" target="_blank" rel="noopener" href="${CONTATO.instagram}">@mvvisual.co</a>`;
   document.getElementById('yr').textContent = new Date().getFullYear();
 
   // ---------- Animações ----------
@@ -393,7 +320,7 @@
   addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 40), {passive:true});
   const io = new IntersectionObserver(es => es.forEach(e => {
     if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
-  }), {threshold:.12});
+  }), {threshold:.1});
   document.querySelectorAll('.reveal,.card').forEach((el, i) => {
     if(el.classList.contains('card')) el.style.transitionDelay = (i % 3) * 90 + 'ms';
     io.observe(el);
