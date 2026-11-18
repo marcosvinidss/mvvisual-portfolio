@@ -249,6 +249,31 @@
   .stat{border-top:1px solid var(--line);padding-top:14px}
   .stat b{display:block;font-size:clamp(64px,9vw,150px);font-weight:900;letter-spacing:-.05em;line-height:.9;margin-top:24px}
 
+  .stat .tag{display:block}
+
+  /* PROVA NO CARD */
+  .item .proof{margin-top:12px;display:flex;flex-direction:column;gap:4px;font-family:var(--mono);font-size:11px;letter-spacing:.04em;text-transform:uppercase;line-height:1.5}
+  .item .proof span:first-child{color:var(--dim)}
+  .item .proof .res{color:var(--accent)}
+
+  /* DEPOIMENTOS (mesma tipografia do manifesto) */
+  .quote{display:grid;grid-template-columns:repeat(12,1fr);gap:var(--g);padding:clamp(28px,4vw,56px) 0;border-top:1px solid var(--line)}
+  .quote .tag{grid-column:1/4}
+  .quote blockquote{grid-column:4/13;font-size:clamp(24px,3vw,46px);line-height:1.08;letter-spacing:-.03em;font-weight:500}
+  .quote figcaption{grid-column:4/13;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-top:12px}
+
+  /* QUEM ESTÁ POR TRÁS */
+  .about{display:grid;grid-template-columns:repeat(12,1fr);gap:var(--g);align-items:end}
+  .about .tag{grid-column:1/4;align-self:start}
+  .about figure{grid-column:4/8}
+  .about figure img{width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;border-radius:6px;filter:grayscale(.15)}
+  .about-txt{grid-column:8/13;display:flex;flex-direction:column;gap:16px}
+  .about-txt b{font-size:clamp(34px,4.4vw,72px);font-weight:800;text-transform:uppercase;letter-spacing:-.04em;line-height:.9}
+  .about-txt p{font-size:17px;line-height:1.5;color:var(--dim);max-width:44ch}
+
+  /* LOGOS DE CLIENTES */
+  .clients li img.logo{height:.7em;width:auto;max-width:60%;filter:brightness(0) invert(1);object-fit:contain}
+
   /* CTA + CONTATO */
   .cta h2{font-size:clamp(48px,9vw,160px);margin-bottom:clamp(50px,7vw,100px)}
   .cta h2 span{color:var(--accent)}
@@ -280,6 +305,7 @@
     .hero-mid .play{justify-self:start}
     .wordmark{flex-direction:column;align-items:flex-start;gap:6px}
     .wordmark .yr{text-align:left;padding:0}
+    .quote .tag,.quote blockquote,.quote figcaption,.about .tag,.about figure,.about-txt,
     .manifesto .tag,.manifesto p,.manifesto .sig,.ai-intro .tag,.ai-intro p,.clients .head,.clients ul,.process-head h2,.process-head p,.contact .links,.contact form{grid-column:1/-1}
     .terr-grid,.sites{grid-template-columns:minmax(0,1fr)}
     .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -320,6 +346,12 @@
      Sem nenhum dos dois, o card mostra o vídeo do Instagram, como hoje.
      O site só busca o arquivo quando o campo está marcado (assim não há erros 404). */
 
+  /* PROVA DE RESULTADO (opcional, em cada projeto):
+       contexto: "Uma frase sobre o desafio ou o objetivo."
+       resultado: "38 mil visualizações"        → aparece na cor de destaque
+     LOGO DO CLIENTE (opcional): logo: "logos/procapz.svg" em qualquer projeto do cliente.
+       A logo aparece em branco no lugar do nome, na seção Clientes. */
+
   // Vídeo de fundo da capa: coloque videos/capa.mp4 e troque para true
   const USAR_VIDEO_CAPA = false;
   const VIDEO_CAPA = "videos/capa.mp4";
@@ -355,6 +387,33 @@
     ['Sites','Sites e landing pages feitos com IA.'],
     ['Identidade visual','Logo, cores e peças para redes.']
   ];
+
+  /* NÚMEROS (seção antes do Processo). Se a lista ficar vazia, a seção não aparece.
+     valor: "auto:projetos" e "auto:clientes" são calculados a partir de PROJETOS.
+     Exemplos (tire as barras // para ativar):
+       { valor: "auto:projetos", rotulo: "Projetos em vídeo" },
+       { valor: "auto:clientes", rotulo: "Clientes" },
+       { valor: "+500 mil", rotulo: "Visualizações geradas" },
+       { valor: "100%", rotulo: "Entregas no prazo" }, */
+  const NUMEROS = [
+  ];
+
+  /* DEPOIMENTOS reais de clientes. Se a lista ficar vazia, a seção não aparece.
+     Modelo (copie para dentro da lista e preencha; não use depoimentos inventados):
+       { texto: "O que o cliente disse, entre aspas.", nome: "Nome Sobrenome", cargo: "Cargo", cliente: "Empresa" }, */
+  const DEPOIMENTOS = [
+    // { texto: "", nome: "", cargo: "", cliente: "Dr. Xavier Odonto" },
+    // { texto: "", nome: "", cargo: "", cliente: "Prócapz" },
+  ];
+
+  /* QUEM ESTÁ POR TRÁS (entre o manifesto e os territórios).
+     foto: caminho da foto (ex.: "sobre/marcos.jpg", vertical 4:5, ~800px de largura).
+     Sem foto (ou se o arquivo não existir), a seção não aparece. */
+  const SOBRE = {
+    foto: "",
+    nome: "",
+    texto: ""
+  };
 
   /* Sites criados com IA. Deixe "link" vazio ("") para mostrar como "em breve".
      "print" = nome do print em sites/<print>.jpg (gerado por scripts/gerar-prints.py).
@@ -402,6 +461,14 @@
     <span class="tag">(Quem somos)</span>
     <p>A mvvisual.co é o estúdio que cuida da imagem de empresas, marcas e profissionais da saúde. <span>Gravamos o vídeo, desenhamos a marca e colocamos o site no ar, com um só time e um só olhar.</span></p>
     <div class="sig mono"><span>Empresas · Marcas · Clínicas &amp; consultórios</span><span class="acc">Câmera e código.</span></div>
+  </div>
+</section>
+
+<section class="sec" id="sobre" hidden>
+  <div class="about rv">
+    <span class="tag">(Quem está por trás)</span>
+    <figure><img id="sobreFoto" alt="" decoding="async" width="800" height="1000"></figure>
+    <div class="about-txt"><b id="sobreNome"></b><p id="sobreTexto"></p></div>
   </div>
 </section>
 
@@ -478,6 +545,16 @@
       <!-- GERADO:FIM clientes -->
     </ul>
   </div>
+</section>
+
+<section class="sec" id="numeros" hidden>
+  <div class="sec-head"><span class="tag">(Números)</span></div>
+  <div class="stats" id="stats"></div>
+</section>
+
+<section class="sec" id="depoimentos" hidden>
+  <div class="sec-head"><h2 class="big">Depoimentos</h2><span class="tag">(Quem já trabalhou com a gente)</span></div>
+  <div id="depList"></div>
 </section>
 
 <section class="sec">
@@ -614,7 +691,8 @@
         <span class="lbl"><span>${p.cliente}</span><span>${p.categoria}</span></span>
         <span class="play"><i>▶</i></span>
         <span class="ttl"><b>${p.titulo}</b><em>Assistir ↗</em></span>
-      </a>`;
+      </a>${p.contexto || p.resultado ? `
+      <p class="proof">${p.contexto ? `<span>${p.contexto}</span>` : ''}${p.resultado ? `<span class="res">${p.resultado}</span>` : ''}</p>` : ''}`;
     grid.appendChild(el);
     useMidia(el.querySelector('.clip'), p);
   });
@@ -652,8 +730,35 @@
   }).join('');
 
   // Clientes
+  const logoDe = c => (PROJETOS.find(p => p.cliente === c && p.logo) || {}).logo;
   $('#clientList').innerHTML = [...new Set(PROJETOS.map(p => p.cliente))]
-    .map(c => `<li class="rv">${c}</li>`).join('');
+    .map(c => `<li class="rv">${logoDe(c) ? `<img class="logo" src="${logoDe(c)}" alt="${c}" loading="lazy" decoding="async">` : c}</li>`).join('');
+
+  // Números (a seção só aparece se NUMEROS tiver itens)
+  const AUTO = { 'auto:projetos': PROJETOS.length, 'auto:clientes': new Set(PROJETOS.map(p => p.cliente)).size };
+  if(NUMEROS.length){
+    $('#stats').innerHTML = NUMEROS.map(n => `<div class="stat rv"><span class="tag">${n.rotulo}</span><b>${n.valor in AUTO ? pad(AUTO[n.valor]) : n.valor}</b></div>`).join('');
+    $('#numeros').hidden = false;
+  }
+
+  // Depoimentos (a seção só aparece se houver depoimentos preenchidos)
+  const deps = DEPOIMENTOS.filter(d => d.texto && d.nome);
+  if(deps.length){
+    $('#depList').innerHTML = deps.map(d => `<figure class="quote rv"><span class="tag">(${d.cliente || 'Cliente'})</span>
+      <blockquote>“${d.texto}”</blockquote>
+      <figcaption class="mono"><span>${d.nome}${d.cargo ? ' — ' + d.cargo : ''}</span><span class="acc">${d.cliente || ''}</span></figcaption></figure>`).join('');
+    $('#depoimentos').hidden = false;
+  }
+
+  // Quem está por trás (só aparece se a foto existir)
+  if(SOBRE.foto){
+    const img = $('#sobreFoto');
+    img.onload = () => { $('#sobre').hidden = false; };   // seção escondida não carrega imagem lazy, por isso esta não é lazy
+    img.alt = SOBRE.nome ? `${SOBRE.nome}, mvvisual.co` : 'Quem está por trás da mvvisual.co';
+    $('#sobreNome').textContent = SOBRE.nome;
+    $('#sobreTexto').textContent = SOBRE.texto;
+    img.src = SOBRE.foto;
+  }
 
   // Contato
   const wa = msg => `https://wa.me/${CONTATO.whatsapp}?text=${encodeURIComponent(msg)}`;

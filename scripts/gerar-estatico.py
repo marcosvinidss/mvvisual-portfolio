@@ -17,13 +17,25 @@ fonte = arq.read_text(encoding="utf-8")
 
 
 def js_para_python(texto):
-    """Converte um literal JS simples (objetos/listas com chaves sem aspas) em dado Python."""
-    t = re.sub(r"/\*.*?\*/", "", texto, flags=re.S)             # comentários /* */
-    t = re.sub(r"(?m)^\s*//.*$", "", t)                         # linhas de comentário //
-    t = re.sub(r"(?m)\s//[^\"\n]*$", "", t)                     # // no fim da linha (fora de strings com aspas)
-    t = re.sub(r"'([^'\\]*)'", lambda m: json.dumps(m.group(1)), t)  # 'texto' -> "texto"
+    """Converte um literal JS simples (objetos/listas, chaves sem aspas, comentários) em dado Python."""
+    out, i, n = [], 0, len(texto)
+    while i < n:
+        c = texto[i]
+        if c in "\"'":                                   # string: copia inteira (com a aspa certa)
+            j = i + 1
+            while texto[j] != c:
+                j += 2 if texto[j] == "\\" else 1
+            out.append(json.dumps(json.loads('"' + texto[i + 1:j].replace('"', '\\"') + '"') if c == "'" else json.loads(texto[i:j + 1])))
+            i = j + 1
+        elif texto.startswith("/*", i):                  # comentário de bloco
+            i = texto.index("*/", i) + 2
+        elif texto.startswith("//", i):                  # comentário de linha
+            i = texto.find("\n", i) if "\n" in texto[i:] else n
+        else:
+            out.append(c); i += 1
+    t = "".join(out)
     t = re.sub(r"([{,]\s*)([A-Za-z_]\w*)\s*:", r'\1"\2":', t)   # chave: -> "chave":
-    t = re.sub(r",(\s*[}\]])", r"\1", t)                        # vírgula final
+    t = re.sub(r",(\s*[}\]])", r"\1", t)                         # vírgula final
     return json.loads(t)
 
 
@@ -121,13 +133,24 @@ html_serv = "\n".join(
 def vertical(p):
     return p.get("formato") != "16:9" or p.get("conteudo") == "vertical"
 
+def prova(p):
+    if not (p.get("contexto") or p.get("resultado")):
+        return ""
+    return ('<p class="proof">' + (f'<span>{e(p["contexto"])}</span>' if p.get("contexto") else "")
+            + (f'<span class="res">{e(p["resultado"])}</span>' if p.get("resultado") else "") + "</p>")
+
 html_cases = "\n".join(
     f'<article class="item"><a class="thumb" href="{e(p["instagram"])}" target="_blank" rel="noopener" style="aspect-ratio:{"4/5" if vertical(p) else "16/9"}">'
     f'<span class="lbl"><span>{e(p["cliente"])}</span><span>{e(p["categoria"])}</span></span>'
-    f'<span class="ttl"><b>{e(p["titulo"])}</b></span></a></article>'
+    f'<span class="ttl"><b>{e(p["titulo"])}</b></span></a>{prova(p)}</article>'
     for p in projetos if p["instagram"] != capa["link"])
 
-html_clientes = "\n".join(f"<li>{e(c)}</li>" for c in dict.fromkeys(p["cliente"] for p in projetos))
+def logo_de(c):
+    return next((p["logo"] for p in projetos if p["cliente"] == c and p.get("logo")), None)
+
+html_clientes = "\n".join(
+    f'<li><img class="logo" src="{e(logo_de(c))}" alt="{e(c)}" loading="lazy" decoding="async"></li>' if logo_de(c) else f"<li>{e(c)}</li>"
+    for c in dict.fromkeys(p["cliente"] for p in projetos))
 
 def host(u):
     return re.sub(r"^https?://", "", u).rstrip("/")
