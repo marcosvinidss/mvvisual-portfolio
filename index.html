@@ -275,14 +275,14 @@
     { arquivo: "planejamento-do-sorriso", titulo: "Planejamento do sorriso", cliente: "Dr. Xavier Odonto", categoria: "Saúde", instagram: "https://www.instagram.com/reel/DbwOyyuhGH2/" },
     { arquivo: "termobolic", titulo: "Lançamento Termobolic", cliente: "Prócapz", categoria: "Marca", instagram: "https://www.instagram.com/reel/DXAI_h5j7Nx/" },
     { arquivo: "academia-informa", titulo: "Academia Informa", cliente: "Polícia Penal DF", categoria: "Institucional", instagram: "https://www.instagram.com/reel/DYmbiDqMVFC/" },
-    { arquivo: "toda-linda-gummy", titulo: "Toda Linda Gummy", cliente: "Prócapz", categoria: "Marca", instagram: "https://www.instagram.com/reel/De2Wn-gCp7I/", formato: "16:9" },
+    { arquivo: "toda-linda-gummy", titulo: "Toda Linda Gummy", cliente: "Prócapz", categoria: "Marca", instagram: "https://www.instagram.com/reel/De2Wn-gCp7I/", formato: "16:9", conteudo: "vertical" },
     { arquivo: "clareamento-dental", titulo: "Clareamento dental", cliente: "Dr. Xavier Odonto", categoria: "Saúde", instagram: "https://www.instagram.com/reel/DcKDVKxBMKF/" },
     { arquivo: "lipcapz", titulo: "Lipcapz", cliente: "Prócapz", categoria: "Marca", instagram: "https://www.instagram.com/reel/DaWNAYXvkZ0/" },
     { arquivo: "beretta-apx", titulo: "Curso Beretta APX", cliente: "Polícia Penal DF", categoria: "Institucional", instagram: "https://www.instagram.com/reel/DZ40z7Es4Re/" },
     { arquivo: "wellness-day", titulo: "Wellness Day", cliente: "Prócapz", categoria: "Marca", instagram: "https://www.instagram.com/reel/DXz5gh0vued/" },
     { arquivo: "academia-informa-2", titulo: "Academia Informa II", cliente: "Polícia Penal DF", categoria: "Institucional", instagram: "https://www.instagram.com/reel/DY4XjS7Mlar/" },
     { arquivo: "body-fit-day", titulo: "Body&Fit Day Sunset", cliente: "Prócapz", categoria: "Marca", instagram: "https://www.instagram.com/reel/DcZUvgzvQKH/" },
-    { arquivo: "trincheira", titulo: "Trincheira", cliente: "CCFE", categoria: "Eventos", instagram: "https://www.instagram.com/reel/Dd7Ql_gBsjJ/", formato: "16:9" },
+    { arquivo: "trincheira", titulo: "Trincheira", cliente: "CCFE", categoria: "Eventos", instagram: "https://www.instagram.com/reel/Dd7Ql_gBsjJ/", formato: "16:9", conteudo: "vertical" },
     { arquivo: "conferencia-de-mulheres", titulo: "Conferência de Mulheres", cliente: "CCFE", categoria: "Eventos", instagram: "https://www.instagram.com/reel/DdzzxX2OHjW/", formato: "16:9" }
   ];
 
@@ -419,17 +419,24 @@
     }catch(e){ return null; }
   };
   const clip = (link, title, lazy=true) => `<iframe src="${embed(link)}" ${lazy?'loading="lazy"':''} scrolling="no" title="${title}"></iframe>`;
-  // O embed do Instagram é desenhado com 540px e ampliado para preencher a caixa (sem encolher nem achatar)
-  // Reels verticais vêm com faixas pretas nas laterais: damos um zoom extra para a imagem preencher a caixa
+  /* O embed do Instagram é desenhado com 540px e ampliado para a imagem preencher a caixa.
+     A capa dos reels verticais vem com faixas pretas nas laterais, então ampliamos só a parte com imagem.
+     data-ratio = altura/largura do quadro do Instagram · data-box = altura/largura da caixa · data-fill = largura/altura da imagem */
   const sizeEmbeds = () => document.querySelectorAll('.clip[data-ratio] iframe').forEach(f => {
-    const box = f.parentElement, r = +box.dataset.ratio, w = box.clientWidth, h = w * r;
-    const z = r > 1 ? 1.42 : 1, S = (w / 540) * z;
-    f.style.height = (57 + 540 * r + 320) + 'px';
-    const tx = (w - 540 * S) / 2, ty = -57 * S + (h - 540 * r * S) / 2;
+    const box = f.parentElement, r = +box.dataset.ratio, w = box.clientWidth;
+    const h = w * +(box.dataset.box || r), mh = 540 * r;
+    const cw = Math.min(540, mh * +(box.dataset.fill || 1 / r));
+    const S = Math.max(w / cw, h / mh);
+    f.style.height = (57 + mh + 320) + 'px';
+    const tx = (w - 540 * S) / 2, ty = -57 * S + (h - mh * S) / 2;
     f.style.transform = `translate(${tx}px, ${ty}px) scale(${S})`;
     const t = box.closest('.thumb'); if(t) t.style.setProperty('--S', S.toFixed(3));
   });
-  const ratioOf = p => p.formato === '16:9' ? 9/16 : 5/4;
+  const ratioOf = p => p.formato === '16:9' ? 9/16 : 5/4;          // quadro do Instagram
+  const vertical = p => p.formato !== '16:9' || p.conteudo === 'vertical';
+  const boxOf = p => vertical(p) ? 5/4 : 9/16;                       // caixa no site
+  const fillOf = p => vertical(p) ? 9/16 : 16/9;                     // imagem dentro do quadro
+  const clipAttrs = p => `data-ratio="${ratioOf(p)}" data-box="${boxOf(p)}" data-fill="${fillOf(p)}"`;
   // Se existir videos/<arquivo>.mp4, troca o Instagram pelo vídeo próprio (toca sozinho, sem som, em loop)
   const vio = new IntersectionObserver(es => es.forEach(e => e.isIntersecting ? e.target.play().catch(()=>{}) : e.target.pause()), {threshold:.2});
   const exists = async url => { try{ return (await fetch(url, {method:'HEAD'})).ok; }catch(e){ return false; } };
@@ -470,7 +477,7 @@
 
   // Capa
   $('#heroClip').innerHTML = clip(REEL_CAPA.link, REEL_CAPA.titulo, false);
-  $('#heroClip').dataset.ratio = ratioOf(REEL_CAPA);
+  Object.assign($('#heroClip').dataset, { ratio: ratioOf(REEL_CAPA), box: boxOf(REEL_CAPA), fill: fillOf(REEL_CAPA) });
   $('#heroTitle').textContent = `${REEL_CAPA.titulo} — ${REEL_CAPA.cliente}`;
   $('#reelBox').href = REEL_CAPA.link;
   if(REEL_CAPA.formato === '16:9') $('#reelBox').classList.add('land');
@@ -504,8 +511,8 @@
     el.className = 'item';
     el.dataset.cat = p.categoria;
     el.innerHTML = `
-      <a class="thumb" href="${p.instagram}" target="_blank" rel="noopener" aria-label="Assistir ${p.titulo} no Instagram" style="aspect-ratio:${p.formato==='16:9'?'16/9':'4/5'}">
-        <div class="clip" data-ratio="${ratioOf(p)}">${clip(p.instagram, p.titulo)}</div>
+      <a class="thumb" href="${p.instagram}" target="_blank" rel="noopener" aria-label="Assistir ${p.titulo} no Instagram" style="aspect-ratio:${vertical(p)?'4/5':'16/9'}">
+        <div class="clip" ${clipAttrs(p)}>${clip(p.instagram, p.titulo)}</div>
         <span class="shade"></span>
         <span class="lbl"><span>${p.cliente}</span><span>${p.categoria}</span></span>
         <span class="play"><i>▶</i></span>
