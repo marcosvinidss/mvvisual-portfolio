@@ -91,7 +91,7 @@
   /* CLIP: só o vídeo do embed do Instagram */
   .clip{position:relative;width:100%;height:100%;overflow:hidden;background:#111}
   .clip iframe{position:absolute;left:0;top:0;width:540px;border:0;transform-origin:0 0}
-  .clip video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .clip video,.clip img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
   .clip .cover-link{position:absolute;inset:0;z-index:2}
   .clip::after{content:"";position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 -3px 0 var(--bg),inset 0 0 0 1px var(--line)}
 
@@ -171,7 +171,7 @@
   .browser .chrome i{width:8px;height:8px;border-radius:50%;background:var(--line)}
   .browser .chrome .url{margin-left:10px;flex:1;font-family:var(--mono);font-size:10px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .browser .view{position:relative;aspect-ratio:16/10;overflow:hidden}
-  .browser .view iframe{position:absolute;top:0;left:0;width:1440px;height:900px;border:0;transform-origin:0 0;pointer-events:none}
+  .browser .view img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top}
   .browser .view .soon{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--mono);font-size:11px;color:var(--dim);text-transform:uppercase}
   .site h3{font-size:clamp(26px,2.6vw,40px);font-weight:700;letter-spacing:-.03em;line-height:1}
   .site p{font-size:15px;color:var(--dim);line-height:1.45;max-width:46ch}
@@ -258,10 +258,15 @@
 
 <script>
   /* ================= EDITE AQUI ================= */
-  /* VÍDEOS: para tocarem sozinhos, sem a moldura do Instagram, exporte em MP4 e coloque na pasta "videos".
-     Capa: videos/capa.mp4 (vira o fundo da tela inteira).
-     Trabalhos: videos/<arquivo>.mp4, com o nome do campo "arquivo" de cada projeto.
-     Enquanto o MP4 não existir, o site mostra o vídeo do Instagram no lugar. */
+  /* MÍDIA PRÓPRIA (opcional) — veja capas/README.md e videos/README.md
+     Cada projeto tem um "arquivo" (nome sem extensão). Marque o que existir:
+       capa: true   → usa capas/<arquivo>.jpg como miniatura (no lugar do Instagram)
+       video: true  → usa videos/<arquivo>.mp4, que toca sozinho, sem som, em loop
+     Sem nenhum dos dois, o card mostra o vídeo do Instagram, como hoje.
+     O site só busca o arquivo quando o campo está marcado (assim não há erros 404). */
+
+  // Vídeo de fundo da capa: coloque videos/capa.mp4 e troque para true
+  const USAR_VIDEO_CAPA = false;
   const VIDEO_CAPA = "videos/capa.mp4";
   const REEL_CAPA = { link: "https://www.instagram.com/reel/DdzzxX2OHjW/", cliente: "CCFE", titulo: "Conferência de Mulheres", categoria: "Aftermovie", formato: "16:9" };
 
@@ -286,14 +291,16 @@
     { arquivo: "conferencia-de-mulheres", titulo: "Conferência de Mulheres", cliente: "CCFE", categoria: "Eventos", instagram: "https://www.instagram.com/reel/DdzzxX2OHjW/", formato: "16:9" }
   ];
 
-  // Sites criados com IA. Deixe "link" vazio ("") para mostrar como "em breve".
+  /* Sites criados com IA. Deixe "link" vazio ("") para mostrar como "em breve".
+     "print" = nome do print em sites/<print>.jpg (gerado por scripts/gerar-prints.py).
+     Se o print não existir, o card mostra "Prévia em breve". */
   const SITES_IA = [
-    { titulo: "Dr. Lucas Xavier", cliente: "Dr. Xavier Odonto", tipo: "Site institucional", link: "https://drxavierodonto.github.io/",
+    { print: "dr-lucas-xavier", titulo: "Dr. Lucas Xavier", cliente: "Dr. Xavier Odonto", tipo: "Site institucional", link: "https://drxavierodonto.github.io/",
       descricao: "Site de cirurgião-dentista com tratamentos, agendamento pelo WhatsApp e vídeos do consultório.", tags: ["Saúde", "Site", "IA"] },
-    { titulo: "Culto da Virada", cliente: "CCFE", tipo: "Página de evento", link: "https://ccfehub.github.io/culto-da-virada/",
+    { print: "culto-da-virada", titulo: "Culto da Virada", cliente: "CCFE", tipo: "Página de evento", link: "https://ccfehub.github.io/culto-da-virada/",
       descricao: "Página do evento de Réveillon da igreja, com artes para telão e WhatsApp geradas no mesmo projeto.", tags: ["Evento", "Landing page", "IA"] },
-    { titulo: "Links da Mavi", cliente: "@mavileme_", tipo: "Página de links", link: "https://mavi-links.pages.dev/",
-      descricao: "Página de links da criadora de conteúdo, com redes sociais e cupom de desconto em destaque.", tags: ["Links", "Creator", "IA"] }
+    { print: "links-da-mavi", titulo: "Links da Mavi", cliente: "@mavileme_", tipo: "Página de links", link: "https://mavi-links.pages.dev/",
+      descricao: "Página de links da criadora de conteúdo, com redes sociais, achadinhos e cupom de desconto em destaque.", tags: ["Links", "Creator", "IA"] }
   ];
 </script>
 
@@ -309,7 +316,7 @@
 </div>
 
 <section class="hero" id="topo">
-  <div class="hero-video"><video id="heroVideo" autoplay muted loop playsinline preload="auto"></video></div>
+  <div class="hero-video"><video id="heroVideo" autoplay muted loop playsinline preload="none"></video></div>
   <div class="hero-top mono">
     <div><span>Para empresas, marcas e saúde</span><span class="dim">Brasília — DF — BR</span></div>
     <div><span>Vídeo · Sites · Design</span><span class="dim">Do roteiro ao site no ar</span></div>
@@ -437,29 +444,25 @@
   const boxOf = p => vertical(p) ? 5/4 : 9/16;                       // caixa no site
   const fillOf = p => vertical(p) ? 9/16 : 16/9;                     // imagem dentro do quadro
   const clipAttrs = p => `data-ratio="${ratioOf(p)}" data-box="${boxOf(p)}" data-fill="${fillOf(p)}"`;
-  // Se existir videos/<arquivo>.mp4, troca o Instagram pelo vídeo próprio (toca sozinho, sem som, em loop)
+  // Mídia própria: só carrega o que estiver marcado em PROJETOS (capa: true / video: true)
   const vio = new IntersectionObserver(es => es.forEach(e => e.isIntersecting ? e.target.play().catch(()=>{}) : e.target.pause()), {threshold:.2});
-  const exists = async url => { try{ return (await fetch(url, {method:'HEAD'})).ok; }catch(e){ return false; } };
-  const useMp4 = async (box, p) => {
-    if(!p.arquivo || location.protocol === 'file:') return;
+  const useMidia = (box, p) => {
+    if(!p.arquivo || (!p.video && !p.capa)) return;
     const thumb = box.closest('.thumb');
-    if(!(await exists(`videos/${p.arquivo}.mp4`))){
-      // sem MP4: se houver capas/<arquivo>.jpg, usa a imagem como miniatura no lugar do Instagram
-      if(await exists(`capas/${p.arquivo}.jpg`)){
-        box.removeAttribute('data-ratio');
-        box.innerHTML = `<img src="capas/${p.arquivo}.jpg" alt="${p.titulo}" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">`;
-        if(thumb) thumb.style.setProperty('--S', '.6');
-      }
-      return;
+    box.removeAttribute('data-ratio');
+    if(thumb) thumb.style.setProperty('--S', '.6');
+    if(p.video){
+      if(thumb) thumb.classList.add('own');
+      const v = document.createElement('video');
+      v.muted = true; v.loop = true; v.playsInline = true; v.preload = 'none';
+      v.setAttribute('muted',''); v.setAttribute('playsinline','');
+      if(p.capa) v.poster = `capas/${p.arquivo}.jpg`;
+      v.src = `videos/${p.arquivo}.mp4`;
+      box.innerHTML = ''; box.appendChild(v);
+      vio.observe(v);
+    } else {
+      box.innerHTML = `<img src="capas/${p.arquivo}.jpg" alt="${p.titulo} — ${p.cliente}" loading="lazy" decoding="async">`;
     }
-    if(thumb){ thumb.classList.add('own'); thumb.style.setProperty('--S', '.6'); }
-    const v = document.createElement('video');
-    v.muted = true; v.loop = true; v.playsInline = true; v.preload = 'metadata';
-    v.setAttribute('muted',''); v.setAttribute('playsinline','');
-    v.src = `videos/${p.arquivo}.mp4`;
-    box.removeAttribute('data-ratio'); box.innerHTML = '';
-    box.appendChild(v);
-    vio.observe(v);
   };
 
   // Relógio
@@ -481,11 +484,11 @@
   $('#heroTitle').textContent = `${REEL_CAPA.titulo} — ${REEL_CAPA.cliente}`;
   $('#reelBox').href = REEL_CAPA.link;
   if(REEL_CAPA.formato === '16:9') $('#reelBox').classList.add('land');
-  const vid = $('#heroVideo');
-  const src = document.createElement('source');
-  src.src = VIDEO_CAPA; src.type = 'video/mp4';
-  vid.appendChild(src);
-  vid.addEventListener('loadeddata', () => $('.hero').classList.add('has-video'));
+  if(USAR_VIDEO_CAPA){
+    const vid = $('#heroVideo');
+    vid.addEventListener('loadeddata', () => $('.hero').classList.add('has-video'));
+    vid.src = VIDEO_CAPA;
+  }
 
   // Marquee
   const mq = 'Empresas  •  Marcas  •  Saúde  •  ';
@@ -512,14 +515,14 @@
     el.dataset.cat = p.categoria;
     el.innerHTML = `
       <a class="thumb" href="${p.instagram}" target="_blank" rel="noopener" aria-label="Assistir ${p.titulo} no Instagram" style="aspect-ratio:${vertical(p)?'4/5':'16/9'}">
-        <div class="clip" ${clipAttrs(p)}>${clip(p.instagram, p.titulo)}</div>
+        <div class="clip" ${clipAttrs(p)}>${p.video || p.capa ? '' : clip(p.instagram, p.titulo)}</div>
         <span class="shade"></span>
         <span class="lbl"><span>${p.cliente}</span><span>${p.categoria}</span></span>
         <span class="play"><i>▶</i></span>
         <span class="ttl"><b>${p.titulo}</b><em>Assistir ↗</em></span>
       </a>`;
     grid.appendChild(el);
-    useMp4(el.querySelector('.clip'), p);
+    useMidia(el.querySelector('.clip'), p);
   });
   const counts = PROJETOS.reduce((a, p) => (a[p.categoria] = (a[p.categoria]||0) + 1, a), {});
   const filters = $('#filters');
@@ -540,9 +543,10 @@
   $('#sitesGrid').innerHTML = SITES_IA.map((s,i) => {
     const tagOpen = s.link ? `<a class="site rv" href="${s.link}" target="_blank" rel="noopener">` : `<div class="site rv">`;
     const tagClose = s.link ? '</a>' : '</div>';
-    const view = s.link
-      ? `<iframe src="${s.link}" loading="lazy" tabindex="-1" title="Prévia de ${s.titulo}"></iframe>`
-      : `<div class="soon">Link em breve</div>`;
+    const soon = t => `<div class="soon">${t}</div>`;
+    const view = !s.link ? soon('Link em breve')
+      : s.print ? `<img src="sites/${s.print}.jpg" alt="Prévia do site ${s.titulo} — ${s.cliente}" width="1200" height="750" loading="lazy" decoding="async" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'soon',textContent:'Prévia em breve'}))">`
+      : soon('Prévia em breve');
     return `${tagOpen}
       <div class="meta mono"><span>${s.cliente}</span><span class="dim">${s.tipo}</span></div>
       <div class="browser"><div class="chrome"><i></i><i></i><i></i><span class="url">${s.link ? host(s.link) : '—'}</span></div><div class="view">${view}</div></div>
@@ -552,10 +556,6 @@
       ${s.link ? `<span class="go">${roll('Abrir site ↗')}</span>` : ''}
     ${tagClose}`;
   }).join('');
-  const scaleViews = () => document.querySelectorAll('.browser .view').forEach(v => {
-    const f = v.querySelector('iframe'); if(f) f.style.transform = `scale(${v.clientWidth/1440})`;
-  });
-  scaleViews(); addEventListener('resize', scaleViews);
 
   // Clientes
   $('#clientList').innerHTML = [...new Set(PROJETOS.map(p => p.cliente))]
