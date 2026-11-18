@@ -140,7 +140,8 @@ def prova(p):
             + (f'<span class="res">{e(p["resultado"])}</span>' if p.get("resultado") else "") + "</p>")
 
 html_cases = "\n".join(
-    f'<article class="item"><a class="thumb" href="{e(p["instagram"])}" target="_blank" rel="noopener" style="aspect-ratio:{"4/5" if vertical(p) else "16/9"}">'
+    f'<article class="item"><a class="thumb{" img" if p.get("capa") else ""}" href="{e(p["instagram"])}" target="_blank" rel="noopener" style="aspect-ratio:{"4/5" if vertical(p) else "16/9"}">'
+    + (f'<div class="clip"><img src="capas/{e(p["arquivo"])}.jpg" alt="{e(p["titulo"])} — {e(p["cliente"])}" width="800" height="{1000 if vertical(p) else 450}" loading="lazy" decoding="async"></div><span class="shade"></span>' if p.get("capa") else "") +
     f'<span class="lbl"><span>{e(p["cliente"])}</span><span>{e(p["categoria"])}</span></span>'
     f'<span class="ttl"><b>{e(p["titulo"])}</b></span></a>{prova(p)}</article>'
     for p in projetos if p["instagram"] != capa["link"])

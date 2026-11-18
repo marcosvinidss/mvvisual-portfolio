@@ -203,7 +203,7 @@
   /* play próprio só aparece nos vídeos em MP4 (nos do Instagram fica o botão deles) */
   .thumb .play{position:absolute;left:50%;top:50%;z-index:3;transform:translate(-50%,-50%);display:none;place-items:center;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
   .thumb .play i{width:54px;height:54px;border-radius:50%;background:var(--fg);color:#000;display:grid;place-items:center;font-style:normal;font-size:14px;padding-left:3px;transition:background .4s}
-  .thumb.own .play{display:grid}
+  .thumb.own .play,.thumb.img .play{display:grid}
   .thumb:hover .play{transform:translate(-50%,-50%) scale(1.08)}
   .thumb:hover .play i{background:var(--accent)}
   .thumb.own .play{opacity:0;transition:opacity .4s}
@@ -356,7 +356,8 @@
      Cada projeto tem um "arquivo" (nome sem extensão). Marque o que existir:
        capa: true   → usa capas/<arquivo>.jpg como miniatura (no lugar do Instagram)
        video: true  → usa videos/<arquivo>.mp4, que toca sozinho, sem som, em loop
-     Sem nenhum dos dois, o card mostra o vídeo do Instagram, como hoje.
+     Sem nenhum dos dois, o card mostra o vídeo do Instagram.
+     Para baixar a capa de um reel novo direto do Instagram: python3 scripts/baixar-capas-instagram.py
      O site só busca o arquivo quando o campo está marcado (assim não há erros 404). */
 
   /* PROVA DE RESULTADO (opcional, em cada projeto):
@@ -377,18 +378,18 @@
   };
 
   const PROJETOS = [
-    { arquivo: "planejamento-do-sorriso", titulo: "Planejamento do sorriso", cliente: "Dr. Xavier Odonto", categoria: "Saúde", instagram: "https://www.instagram.com/reel/DbwOyyuhGH2/" },
-    { arquivo: "termobolic", titulo: "Lançamento Termobolic", cliente: "Prócapz", categoria: "Marca", instagram: "https://www.instagram.com/reel/DXAI_h5j7Nx/" },
-    { arquivo: "academia-informa", titulo: "Academia Informa", cliente: "Polícia Penal DF", categoria: "Institucional", instagram: "https://www.instagram.com/reel/DYmbiDqMVFC/" },
-    { arquivo: "toda-linda-gummy", titulo: "Toda Linda Gummy", cliente: "Prócapz", categoria: "Marca", instagram: "https://www.instagram.com/reel/De2Wn-gCp7I/", formato: "16:9", conteudo: "vertical" },
-    { arquivo: "clareamento-dental", titulo: "Clareamento dental", cliente: "Dr. Xavier Odonto", categoria: "Saúde", instagram: "https://www.instagram.com/reel/DcKDVKxBMKF/" },
-    { arquivo: "lipcapz", titulo: "Lipcapz", cliente: "Prócapz", categoria: "Marca", instagram: "https://www.instagram.com/reel/DaWNAYXvkZ0/" },
-    { arquivo: "beretta-apx", titulo: "Curso Beretta APX", cliente: "Polícia Penal DF", categoria: "Institucional", instagram: "https://www.instagram.com/reel/DZ40z7Es4Re/" },
-    { arquivo: "wellness-day", titulo: "Wellness Day", cliente: "Prócapz", categoria: "Marca", instagram: "https://www.instagram.com/reel/DXz5gh0vued/" },
-    { arquivo: "academia-informa-2", titulo: "Academia Informa II", cliente: "Polícia Penal DF", categoria: "Institucional", instagram: "https://www.instagram.com/reel/DY4XjS7Mlar/" },
-    { arquivo: "body-fit-day", titulo: "Body&Fit Day Sunset", cliente: "Prócapz", categoria: "Marca", instagram: "https://www.instagram.com/reel/DcZUvgzvQKH/" },
-    { arquivo: "trincheira", titulo: "Trincheira", cliente: "CCFE", categoria: "Eventos", instagram: "https://www.instagram.com/reel/Dd7Ql_gBsjJ/", formato: "16:9", conteudo: "vertical" },
-    { arquivo: "conferencia-de-mulheres", titulo: "Conferência de Mulheres", cliente: "CCFE", categoria: "Eventos", instagram: "https://www.instagram.com/reel/DdzzxX2OHjW/", formato: "16:9" }
+    { arquivo: "planejamento-do-sorriso", capa: true, titulo: "Planejamento do sorriso", cliente: "Dr. Xavier Odonto", categoria: "Saúde", instagram: "https://www.instagram.com/reel/DbwOyyuhGH2/" },
+    { arquivo: "termobolic", capa: true, titulo: "Lançamento Termobolic", cliente: "Prócapz", categoria: "Marca", instagram: "https://www.instagram.com/reel/DXAI_h5j7Nx/" },
+    { arquivo: "academia-informa", capa: true, titulo: "Academia Informa", cliente: "Polícia Penal DF", categoria: "Institucional", instagram: "https://www.instagram.com/reel/DYmbiDqMVFC/" },
+    { arquivo: "toda-linda-gummy", capa: true, titulo: "Toda Linda Gummy", cliente: "Prócapz", categoria: "Marca", instagram: "https://www.instagram.com/reel/De2Wn-gCp7I/", formato: "16:9", conteudo: "vertical" },
+    { arquivo: "clareamento-dental", capa: true, titulo: "Clareamento dental", cliente: "Dr. Xavier Odonto", categoria: "Saúde", instagram: "https://www.instagram.com/reel/DcKDVKxBMKF/" },
+    { arquivo: "lipcapz", capa: true, titulo: "Lipcapz", cliente: "Prócapz", categoria: "Marca", instagram: "https://www.instagram.com/reel/DaWNAYXvkZ0/" },
+    { arquivo: "beretta-apx", capa: true, titulo: "Curso Beretta APX", cliente: "Polícia Penal DF", categoria: "Institucional", instagram: "https://www.instagram.com/reel/DZ40z7Es4Re/" },
+    { arquivo: "wellness-day", capa: true, titulo: "Wellness Day", cliente: "Prócapz", categoria: "Marca", instagram: "https://www.instagram.com/reel/DXz5gh0vued/" },
+    { arquivo: "academia-informa-2", capa: true, titulo: "Academia Informa II", cliente: "Polícia Penal DF", categoria: "Institucional", instagram: "https://www.instagram.com/reel/DY4XjS7Mlar/" },
+    { arquivo: "body-fit-day", capa: true, titulo: "Body&Fit Day Sunset", cliente: "Prócapz", categoria: "Marca", instagram: "https://www.instagram.com/reel/DcZUvgzvQKH/" },
+    { arquivo: "trincheira", capa: true, titulo: "Trincheira", cliente: "CCFE", categoria: "Eventos", instagram: "https://www.instagram.com/reel/Dd7Ql_gBsjJ/", formato: "16:9", conteudo: "vertical" },
+    { arquivo: "conferencia-de-mulheres", capa: true, titulo: "Conferência de Mulheres", cliente: "CCFE", categoria: "Eventos", instagram: "https://www.instagram.com/reel/DdzzxX2OHjW/", formato: "16:9" }
   ];
 
   // Serviços: [nome, descrição curta]. A ordem aqui é a ordem no site.
@@ -517,17 +518,17 @@
   </div>
   <div class="grid" id="grid">
     <!-- GERADO:INICIO cases -->
-    <article class="item"><a class="thumb" href="https://www.instagram.com/reel/DbwOyyuhGH2/" target="_blank" rel="noopener" style="aspect-ratio:4/5"><span class="lbl"><span>Dr. Xavier Odonto</span><span>Saúde</span></span><span class="ttl"><b>Planejamento do sorriso</b></span></a></article>
-    <article class="item"><a class="thumb" href="https://www.instagram.com/reel/DXAI_h5j7Nx/" target="_blank" rel="noopener" style="aspect-ratio:4/5"><span class="lbl"><span>Prócapz</span><span>Marca</span></span><span class="ttl"><b>Lançamento Termobolic</b></span></a></article>
-    <article class="item"><a class="thumb" href="https://www.instagram.com/reel/DYmbiDqMVFC/" target="_blank" rel="noopener" style="aspect-ratio:4/5"><span class="lbl"><span>Polícia Penal DF</span><span>Institucional</span></span><span class="ttl"><b>Academia Informa</b></span></a></article>
-    <article class="item"><a class="thumb" href="https://www.instagram.com/reel/De2Wn-gCp7I/" target="_blank" rel="noopener" style="aspect-ratio:4/5"><span class="lbl"><span>Prócapz</span><span>Marca</span></span><span class="ttl"><b>Toda Linda Gummy</b></span></a></article>
-    <article class="item"><a class="thumb" href="https://www.instagram.com/reel/DcKDVKxBMKF/" target="_blank" rel="noopener" style="aspect-ratio:4/5"><span class="lbl"><span>Dr. Xavier Odonto</span><span>Saúde</span></span><span class="ttl"><b>Clareamento dental</b></span></a></article>
-    <article class="item"><a class="thumb" href="https://www.instagram.com/reel/DaWNAYXvkZ0/" target="_blank" rel="noopener" style="aspect-ratio:4/5"><span class="lbl"><span>Prócapz</span><span>Marca</span></span><span class="ttl"><b>Lipcapz</b></span></a></article>
-    <article class="item"><a class="thumb" href="https://www.instagram.com/reel/DZ40z7Es4Re/" target="_blank" rel="noopener" style="aspect-ratio:4/5"><span class="lbl"><span>Polícia Penal DF</span><span>Institucional</span></span><span class="ttl"><b>Curso Beretta APX</b></span></a></article>
-    <article class="item"><a class="thumb" href="https://www.instagram.com/reel/DXz5gh0vued/" target="_blank" rel="noopener" style="aspect-ratio:4/5"><span class="lbl"><span>Prócapz</span><span>Marca</span></span><span class="ttl"><b>Wellness Day</b></span></a></article>
-    <article class="item"><a class="thumb" href="https://www.instagram.com/reel/DY4XjS7Mlar/" target="_blank" rel="noopener" style="aspect-ratio:4/5"><span class="lbl"><span>Polícia Penal DF</span><span>Institucional</span></span><span class="ttl"><b>Academia Informa II</b></span></a></article>
-    <article class="item"><a class="thumb" href="https://www.instagram.com/reel/DcZUvgzvQKH/" target="_blank" rel="noopener" style="aspect-ratio:4/5"><span class="lbl"><span>Prócapz</span><span>Marca</span></span><span class="ttl"><b>Body&amp;Fit Day Sunset</b></span></a></article>
-    <article class="item"><a class="thumb" href="https://www.instagram.com/reel/Dd7Ql_gBsjJ/" target="_blank" rel="noopener" style="aspect-ratio:4/5"><span class="lbl"><span>CCFE</span><span>Eventos</span></span><span class="ttl"><b>Trincheira</b></span></a></article>
+    <article class="item"><a class="thumb img" href="https://www.instagram.com/reel/DbwOyyuhGH2/" target="_blank" rel="noopener" style="aspect-ratio:4/5"><div class="clip"><img src="capas/planejamento-do-sorriso.jpg" alt="Planejamento do sorriso — Dr. Xavier Odonto" width="800" height="1000" loading="lazy" decoding="async"></div><span class="shade"></span><span class="lbl"><span>Dr. Xavier Odonto</span><span>Saúde</span></span><span class="ttl"><b>Planejamento do sorriso</b></span></a></article>
+    <article class="item"><a class="thumb img" href="https://www.instagram.com/reel/DXAI_h5j7Nx/" target="_blank" rel="noopener" style="aspect-ratio:4/5"><div class="clip"><img src="capas/termobolic.jpg" alt="Lançamento Termobolic — Prócapz" width="800" height="1000" loading="lazy" decoding="async"></div><span class="shade"></span><span class="lbl"><span>Prócapz</span><span>Marca</span></span><span class="ttl"><b>Lançamento Termobolic</b></span></a></article>
+    <article class="item"><a class="thumb img" href="https://www.instagram.com/reel/DYmbiDqMVFC/" target="_blank" rel="noopener" style="aspect-ratio:4/5"><div class="clip"><img src="capas/academia-informa.jpg" alt="Academia Informa — Polícia Penal DF" width="800" height="1000" loading="lazy" decoding="async"></div><span class="shade"></span><span class="lbl"><span>Polícia Penal DF</span><span>Institucional</span></span><span class="ttl"><b>Academia Informa</b></span></a></article>
+    <article class="item"><a class="thumb img" href="https://www.instagram.com/reel/De2Wn-gCp7I/" target="_blank" rel="noopener" style="aspect-ratio:4/5"><div class="clip"><img src="capas/toda-linda-gummy.jpg" alt="Toda Linda Gummy — Prócapz" width="800" height="1000" loading="lazy" decoding="async"></div><span class="shade"></span><span class="lbl"><span>Prócapz</span><span>Marca</span></span><span class="ttl"><b>Toda Linda Gummy</b></span></a></article>
+    <article class="item"><a class="thumb img" href="https://www.instagram.com/reel/DcKDVKxBMKF/" target="_blank" rel="noopener" style="aspect-ratio:4/5"><div class="clip"><img src="capas/clareamento-dental.jpg" alt="Clareamento dental — Dr. Xavier Odonto" width="800" height="1000" loading="lazy" decoding="async"></div><span class="shade"></span><span class="lbl"><span>Dr. Xavier Odonto</span><span>Saúde</span></span><span class="ttl"><b>Clareamento dental</b></span></a></article>
+    <article class="item"><a class="thumb img" href="https://www.instagram.com/reel/DaWNAYXvkZ0/" target="_blank" rel="noopener" style="aspect-ratio:4/5"><div class="clip"><img src="capas/lipcapz.jpg" alt="Lipcapz — Prócapz" width="800" height="1000" loading="lazy" decoding="async"></div><span class="shade"></span><span class="lbl"><span>Prócapz</span><span>Marca</span></span><span class="ttl"><b>Lipcapz</b></span></a></article>
+    <article class="item"><a class="thumb img" href="https://www.instagram.com/reel/DZ40z7Es4Re/" target="_blank" rel="noopener" style="aspect-ratio:4/5"><div class="clip"><img src="capas/beretta-apx.jpg" alt="Curso Beretta APX — Polícia Penal DF" width="800" height="1000" loading="lazy" decoding="async"></div><span class="shade"></span><span class="lbl"><span>Polícia Penal DF</span><span>Institucional</span></span><span class="ttl"><b>Curso Beretta APX</b></span></a></article>
+    <article class="item"><a class="thumb img" href="https://www.instagram.com/reel/DXz5gh0vued/" target="_blank" rel="noopener" style="aspect-ratio:4/5"><div class="clip"><img src="capas/wellness-day.jpg" alt="Wellness Day — Prócapz" width="800" height="1000" loading="lazy" decoding="async"></div><span class="shade"></span><span class="lbl"><span>Prócapz</span><span>Marca</span></span><span class="ttl"><b>Wellness Day</b></span></a></article>
+    <article class="item"><a class="thumb img" href="https://www.instagram.com/reel/DY4XjS7Mlar/" target="_blank" rel="noopener" style="aspect-ratio:4/5"><div class="clip"><img src="capas/academia-informa-2.jpg" alt="Academia Informa II — Polícia Penal DF" width="800" height="1000" loading="lazy" decoding="async"></div><span class="shade"></span><span class="lbl"><span>Polícia Penal DF</span><span>Institucional</span></span><span class="ttl"><b>Academia Informa II</b></span></a></article>
+    <article class="item"><a class="thumb img" href="https://www.instagram.com/reel/DcZUvgzvQKH/" target="_blank" rel="noopener" style="aspect-ratio:4/5"><div class="clip"><img src="capas/body-fit-day.jpg" alt="Body&amp;Fit Day Sunset — Prócapz" width="800" height="1000" loading="lazy" decoding="async"></div><span class="shade"></span><span class="lbl"><span>Prócapz</span><span>Marca</span></span><span class="ttl"><b>Body&amp;Fit Day Sunset</b></span></a></article>
+    <article class="item"><a class="thumb img" href="https://www.instagram.com/reel/Dd7Ql_gBsjJ/" target="_blank" rel="noopener" style="aspect-ratio:4/5"><div class="clip"><img src="capas/trincheira.jpg" alt="Trincheira — CCFE" width="800" height="1000" loading="lazy" decoding="async"></div><span class="shade"></span><span class="lbl"><span>CCFE</span><span>Eventos</span></span><span class="ttl"><b>Trincheira</b></span></a></article>
     <!-- GERADO:FIM cases -->
   </div>
 </section>
@@ -658,7 +659,8 @@
       box.innerHTML = ''; box.appendChild(v);
       vio.observe(v);
     } else {
-      box.innerHTML = `<img src="capas/${p.arquivo}.jpg" alt="${p.titulo} — ${p.cliente}" loading="lazy" decoding="async">`;
+      if(thumb) thumb.classList.add('img');
+      box.innerHTML = `<img src="capas/${p.arquivo}.jpg" alt="${p.titulo} — ${p.cliente}" width="800" height="${vertical(p) ? 1000 : 450}" loading="lazy" decoding="async">`;
     }
   };
 
