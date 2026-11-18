@@ -75,6 +75,12 @@
   iframe,video,img{display:block}
   ::selection{background:var(--accent);color:var(--bg)}
 
+  /* acessibilidade: foco visível no teclado e link para pular o menu */
+  :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+  .skip{position:fixed;left:var(--g);top:12px;z-index:100;background:var(--accent);color:#000;font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.04em;padding:10px 14px;border-radius:99px;transform:translateY(-200%);transition:transform .3s}
+  .skip:focus{transform:none}
+  main:focus{outline:none}
+
   .mono{font-family:var(--mono);font-size:11px;letter-spacing:.04em;text-transform:uppercase}
   .dim{color:var(--dim)}
   .fit{display:inline-block}
@@ -105,11 +111,11 @@
   .bar .menu-btn{justify-self:end}
 
   /* MENU */
-  .menu{position:fixed;inset:0;z-index:45;background:var(--fg);color:var(--bg);display:flex;flex-direction:column;justify-content:space-between;padding:80px var(--g) 24px;clip-path:inset(0 0 100% 0);transition:clip-path .8s cubic-bezier(.7,0,.2,1)}
-  .menu.open{clip-path:inset(0 0 0 0)}
+  .menu{position:fixed;inset:0;z-index:45;background:var(--fg);color:var(--bg);display:flex;flex-direction:column;justify-content:space-between;padding:80px var(--g) 24px;clip-path:inset(0 0 100% 0);visibility:hidden;transition:clip-path .8s cubic-bezier(.7,0,.2,1),visibility 0s linear .8s}
+  .menu.open{clip-path:inset(0 0 0 0);visibility:visible;transition:clip-path .8s cubic-bezier(.7,0,.2,1),visibility 0s}
   .menu nav{display:flex;flex-direction:column}
   .menu nav a{font-size:clamp(48px,9vw,140px);border-bottom:1px solid rgba(0,0,0,.14);padding:4px 0 0;display:flex;justify-content:space-between;align-items:baseline}
-  .menu nav a .tag{color:rgba(0,0,0,.5)}
+  .menu nav a .tag{color:rgba(0,0,0,.62)}
   .menu nav a .roll span+span{color:var(--accent)}
   .menu .foot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   .menu .foot a:hover{text-decoration:underline;text-underline-offset:4px}
@@ -328,6 +334,7 @@
 </style>
 </head>
 <body>
+<a class="skip" href="#conteudo">Pular para o conteúdo</a>
 
 <script>
   /* ================= EDITE AQUI =================
@@ -431,16 +438,17 @@
 <header class="bar mono">
   <a href="#topo" class="brand">mvvisual.co</a>
   <div class="mid"><span>BSB-DF-BR</span><span id="clock"></span></div>
-  <button class="menu-btn mono" id="menuBtn"><span class="roll"><span>Menu+</span><span>Menu+</span></span></button>
+  <button class="menu-btn mono" id="menuBtn" aria-expanded="false" aria-controls="menu" aria-label="Abrir menu"><span class="roll" aria-hidden="true"><span>Menu+</span><span>Menu+</span></span></button>
 </header>
 
-<div class="menu" id="menu">
+<div class="menu" id="menu" inert>
   <nav id="menuNav"></nav>
   <div class="foot mono"><span>(mvvisual.co)</span><span id="menuSocial"></span></div>
 </div>
 
+<main id="conteudo" tabindex="-1">
 <section class="hero" id="topo">
-  <div class="hero-video"><video id="heroVideo" autoplay muted loop playsinline preload="none"></video></div>
+  <div class="hero-video"><video id="heroVideo" muted loop playsinline preload="none" aria-hidden="true"></video></div>
   <div class="hero-top mono">
     <div><span>Para empresas, marcas e saúde</span><span class="dim">Brasília — DF — BR</span></div>
     <div><span>Vídeo · Sites · Design</span><span class="dim">Do roteiro ao site no ar</span></div>
@@ -448,7 +456,7 @@
   <div class="hero-mid">
     <span class="scroll mono dim">(Scroll)</span>
     <a class="reel-box thumb" id="reelBox" target="_blank" rel="noopener"><div class="clip" id="heroClip"></div><span class="play"><i>▶</i></span></a>
-    <a class="play mono" href="#trabalhos"><i>▶</i><span class="roll"><span id="heroTitle"></span><span>Ver trabalhos</span></span></a>
+    <a class="play mono" href="#trabalhos"><i>▶</i><span class="roll"><span id="heroTitle"></span><span aria-hidden="true">Ver trabalhos</span></span></a>
   </div>
   <div class="wordmark">
     <h1 class="big fit">mvvisual</h1>
@@ -580,10 +588,12 @@
       <label><span class="tag">Nome</span><input name="nome" required autocomplete="name"></label>
       <label><span class="tag">Empresa</span><input name="empresa" autocomplete="organization"></label>
       <label><span class="tag">O que você precisa?</span><textarea name="msg" rows="3" required></textarea></label>
-      <button class="send" type="submit"><span class="roll"><span>Enviar pelo WhatsApp ↗</span><span>Enviar pelo WhatsApp ↗</span></span></button>
+      <button class="send" type="submit"><span class="roll"><span>Enviar pelo WhatsApp ↗</span><span aria-hidden="true">Enviar pelo WhatsApp ↗</span></span></button>
     </form>
   </div>
 </section>
+
+</main>
 
 <footer>
   <div class="fw big fit">Vamos criar?</div>
@@ -596,7 +606,9 @@
 <script>
   const $ = s => document.querySelector(s);
   const pad = n => String(n).padStart(2,'0');
-  const roll = t => `<span class="roll"><span>${t}</span><span>${t}</span></span>`;
+  const roll = t => `<span class="roll"><span>${t}</span><span aria-hidden="true">${t}</span></span>`;
+  // Quem pede menos movimento no sistema não recebe vídeo tocando sozinho
+  const MENOS_MOVIMENTO = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const embed = link => {
     try{
       const m = new URL(link).pathname.match(/\/(p|reel|reels|tv)\/([^/]+)/);
@@ -623,7 +635,7 @@
   const fillOf = p => vertical(p) ? 9/16 : 16/9;                     // imagem dentro do quadro
   const clipAttrs = p => `data-ratio="${ratioOf(p)}" data-box="${boxOf(p)}" data-fill="${fillOf(p)}"`;
   // Mídia própria: só carrega o que estiver marcado em PROJETOS (capa: true / video: true)
-  const vio = new IntersectionObserver(es => es.forEach(e => e.isIntersecting ? e.target.play().catch(()=>{}) : e.target.pause()), {threshold:.2});
+  const vio = new IntersectionObserver(es => es.forEach(e => e.isIntersecting && !MENOS_MOVIMENTO ? e.target.play().catch(()=>{}) : e.target.pause()), {threshold:.2});
   const useMidia = (box, p) => {
     if(!p.arquivo || (!p.video && !p.capa)) return;
     const thumb = box.closest('.thumb');
@@ -632,7 +644,8 @@
     if(p.video){
       if(thumb) thumb.classList.add('own');
       const v = document.createElement('video');
-      v.muted = true; v.loop = true; v.playsInline = true; v.preload = 'none';
+      v.muted = true; v.loop = true; v.playsInline = true; v.preload = MENOS_MOVIMENTO ? 'metadata' : 'none';
+      v.setAttribute('aria-hidden', 'true');
       v.setAttribute('muted',''); v.setAttribute('playsinline','');
       if(p.capa) v.poster = `capas/${p.arquivo}.jpg`;
       v.src = `videos/${p.arquivo}.mp4`;
@@ -651,20 +664,31 @@
   const MENU = [['Home','#topo'],['Serviços','#servicos'],['Cases','#trabalhos'],['Sites com IA','#sites'],['Contato','#contato']];
   $('#menuNav').innerHTML = MENU.map(([t,h],i) => `<a href="${h}" class="big">${roll(t)}<span class="tag">${pad(i+1)}</span></a>`).join('');
   const menu = $('#menu'), btn = $('#menuBtn');
-  const setMenu = open => { menu.classList.toggle('open', open); btn.querySelectorAll('.roll span').forEach(s => s.textContent = open ? 'Fechar×' : 'Menu+'); };
+  // Menu acessível: fechado = inerte (sem foco); aberto = foco no primeiro link; ao fechar, foco volta ao botão
+  const setMenu = (open, devolverFoco = true) => {
+    menu.classList.toggle('open', open);
+    menu.inert = !open;
+    btn.setAttribute('aria-expanded', open);
+    btn.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
+    btn.querySelectorAll('.roll span').forEach(s => s.textContent = open ? 'Fechar×' : 'Menu+');
+    if(open) menu.querySelector('nav a').focus();
+    else if(devolverFoco) btn.focus();
+  };
   btn.onclick = () => setMenu(!menu.classList.contains('open'));
-  menu.querySelectorAll('nav a').forEach(a => a.onclick = () => setMenu(false));
-  addEventListener('keydown', e => e.key === 'Escape' && setMenu(false));
+  menu.querySelectorAll('nav a').forEach(a => a.onclick = () => setMenu(false, false));
+  addEventListener('keydown', e => { if(e.key === 'Escape' && menu.classList.contains('open')) setMenu(false); });
 
   // Capa
   $('#heroClip').innerHTML = clip(REEL_CAPA.link, REEL_CAPA.titulo, false);
   Object.assign($('#heroClip').dataset, { ratio: ratioOf(REEL_CAPA), box: boxOf(REEL_CAPA), fill: fillOf(REEL_CAPA) });
   $('#heroTitle').textContent = `${REEL_CAPA.titulo} — ${REEL_CAPA.cliente}`;
   $('#reelBox').href = REEL_CAPA.link;
+  $('#reelBox').setAttribute('aria-label', `Assistir ${REEL_CAPA.titulo} — ${REEL_CAPA.cliente} no Instagram`);
   if(REEL_CAPA.formato === '16:9') $('#reelBox').classList.add('land');
   if(USAR_VIDEO_CAPA){
     const vid = $('#heroVideo');
     vid.addEventListener('loadeddata', () => $('.hero').classList.add('has-video'));
+    if(MENOS_MOVIMENTO) vid.preload = 'metadata'; else vid.autoplay = true;   // sem autoplay para quem pede menos movimento
     vid.src = VIDEO_CAPA;
   }
 
