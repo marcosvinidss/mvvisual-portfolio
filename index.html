@@ -4,19 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>mvvisual.co — Portfólio</title>
-<meta name="description" content="mvvisual.co — vídeo, fotografia, design, social media e eventos.">
-<meta name="theme-color" content="#0A0A0A">
+<meta name="description" content="mvvisual.co — vídeo, sites, design, fotografia, social media e eventos.">
+<meta name="theme-color" content="#000000">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#0A0A0A;
-    --fg:#EDEAE4;
-    --dim:#8C877F;
-    --faint:#4A4743;
-    --line:rgba(237,234,228,.14);
-    --rec:#FF3B1F;
+    --bg:#000;
+    --fg:#fff;
+    --dim:#8A8A8A;
+    --line:rgba(255,255,255,.16);
     --sans:"Archivo", "Helvetica Neue", Arial, sans-serif;
     --mono:"JetBrains Mono", ui-monospace, Menlo, monospace;
     --g:clamp(16px,2.6vw,36px);
@@ -32,11 +30,10 @@
   .dim{color:var(--dim)}
   .px{padding-left:var(--g);padding-right:var(--g)}
   .cond{font-stretch:62%;font-variation-settings:"wdth" 62;font-weight:800;text-transform:uppercase;line-height:.82;letter-spacing:-.01em}
-  .rec{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--rec);margin-right:8px;vertical-align:1px;animation:blink 1.2s steps(2) infinite}
-  @keyframes blink{50%{opacity:.15}}
+  .dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--fg);margin-right:8px;vertical-align:1px}
 
   /* TOP BAR */
-  .bar{position:fixed;top:0;left:0;right:0;z-index:40;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:16px var(--g);mix-blend-mode:difference;color:#fff}
+  .bar{position:fixed;top:0;left:0;right:0;z-index:40;display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:16px var(--g);mix-blend-mode:difference;color:#fff}
   .bar .brand{font-weight:700;font-size:15px;letter-spacing:-.01em}
   .bar nav{justify-self:end;display:flex;gap:22px}
   .bar nav a:hover{text-decoration:underline;text-underline-offset:4px}
@@ -62,13 +59,13 @@
   /* hero com vídeo próprio */
   .hero-video{position:absolute;inset:0;z-index:0;display:none}
   .hero-video video{width:100%;height:100%;object-fit:cover}
-  .hero-video::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,10,10,.35),rgba(10,10,10,0) 30%,rgba(10,10,10,0) 60%,rgba(10,10,10,.85))}
+  .hero-video::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.35),rgba(0,0,0,0) 30%,rgba(0,0,0,0) 60%,rgba(0,0,0,.9))}
   .hero.has-video .hero-video{display:block}
   .hero.has-video .viewfinder .clip{visibility:hidden}
   .hero.has-video .hero-stage,.hero.has-video .wordmark{position:relative;z-index:1}
 
   /* CLIP: só o vídeo do embed, sem a moldura do Instagram */
-  .clip{position:relative;width:100%;height:100%;overflow:hidden;background:#141414}
+  .clip{position:relative;width:100%;height:100%;overflow:hidden;background:#111}
   .clip iframe{position:absolute;left:0;top:-56px;width:100%;height:calc(100% + 56px + 260px);border:0}
   .clip::after{content:"";position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 -3px 0 var(--bg),inset 0 0 0 1px var(--line)}
 
@@ -133,13 +130,11 @@
     .contact .links{grid-template-columns:1fr}
   }
   @media (max-width:600px){
-    .bar{grid-template-columns:1fr auto}
-    .bar .tc-live{display:none}
+    .bar nav{gap:14px}
     .grid{grid-template-columns:1fr}
     .item:nth-child(2n){margin-top:0}
     .svc{grid-template-columns:1fr}
   }
-  @media (prefers-reduced-motion:reduce){ .rec{animation:none} }
 </style>
 </head>
 <body>
@@ -175,7 +170,6 @@
 
 <header class="bar mono">
   <a href="#topo" class="brand">mvvisual.co</a>
-  <span class="tc-live"><span class="rec"></span><span id="tc">00:00:00:00</span></span>
   <nav><a href="#trabalhos">Trabalhos</a><a href="#servicos">Serviços</a><a href="#contato">Contato</a></nav>
 </header>
 
@@ -183,7 +177,7 @@
   <div class="hero-video"><video id="heroVideo" autoplay muted loop playsinline preload="auto"></video></div>
   <div class="hero-stage">
     <div class="side l mono dim">
-      <span>Vídeo</span><span>Fotografia</span><span>Design</span><span>Social media</span><span>Eventos</span>
+      <span>Vídeo</span><span>Sites</span><span>Design</span><span>Fotografia</span><span>Social media</span><span>Eventos</span>
     </div>
     <div class="viewfinder" id="vf">
       <div class="tc mono dim"><span id="vfTag"></span><span>4:5</span></div>
@@ -201,7 +195,7 @@
 
 <section class="statement">
   <span class="mono dim">(Quem somos)</span>
-  <p>Produtora de vídeo, foto, design e social media. <span>Do roteiro ao post, com um só time.</span></p>
+  <p>Estúdio criativo de vídeo, sites e design. <span>Do roteiro ao post, do layout ao site no ar, com um só time.</span></p>
 </section>
 
 <section class="work" id="trabalhos">
@@ -221,17 +215,18 @@
   <span class="mono dim">(Serviços)</span>
   <div class="svc">
     <div><span class="mono dim">01</span><b>Vídeo</b><p>Reels, institucional, aftermovie e campanha.</p></div>
-    <div><span class="mono dim">02</span><b>Fotografia</b><p>Produto, retrato, evento e campanha.</p></div>
-    <div><span class="mono dim">03</span><b>Design</b><p>Identidade visual e peças para redes.</p></div>
-    <div><span class="mono dim">04</span><b>Social media</b><p>Planejamento, criação e gestão do perfil.</p></div>
-    <div><span class="mono dim">05</span><b>Eventos</b><p>Cobertura em foto e vídeo, com entrega no mesmo dia.</p></div>
+    <div><span class="mono dim">02</span><b>Sites</b><p>Sites institucionais, landing pages e portfólios, rápidos e prontos para o celular. Este site é um exemplo.</p></div>
+    <div><span class="mono dim">03</span><b>Design</b><p>Identidade visual, logo, peças para redes e materiais impressos.</p></div>
+    <div><span class="mono dim">04</span><b>Fotografia</b><p>Produto, retrato, evento e campanha.</p></div>
+    <div><span class="mono dim">05</span><b>Social media</b><p>Planejamento, criação e gestão do perfil.</p></div>
+    <div><span class="mono dim">06</span><b>Eventos</b><p>Cobertura em foto e vídeo, com entrega no mesmo dia.</p></div>
   </div>
 </section>
 
 <section class="contact" id="contato">
-  <div class="top mono dim"><span>(Contato)</span><span><span class="rec"></span>Agenda aberta</span></div>
+  <div class="top mono dim"><span>(Contato)</span><span><span class="dot"></span>Agenda aberta</span></div>
   <div class="links" id="links"></div>
-  <div class="wordmark"><h2 class="cond fit">Vamos gravar?</h2></div>
+  <div class="wordmark"><h2 class="cond fit">Vamos criar?</h2></div>
 </section>
 
 <footer class="mono">
@@ -261,13 +256,6 @@
   src.src = VIDEO_CAPA; src.type = 'video/mp4';
   vid.appendChild(src);
   vid.addEventListener('loadeddata', () => $('.hero').classList.add('has-video'));
-
-  // Timecode
-  const t0 = performance.now();
-  setInterval(() => {
-    const f = Math.floor((performance.now() - t0) / 40);
-    $('#tc').textContent = [Math.floor(f/90000), Math.floor(f/1500)%60, Math.floor(f/25)%60, f%25].map(pad).join(':');
-  }, 40);
 
   // Trabalhos
   const grid = $('#grid');
