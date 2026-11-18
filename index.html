@@ -346,6 +346,12 @@
        python3 scripts/gerar-estatico.py
      para atualizar as tags de prévia de link (WhatsApp/Instagram), o canonical e os dados do Google. */
   const SITE_URL = "https://marcosvinidss.github.io/mvvisual-portfolio/";
+
+  /* ANALYTICS (Cloudflare Web Analytics, gratuito e sem cookies).
+     1. Crie a conta em dash.cloudflare.com → Analytics & Logs → Web Analytics → Add a site
+     2. Copie o token (o valor de "token" no snippet que eles mostram) e cole abaixo.
+     Vazio = nada é carregado. */
+  const ANALYTICS_TOKEN = "";
   /* MÍDIA PRÓPRIA (opcional) — veja capas/README.md e videos/README.md
      Cada projeto tem um "arquivo" (nome sem extensão). Marque o que existir:
        capa: true   → usa capas/<arquivo>.jpg como miniatura (no lugar do Instagram)
@@ -460,7 +466,7 @@
   </div>
   <div class="wordmark">
     <h1 class="big fit">mvvisual</h1>
-    <span class="yr">.co©<br><span class="dim">All rights reserved</span></span>
+    <span class="yr">.co©<br><span class="dim">Todos os direitos reservados</span></span>
   </div>
 </section>
 
@@ -598,7 +604,7 @@
 <footer>
   <div class="fw big fit">Vamos criar?</div>
   <div class="row mono">
-    <span>© <span id="yr"></span> mvvisual.co — all rights reserved</span>
+    <span>© <span id="yr"></span> mvvisual.co — todos os direitos reservados</span>
     <a href="#topo">Voltar ao topo ↑</a>
   </div>
 </footer>
@@ -796,9 +802,39 @@
     e.preventDefault();
     const f = new FormData(e.target);
     const msg = `Olá! Sou ${f.get('nome')}${f.get('empresa') ? ' (' + f.get('empresa') + ')' : ''}.\n${f.get('msg')}`;
+    registrarContato('formulario');
     open(wa(msg), '_blank', 'noopener');
   };
   $('#yr').textContent = new Date().getFullYear();
+
+  /* Analytics: só carrega se ANALYTICS_TOKEN estiver preenchido. Equivale ao snippet oficial:
+     script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "SEU_TOKEN"}'
+     (escrito sem os sinais de < > porque uma tag de fechamento de script aqui dentro quebraria o código) */
+  if(ANALYTICS_TOKEN){
+    const cf = document.createElement('script');
+    cf.defer = true;
+    cf.src = 'https://static.cloudflareinsights.com/beacon.min.js';
+    cf.dataset.cfBeacon = JSON.stringify({ token: ANALYTICS_TOKEN });
+    document.head.appendChild(cf);
+  }
+
+  /* Contatos pelo WhatsApp: cada clique (links e formulário) gera um registro.
+     Aparece no console do navegador e é enviado para Plausible, Umami ou Google Analytics se algum estiver instalado.
+     Também dispara o evento "contato-whatsapp" na página, para qualquer outra ferramenta escutar. */
+  const registrarContato = origem => {
+    const dados = { origem, pagina: location.pathname, quando: new Date().toISOString() };
+    console.info('[mvvisual] contato pelo WhatsApp', dados);
+    window.dispatchEvent(new CustomEvent('contato-whatsapp', { detail: dados }));
+    try{
+      if(window.plausible) plausible('Contato WhatsApp', { props: { origem } });
+      if(window.umami) umami.track('contato-whatsapp', { origem });
+      if(window.gtag) gtag('event', 'contato_whatsapp', { origem });
+    }catch(e){}
+  };
+  document.addEventListener('click', e => {
+    const a = e.target.closest('a[href*="wa.me"]');
+    if(a) registrarContato(a.closest('#menu') ? 'menu' : a.closest('#contato') ? 'contato' : 'link');
+  });
 
   // Revelar ao rolar
   const io = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }), {threshold:.15});
