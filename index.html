@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>mvvisual.co | Do roteiro ao site no ar</title>
-<meta name="description" content="mvvisual.co — vídeo, sites, design, fotografia, social media e eventos. Brasília, DF.">
+<meta name="description" content="mvvisual.co — vídeo, sites e design para empresas, marcas, clínicas e consultórios. Brasília, DF.">
 <meta name="theme-color" content="#000000">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -134,9 +134,28 @@
   .filters button.on{color:var(--accent)}
   .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:56px var(--g)}
   .item.hide{display:none}
-  .item .meta{display:flex;justify-content:space-between;padding-bottom:8px;margin-bottom:10px;border-bottom:1px solid var(--line)}
-  .item .clipbox{aspect-ratio:4/5}
-  .item h3{font-size:22px;font-weight:600;letter-spacing:-.02em;margin-top:12px}
+  /* MINIATURA: capa com sombra, etiqueta, título por cima e botão de play em vidro fosco
+     (o vidro cobre o botão e o texto do Instagram) */
+  .thumb{position:relative;display:block;overflow:hidden;border-radius:6px;background:#111;isolation:isolate}
+  .thumb .clip{transition:transform 1.1s cubic-bezier(.2,.7,.2,1)}
+  .thumb .clip::after{display:none}
+  .thumb:hover .clip{transform:scale(1.045)}
+  .thumb .shade{position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(180deg,rgba(0,0,0,.55) 0%,rgba(0,0,0,0) 22%,rgba(0,0,0,0) 52%,rgba(0,0,0,.88) 100%);transition:opacity .6s}
+  .thumb .lbl{position:absolute;top:14px;left:14px;right:14px;z-index:3;display:flex;justify-content:space-between;gap:10px;font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase}
+  .thumb .lbl span:last-child{border:1px solid rgba(255,255,255,.35);border-radius:99px;padding:3px 9px;backdrop-filter:blur(8px)}
+  .thumb .ttl{position:absolute;left:16px;right:16px;bottom:14px;z-index:3;display:flex;justify-content:space-between;align-items:flex-end;gap:12px}
+  .thumb .ttl b{font-size:clamp(20px,1.8vw,28px);font-weight:700;letter-spacing:-.03em;line-height:1}
+  .thumb .ttl em{font-style:normal;font-family:var(--mono);font-size:11px;text-transform:uppercase;white-space:nowrap;color:var(--accent);opacity:0;transform:translateX(-8px);transition:.5s}
+  .thumb:hover .ttl em{opacity:1;transform:none}
+  .thumb .play{position:absolute;left:50%;top:50%;z-index:3;width:calc(var(--S,.6) * 270px);aspect-ratio:1;border-radius:50%;transform:translate(-50%,-43%);display:grid;place-items:center;
+    background:rgba(0,0,0,.22);backdrop-filter:blur(22px) saturate(1.2);-webkit-backdrop-filter:blur(22px) saturate(1.2);
+    -webkit-mask-image:radial-gradient(closest-side,#000 64%,transparent 100%);mask-image:radial-gradient(closest-side,#000 64%,transparent 100%);
+    transition:transform .6s cubic-bezier(.2,.7,.2,1),background .4s}
+  .thumb .play i{width:54px;height:54px;border-radius:50%;background:var(--fg);color:#000;display:grid;place-items:center;font-style:normal;font-size:14px;padding-left:3px;transition:background .4s,transform .6s}
+  .thumb:hover .play{transform:translate(-50%,-43%) scale(1.06);background:rgba(0,0,0,.1)}
+  .thumb:hover .play i{background:var(--accent);transform:scale(1.08)}
+  .thumb.own .play{opacity:0;transition:opacity .4s}
+  .thumb.own:hover .play{opacity:1}
   .item:nth-child(3n+2){margin-top:80px}
 
   /* SITES COM IA */
@@ -254,18 +273,18 @@
   };
 
   const PROJETOS = [
-    { arquivo: "conferencia-de-mulheres", titulo: "Conferência de Mulheres", cliente: "CCFE", categoria: "Eventos", instagram: "https://www.instagram.com/reel/DdzzxX2OHjW/", formato: "16:9" },
-    { arquivo: "wellness-day", titulo: "Wellness Day", cliente: "Prócapz", categoria: "Eventos", instagram: "https://www.instagram.com/reel/DXz5gh0vued/" },
-    { arquivo: "academia-informa", titulo: "Academia Informa", cliente: "Polícia Penal DF", categoria: "Institucional", instagram: "https://www.instagram.com/reel/DYmbiDqMVFC/" },
-    { arquivo: "body-fit-day", titulo: "Body&Fit Day Sunset", cliente: "Prócapz", categoria: "Eventos", instagram: "https://www.instagram.com/reel/DcZUvgzvQKH/" },
-    { arquivo: "termobolic", titulo: "Lançamento Termobolic", cliente: "Prócapz", categoria: "Produto", instagram: "https://www.instagram.com/reel/DXAI_h5j7Nx/" },
-    { arquivo: "beretta-apx", titulo: "Curso Beretta APX", cliente: "Polícia Penal DF", categoria: "Institucional", instagram: "https://www.instagram.com/reel/DZ40z7Es4Re/" },
     { arquivo: "planejamento-do-sorriso", titulo: "Planejamento do sorriso", cliente: "Dr. Xavier Odonto", categoria: "Saúde", instagram: "https://www.instagram.com/reel/DbwOyyuhGH2/" },
-    { arquivo: "toda-linda-gummy", titulo: "Toda Linda Gummy", cliente: "Prócapz", categoria: "Produto", instagram: "https://www.instagram.com/reel/De2Wn-gCp7I/", formato: "16:9" },
+    { arquivo: "termobolic", titulo: "Lançamento Termobolic", cliente: "Prócapz", categoria: "Marca", instagram: "https://www.instagram.com/reel/DXAI_h5j7Nx/" },
+    { arquivo: "academia-informa", titulo: "Academia Informa", cliente: "Polícia Penal DF", categoria: "Institucional", instagram: "https://www.instagram.com/reel/DYmbiDqMVFC/" },
+    { arquivo: "toda-linda-gummy", titulo: "Toda Linda Gummy", cliente: "Prócapz", categoria: "Marca", instagram: "https://www.instagram.com/reel/De2Wn-gCp7I/", formato: "16:9" },
+    { arquivo: "clareamento-dental", titulo: "Clareamento dental", cliente: "Dr. Xavier Odonto", categoria: "Saúde", instagram: "https://www.instagram.com/reel/DcKDVKxBMKF/" },
+    { arquivo: "lipcapz", titulo: "Lipcapz", cliente: "Prócapz", categoria: "Marca", instagram: "https://www.instagram.com/reel/DaWNAYXvkZ0/" },
+    { arquivo: "beretta-apx", titulo: "Curso Beretta APX", cliente: "Polícia Penal DF", categoria: "Institucional", instagram: "https://www.instagram.com/reel/DZ40z7Es4Re/" },
+    { arquivo: "wellness-day", titulo: "Wellness Day", cliente: "Prócapz", categoria: "Marca", instagram: "https://www.instagram.com/reel/DXz5gh0vued/" },
     { arquivo: "academia-informa-2", titulo: "Academia Informa II", cliente: "Polícia Penal DF", categoria: "Institucional", instagram: "https://www.instagram.com/reel/DY4XjS7Mlar/" },
+    { arquivo: "body-fit-day", titulo: "Body&Fit Day Sunset", cliente: "Prócapz", categoria: "Marca", instagram: "https://www.instagram.com/reel/DcZUvgzvQKH/" },
     { arquivo: "trincheira", titulo: "Trincheira", cliente: "CCFE", categoria: "Eventos", instagram: "https://www.instagram.com/reel/Dd7Ql_gBsjJ/", formato: "16:9" },
-    { arquivo: "lipcapz", titulo: "Lipcapz", cliente: "Prócapz", categoria: "Produto", instagram: "https://www.instagram.com/reel/DaWNAYXvkZ0/" },
-    { arquivo: "clareamento-dental", titulo: "Clareamento dental", cliente: "Dr. Xavier Odonto", categoria: "Saúde", instagram: "https://www.instagram.com/reel/DcKDVKxBMKF/" }
+    { arquivo: "conferencia-de-mulheres", titulo: "Conferência de Mulheres", cliente: "CCFE", categoria: "Eventos", instagram: "https://www.instagram.com/reel/DdzzxX2OHjW/", formato: "16:9" }
   ];
 
   // Sites criados com IA. Deixe "link" vazio ("") para mostrar como "em breve".
@@ -293,12 +312,12 @@
 <section class="hero" id="topo">
   <div class="hero-video"><video id="heroVideo" autoplay muted loop playsinline preload="auto"></video></div>
   <div class="hero-top mono">
-    <div><span>Nativo &amp; real</span><span class="dim">Brasília — DF — BR</span></div>
+    <div><span>Para empresas, marcas e saúde</span><span class="dim">Brasília — DF — BR</span></div>
     <div><span>Vídeo · Sites · Design</span><span class="dim">Do roteiro ao site no ar</span></div>
   </div>
   <div class="hero-mid">
     <span class="scroll mono dim">(Scroll)</span>
-    <div class="reel-box" id="reelBox"><div class="clip" id="heroClip"></div></div>
+    <a class="reel-box thumb" id="reelBox" target="_blank" rel="noopener"><div class="clip" id="heroClip"></div><span class="play"><i>▶</i></span></a>
     <a class="play mono" href="#trabalhos"><i>▶</i><span class="roll"><span id="heroTitle"></span><span>Ver trabalhos</span></span></a>
   </div>
   <div class="wordmark">
@@ -310,16 +329,16 @@
 <section class="sec">
   <div class="manifesto rv">
     <span class="tag">(Quem somos)</span>
-    <p>A mvvisual.co é o estúdio que une câmera e código. <span>Filmamos o seu evento, editamos o reel, desenhamos a marca e colocamos o site no ar, com um só time e um só olhar.</span></p>
-    <div class="sig mono"><span>Nascidos no digital.</span><span class="acc">Feitos no set.</span></div>
+    <p>A mvvisual.co é o estúdio que cuida da imagem de empresas, marcas e profissionais da saúde. <span>Gravamos o vídeo, desenhamos a marca e colocamos o site no ar, com um só time e um só olhar.</span></p>
+    <div class="sig mono"><span>Empresas · Marcas · Clínicas &amp; consultórios</span><span class="acc">Câmera e código.</span></div>
   </div>
 </section>
 
 <section class="sec terr">
   <h2 class="big rv">Um olhar.<br><em>Dois</em> territórios.</h2>
   <div class="terr-grid">
-    <div class="terr-card rv"><b>Vídeo<br>&amp; eventos</b><span class="n">01</span><p><strong>Reels, aftermovies e institucionais.</strong> Onde a mvvisual nasceu: no set, no evento, no meio do movimento.</p></div>
-    <div class="terr-card rv"><b>Sites<br>&amp; design</b><span class="n">02</span><p><strong>Sites, landing pages e identidade visual.</strong> Criados com IA, entregues rápido e prontos para o celular.</p></div>
+    <div class="terr-card rv"><b>Vídeo<br>para marcas</b><span class="n">01</span><p><strong>Reels, institucionais e conteúdo de produto.</strong> Para empresas, clínicas e consultórios que querem passar confiança e aparecer bem no feed.</p></div>
+    <div class="terr-card rv"><b>Sites<br>&amp; design</b><span class="n">02</span><p><strong>Sites, landing pages e identidade visual.</strong> Criados com IA, entregues rápido e prontos para o celular, com o paciente ou cliente a um clique do WhatsApp.</p></div>
   </div>
 </section>
 
@@ -409,20 +428,31 @@
     f.style.height = (57 + 540 * r + 320) + 'px';
     const tx = (w - 540 * S) / 2, ty = -57 * S + (h - 540 * r * S) / 2;
     f.style.transform = `translate(${tx}px, ${ty}px) scale(${S})`;
+    const t = box.closest('.thumb'); if(t) t.style.setProperty('--S', S.toFixed(3));
   });
   const ratioOf = p => p.formato === '16:9' ? 9/16 : 5/4;
   // Se existir videos/<arquivo>.mp4, troca o Instagram pelo vídeo próprio (toca sozinho, sem som, em loop)
   const vio = new IntersectionObserver(es => es.forEach(e => e.isIntersecting ? e.target.play().catch(()=>{}) : e.target.pause()), {threshold:.2});
+  const exists = async url => { try{ return (await fetch(url, {method:'HEAD'})).ok; }catch(e){ return false; } };
   const useMp4 = async (box, p) => {
     if(!p.arquivo || location.protocol === 'file:') return;
-    try{ if(!(await fetch(`videos/${p.arquivo}.mp4`, {method:'HEAD'})).ok) return; }catch(e){ return; }
+    const thumb = box.closest('.thumb');
+    if(!(await exists(`videos/${p.arquivo}.mp4`))){
+      // sem MP4: se houver capas/<arquivo>.jpg, usa a imagem como miniatura no lugar do Instagram
+      if(await exists(`capas/${p.arquivo}.jpg`)){
+        box.removeAttribute('data-ratio');
+        box.innerHTML = `<img src="capas/${p.arquivo}.jpg" alt="${p.titulo}" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">`;
+        if(thumb) thumb.style.setProperty('--S', '.6');
+      }
+      return;
+    }
+    if(thumb){ thumb.classList.add('own'); thumb.style.setProperty('--S', '.6'); }
     const v = document.createElement('video');
     v.muted = true; v.loop = true; v.playsInline = true; v.preload = 'metadata';
     v.setAttribute('muted',''); v.setAttribute('playsinline','');
     v.src = `videos/${p.arquivo}.mp4`;
     box.removeAttribute('data-ratio'); box.innerHTML = '';
     box.appendChild(v);
-    box.insertAdjacentHTML('beforeend', `<a class="cover-link" href="${p.instagram}" target="_blank" rel="noopener" aria-label="Ver ${p.titulo} no Instagram"></a>`);
     vio.observe(v);
   };
 
@@ -443,6 +473,7 @@
   $('#heroClip').innerHTML = clip(REEL_CAPA.link, REEL_CAPA.titulo, false);
   $('#heroClip').dataset.ratio = ratioOf(REEL_CAPA);
   $('#heroTitle').textContent = `${REEL_CAPA.titulo} — ${REEL_CAPA.cliente}`;
+  $('#reelBox').href = REEL_CAPA.link;
   if(REEL_CAPA.formato === '16:9') $('#reelBox').classList.add('land');
   const vid = $('#heroVideo');
   const src = document.createElement('source');
@@ -451,15 +482,15 @@
   vid.addEventListener('loadeddata', () => $('.hero').classList.add('has-video'));
 
   // Marquee
-  const mq = 'Do roteiro ao site no ar  •  ';
+  const mq = 'Empresas  •  Marcas  •  Saúde  •  ';
   $('#marquee').innerHTML = `<span>${mq.repeat(4)}</span><span>${mq.repeat(4)}</span>`;
 
   // Serviços
   const SERVICOS = [
-    ['Reels','Vertical, pensado para o feed.'],
-    ['Aftermovies','O evento inteiro em poucos minutos.'],
-    ['Institucional','A história da sua marca em vídeo.'],
-    ['Fotografia','Produto, retrato, evento e campanha.'],
+    ['Reels para marcas','Vídeos curtos que vendem no feed.'],
+    ['Institucional','A história da sua empresa em vídeo.'],
+    ['Saúde & odonto','Conteúdo para clínicas e consultórios.'],
+    ['Produto','Lançamentos e campanhas de produto.'],
     ['Sites','Sites e landing pages feitos com IA.'],
     ['Identidade visual','Logo, cores e peças para redes.']
   ];
@@ -474,9 +505,13 @@
     el.className = 'item';
     el.dataset.cat = p.categoria;
     el.innerHTML = `
-      <div class="meta mono"><span>${p.cliente}</span><span class="dim">${p.categoria}</span></div>
-      <div class="clipbox" style="aspect-ratio:${p.formato==='16:9'?'16/9':'4/5'}"><div class="clip" data-ratio="${ratioOf(p)}">${clip(p.instagram, p.titulo)}</div></div>
-      <h3>${p.titulo}</h3>`;
+      <a class="thumb" href="${p.instagram}" target="_blank" rel="noopener" aria-label="Assistir ${p.titulo} no Instagram" style="aspect-ratio:${p.formato==='16:9'?'16/9':'4/5'}">
+        <div class="clip" data-ratio="${ratioOf(p)}">${clip(p.instagram, p.titulo)}</div>
+        <span class="shade"></span>
+        <span class="lbl"><span>${p.cliente}</span><span>${p.categoria}</span></span>
+        <span class="play"><i>▶</i></span>
+        <span class="ttl"><b>${p.titulo}</b><em>Assistir ↗</em></span>
+      </a>`;
     grid.appendChild(el);
     useMp4(el.querySelector('.clip'), p);
   });
