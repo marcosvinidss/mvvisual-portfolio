@@ -52,6 +52,7 @@
 <!-- GERADO-HEAD:FIM -->
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
+<noscript><style>.rv{opacity:1;transform:none}</style></noscript>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -303,7 +304,10 @@
 <body>
 
 <script>
-  /* ================= EDITE AQUI ================= */
+  /* ================= EDITE AQUI =================
+     Depois de mudar SITE_URL, CONTATO, PROJETOS, SITES_IA ou SERVICOS, rode:
+       python3 scripts/gerar-estatico.py
+     Ele copia esses dados para o HTML (para o Google e para quem abre o site sem JavaScript). */
 
   /* Endereço do site. Se mudar (ex.: domínio próprio), troque aqui e rode:
        python3 scripts/gerar-estatico.py
@@ -340,6 +344,16 @@
     { arquivo: "body-fit-day", titulo: "Body&Fit Day Sunset", cliente: "Prócapz", categoria: "Marca", instagram: "https://www.instagram.com/reel/DcZUvgzvQKH/" },
     { arquivo: "trincheira", titulo: "Trincheira", cliente: "CCFE", categoria: "Eventos", instagram: "https://www.instagram.com/reel/Dd7Ql_gBsjJ/", formato: "16:9", conteudo: "vertical" },
     { arquivo: "conferencia-de-mulheres", titulo: "Conferência de Mulheres", cliente: "CCFE", categoria: "Eventos", instagram: "https://www.instagram.com/reel/DdzzxX2OHjW/", formato: "16:9" }
+  ];
+
+  // Serviços: [nome, descrição curta]. A ordem aqui é a ordem no site.
+  const SERVICOS = [
+    ['Reels para marcas','Vídeos curtos que vendem no feed.'],
+    ['Institucional','A história da sua empresa em vídeo.'],
+    ['Saúde & odonto','Conteúdo para clínicas e consultórios.'],
+    ['Produto','Lançamentos e campanhas de produto.'],
+    ['Sites','Sites e landing pages feitos com IA.'],
+    ['Identidade visual','Logo, cores e peças para redes.']
   ];
 
   /* Sites criados com IA. Deixe "link" vazio ("") para mostrar como "em breve".
@@ -403,7 +417,16 @@
 
 <section class="sec" id="servicos">
   <div class="sec-head"><h2 class="big">Serviços</h2><span class="tag">(O que fazemos)</span></div>
-  <ul class="svc-list" id="svcList"></ul>
+  <ul class="svc-list" id="svcList">
+    <!-- GERADO:INICIO servicos -->
+    <li><div class="row"><span class="n">01</span><span class="t">Reels para marcas</span><span class="d">Vídeos curtos que vendem no feed.</span></div></li>
+    <li><div class="row"><span class="n">02</span><span class="t">Institucional</span><span class="d">A história da sua empresa em vídeo.</span></div></li>
+    <li><div class="row"><span class="n">03</span><span class="t">Saúde &amp; odonto</span><span class="d">Conteúdo para clínicas e consultórios.</span></div></li>
+    <li><div class="row"><span class="n">04</span><span class="t">Produto</span><span class="d">Lançamentos e campanhas de produto.</span></div></li>
+    <li><div class="row"><span class="n">05</span><span class="t">Sites</span><span class="d">Sites e landing pages feitos com IA.</span></div></li>
+    <li><div class="row"><span class="n">06</span><span class="t">Identidade visual</span><span class="d">Logo, cores e peças para redes.</span></div></li>
+    <!-- GERADO:FIM servicos -->
+  </ul>
 </section>
 
 <section class="sec" id="trabalhos">
@@ -411,7 +434,21 @@
     <h2 class="big">Cases</h2>
     <div class="filters mono" id="filters"></div>
   </div>
-  <div class="grid" id="grid"></div>
+  <div class="grid" id="grid">
+    <!-- GERADO:INICIO cases -->
+    <article class="item"><a class="thumb" href="https://www.instagram.com/reel/DbwOyyuhGH2/" target="_blank" rel="noopener" style="aspect-ratio:4/5"><span class="lbl"><span>Dr. Xavier Odonto</span><span>Saúde</span></span><span class="ttl"><b>Planejamento do sorriso</b></span></a></article>
+    <article class="item"><a class="thumb" href="https://www.instagram.com/reel/DXAI_h5j7Nx/" target="_blank" rel="noopener" style="aspect-ratio:4/5"><span class="lbl"><span>Prócapz</span><span>Marca</span></span><span class="ttl"><b>Lançamento Termobolic</b></span></a></article>
+    <article class="item"><a class="thumb" href="https://www.instagram.com/reel/DYmbiDqMVFC/" target="_blank" rel="noopener" style="aspect-ratio:4/5"><span class="lbl"><span>Polícia Penal DF</span><span>Institucional</span></span><span class="ttl"><b>Academia Informa</b></span></a></article>
+    <article class="item"><a class="thumb" href="https://www.instagram.com/reel/De2Wn-gCp7I/" target="_blank" rel="noopener" style="aspect-ratio:4/5"><span class="lbl"><span>Prócapz</span><span>Marca</span></span><span class="ttl"><b>Toda Linda Gummy</b></span></a></article>
+    <article class="item"><a class="thumb" href="https://www.instagram.com/reel/DcKDVKxBMKF/" target="_blank" rel="noopener" style="aspect-ratio:4/5"><span class="lbl"><span>Dr. Xavier Odonto</span><span>Saúde</span></span><span class="ttl"><b>Clareamento dental</b></span></a></article>
+    <article class="item"><a class="thumb" href="https://www.instagram.com/reel/DaWNAYXvkZ0/" target="_blank" rel="noopener" style="aspect-ratio:4/5"><span class="lbl"><span>Prócapz</span><span>Marca</span></span><span class="ttl"><b>Lipcapz</b></span></a></article>
+    <article class="item"><a class="thumb" href="https://www.instagram.com/reel/DZ40z7Es4Re/" target="_blank" rel="noopener" style="aspect-ratio:4/5"><span class="lbl"><span>Polícia Penal DF</span><span>Institucional</span></span><span class="ttl"><b>Curso Beretta APX</b></span></a></article>
+    <article class="item"><a class="thumb" href="https://www.instagram.com/reel/DXz5gh0vued/" target="_blank" rel="noopener" style="aspect-ratio:4/5"><span class="lbl"><span>Prócapz</span><span>Marca</span></span><span class="ttl"><b>Wellness Day</b></span></a></article>
+    <article class="item"><a class="thumb" href="https://www.instagram.com/reel/DY4XjS7Mlar/" target="_blank" rel="noopener" style="aspect-ratio:4/5"><span class="lbl"><span>Polícia Penal DF</span><span>Institucional</span></span><span class="ttl"><b>Academia Informa II</b></span></a></article>
+    <article class="item"><a class="thumb" href="https://www.instagram.com/reel/DcZUvgzvQKH/" target="_blank" rel="noopener" style="aspect-ratio:4/5"><span class="lbl"><span>Prócapz</span><span>Marca</span></span><span class="ttl"><b>Body&amp;Fit Day Sunset</b></span></a></article>
+    <article class="item"><a class="thumb" href="https://www.instagram.com/reel/Dd7Ql_gBsjJ/" target="_blank" rel="noopener" style="aspect-ratio:4/5"><span class="lbl"><span>CCFE</span><span>Eventos</span></span><span class="ttl"><b>Trincheira</b></span></a></article>
+    <!-- GERADO:FIM cases -->
+  </div>
 </section>
 
 <section class="sec" id="sites">
@@ -420,13 +457,26 @@
     <span class="tag">(Como funciona)</span>
     <p>Usamos IA para ir da ideia ao site publicado em dias, não meses. <span>Você vê o resultado real abaixo: clique em qualquer um para abrir o site no ar.</span></p>
   </div>
-  <div class="sites" id="sitesGrid"></div>
+  <div class="sites" id="sitesGrid">
+    <!-- GERADO:INICIO sites -->
+    <a class="site" href="https://drxavierodonto.github.io/" target="_blank" rel="noopener"><div class="meta mono"><span>Dr. Xavier Odonto</span><span class="dim">Site institucional</span></div><div class="browser"><div class="chrome"><i></i><i></i><i></i><span class="url">drxavierodonto.github.io</span></div><div class="view"><img src="sites/dr-lucas-xavier.jpg" alt="Prévia do site Dr. Lucas Xavier — Dr. Xavier Odonto" width="1200" height="750" loading="lazy" decoding="async"></div></div><h3>Dr. Lucas Xavier</h3><p>Site de cirurgião-dentista com tratamentos, agendamento pelo WhatsApp e vídeos do consultório.</p></a>
+    <a class="site" href="https://ccfehub.github.io/culto-da-virada/" target="_blank" rel="noopener"><div class="meta mono"><span>CCFE</span><span class="dim">Página de evento</span></div><div class="browser"><div class="chrome"><i></i><i></i><i></i><span class="url">ccfehub.github.io/culto-da-virada</span></div><div class="view"><img src="sites/culto-da-virada.jpg" alt="Prévia do site Culto da Virada — CCFE" width="1200" height="750" loading="lazy" decoding="async"></div></div><h3>Culto da Virada</h3><p>Página do evento de Réveillon da igreja, com artes para telão e WhatsApp geradas no mesmo projeto.</p></a>
+    <a class="site" href="https://mavi-links.pages.dev/" target="_blank" rel="noopener"><div class="meta mono"><span>@mavileme_</span><span class="dim">Página de links</span></div><div class="browser"><div class="chrome"><i></i><i></i><i></i><span class="url">mavi-links.pages.dev</span></div><div class="view"><img src="sites/links-da-mavi.jpg" alt="Prévia do site Links da Mavi — @mavileme_" width="1200" height="750" loading="lazy" decoding="async"></div></div><h3>Links da Mavi</h3><p>Página de links da criadora de conteúdo, com redes sociais, achadinhos e cupom de desconto em destaque.</p></a>
+    <!-- GERADO:FIM sites -->
+  </div>
 </section>
 
 <section class="sec">
   <div class="clients">
     <div class="head rv"><span class="tag">(Clientes)</span><b>Marcas que confiam o olhar delas à mvvisual.</b></div>
-    <ul id="clientList"></ul>
+    <ul id="clientList">
+      <!-- GERADO:INICIO clientes -->
+      <li>Dr. Xavier Odonto</li>
+      <li>Prócapz</li>
+      <li>Polícia Penal DF</li>
+      <li>CCFE</li>
+      <!-- GERADO:FIM clientes -->
+    </ul>
   </div>
 </section>
 
@@ -546,19 +596,12 @@
   $('#marquee').innerHTML = `<span>${mq.repeat(4)}</span><span>${mq.repeat(4)}</span>`;
 
   // Serviços
-  const SERVICOS = [
-    ['Reels para marcas','Vídeos curtos que vendem no feed.'],
-    ['Institucional','A história da sua empresa em vídeo.'],
-    ['Saúde & odonto','Conteúdo para clínicas e consultórios.'],
-    ['Produto','Lançamentos e campanhas de produto.'],
-    ['Sites','Sites e landing pages feitos com IA.'],
-    ['Identidade visual','Logo, cores e peças para redes.']
-  ];
   $('#svcList').innerHTML = SERVICOS.map(([t,d],i) =>
     `<li class="rv"><div class="row"><span class="n">${pad(i+1)}</span><span class="t">${roll(t)}</span><span class="d">${d}</span></div></li>`).join('');
 
   // Cases
   const grid = $('#grid');
+  grid.innerHTML = '';   // troca a versão estática (gerada) pela interativa
   // o Instagram não mostra o mesmo post duas vezes na página: o vídeo da capa sai da grade
   PROJETOS.filter(p => p.instagram !== REEL_CAPA.link).forEach(p => {
     const el = document.createElement('article');
