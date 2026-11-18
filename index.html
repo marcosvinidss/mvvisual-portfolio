@@ -3,221 +3,232 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>mvvisual.co | Do set ao site no ar</title>
-<meta name="description" content="mvvisual.co — vídeo, sites, design e fotografia. Brasília, DF.">
+<title>mvvisual.co | Do roteiro ao site no ar</title>
+<meta name="description" content="mvvisual.co — vídeo, sites, design, fotografia, social media e eventos. Brasília, DF.">
 <meta name="theme-color" content="#000000">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&family=Lexend+Exa:wght@600&family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
     --bg:#000;
     --fg:#EFEFEF;
     --dim:#8E8E8E;
     --accent:#BA9986;
-    --line:rgba(239,239,239,.22);
-    --sans:"Lexend", "Helvetica Neue", Arial, sans-serif;
-    --wide:"Lexend Exa", "Lexend", sans-serif;
-    --script:"Caveat", cursive;
-    --g:clamp(16px,2.4vw,32px);
+    --line:rgba(239,239,239,.16);
+    --sans:"Inter Tight", "Helvetica Neue", Arial, sans-serif;
+    --mono:"JetBrains Mono", ui-monospace, Menlo, monospace;
+    --g:clamp(16px,2.6vw,36px);
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{background:var(--bg);scroll-behavior:smooth;overflow-x:clip}
-  body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-weight:400;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body{background:var(--bg);color:var(--fg);font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
   a{color:inherit;text-decoration:none}
   button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
-  iframe,video{display:block}
-  ::selection{background:var(--accent);color:#000}
+  iframe,video,img{display:block}
+  ::selection{background:var(--accent);color:var(--bg)}
 
-  .small{font-size:11px;font-weight:500;letter-spacing:.02em;text-transform:uppercase;line-height:1.35}
+  .mono{font-family:var(--mono);font-size:11px;letter-spacing:.04em;text-transform:uppercase}
   .dim{color:var(--dim)}
-  .script{font-family:var(--script);font-weight:500;color:var(--accent);text-transform:uppercase;letter-spacing:.02em}
-  .head{font-weight:600;text-transform:uppercase;line-height:.95;letter-spacing:-.01em}
-  .wide{font-family:var(--wide);font-weight:600;text-transform:uppercase;line-height:.8;letter-spacing:-.04em;white-space:nowrap}
-  .center{text-align:center}
   .fit{display:inline-block}
-
-  /* link com seta + sublinhado pincelado */
-  .arrow{display:inline-flex;align-items:center;gap:8px;font-weight:600;position:relative;padding-bottom:8px}
-  .arrow::after{content:"";position:absolute;left:0;right:0;bottom:0;height:6px;background:
-    radial-gradient(ellipse at 50% 50%,var(--accent) 0 45%,transparent 50%) 0 0/100% 3px no-repeat,
-    linear-gradient(var(--fg),var(--fg)) 0 4px/100% 1.5px no-repeat;transition:transform .5s cubic-bezier(.7,0,.2,1);transform-origin:left}
-  .arrow:hover::after{transform:scaleX(.6)}
-  .arrow .ar{transition:transform .4s}
-  .arrow:hover .ar{transform:translateX(4px)}
+  .acc{color:var(--accent)}
+  .big{font-weight:900;text-transform:uppercase;line-height:.84;letter-spacing:-.045em}
+  .tag{font-family:var(--mono);font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--dim)}
+  .sec{padding:clamp(80px,11vw,160px) var(--g);border-top:1px solid var(--line)}
+  .sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:clamp(36px,5vw,64px)}
+  .sec-head h2{font-size:clamp(56px,10vw,170px)}
+  .sec-head h2 sup{font-family:var(--mono);font-size:14px;font-weight:400;letter-spacing:0;vertical-align:top;margin-left:6px;position:relative;top:.5em;color:var(--accent)}
+  .dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-right:8px;vertical-align:1px;animation:pulse 2s infinite}
+  @keyframes pulse{50%{opacity:.25}}
 
   /* revelar ao rolar */
-  .rv{opacity:0;transform:translateY(30px);transition:opacity 1s cubic-bezier(.2,.7,.2,1),transform 1s cubic-bezier(.2,.7,.2,1)}
+  .rv{opacity:0;transform:translateY(28px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1)}
   .rv.in{opacity:1;transform:none}
 
-  /* rolagem de texto no hover */
-  .roll{display:inline-block;overflow:hidden;vertical-align:top;line-height:1.1;height:1.1em}
+  /* rolagem de texto no hover (estilo Sand) */
+  .roll{display:inline-block;overflow:hidden;vertical-align:top;line-height:1.05;height:1.05em}
   .roll span{display:block;transition:transform .55s cubic-bezier(.7,0,.2,1)}
-  a:hover .roll span,li:hover .roll span,button:hover .roll span{transform:translateY(-100%)}
-
-  /* MÍDIA: vídeo próprio (MP4) ou embed do Instagram recortado */
-  .media{position:relative;width:100%;overflow:hidden;background:#0c0c0c}
-  .media video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-  .media iframe{position:absolute;left:0;top:0;width:540px;border:0;transform-origin:0 0}
-  .media .cover-link{position:absolute;inset:0;z-index:2}
+  .roll span+span{color:var(--accent)}
+  a:hover .roll span,.row:hover .roll span,button:hover .roll span{transform:translateY(-100%)}
 
   /* TOP BAR */
-  .bar{position:fixed;top:0;left:0;right:0;z-index:50;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:18px var(--g);mix-blend-mode:difference;color:#fff}
-  .bar .brand{font-weight:700;font-size:15px;letter-spacing:-.02em}
-  .bar .mid{display:flex;gap:28px}
+  .bar{position:fixed;top:0;left:0;right:0;z-index:50;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:16px var(--g);mix-blend-mode:difference;color:#fff}
+  .bar .brand{font-family:var(--sans);font-weight:800;font-size:16px;letter-spacing:-.02em;text-transform:none}
+  .bar .mid{display:flex;gap:18px}
   .bar .menu-btn{justify-self:end}
 
   /* MENU */
-  .menu{position:fixed;inset:0;z-index:45;background:var(--fg);color:#000;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:40px;padding:80px var(--g) 30px;clip-path:inset(0 0 100% 0);transition:clip-path .8s cubic-bezier(.7,0,.2,1)}
+  .menu{position:fixed;inset:0;z-index:45;background:var(--fg);color:var(--bg);display:flex;flex-direction:column;justify-content:space-between;padding:80px var(--g) 24px;clip-path:inset(0 0 100% 0);transition:clip-path .8s cubic-bezier(.7,0,.2,1)}
   .menu.open{clip-path:inset(0 0 0 0)}
-  .menu nav{display:flex;flex-direction:column;align-items:center}
-  .menu nav a{font-size:clamp(40px,7vw,96px);font-weight:600;text-transform:uppercase;letter-spacing:-.02em;line-height:1.05}
+  .menu nav{display:flex;flex-direction:column}
+  .menu nav a{font-size:clamp(48px,9vw,140px);border-bottom:1px solid rgba(0,0,0,.14);padding:4px 0 0;display:flex;justify-content:space-between;align-items:baseline}
+  .menu nav a .tag{color:rgba(0,0,0,.5)}
   .menu nav a .roll span+span{color:var(--accent)}
-  .menu .foot{display:flex;gap:28px}
+  .menu .foot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  .menu .foot a:hover{text-decoration:underline;text-underline-offset:4px}
 
   /* HERO */
-  .hero{position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:space-between;padding-top:72px;overflow:hidden}
-  .hero-bg{position:absolute;inset:0;z-index:0}
-  .hero-bg video{width:100%;height:100%;object-fit:cover}
-  .hero-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.45),rgba(0,0,0,0) 30%,rgba(0,0,0,0) 55%,rgba(0,0,0,.85))}
-  .hero > *:not(.hero-bg){position:relative;z-index:1}
-  .hero-main{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:var(--g);align-items:start;padding:24px var(--g) 0}
-  .hero-main .txt{display:flex;flex-direction:column;gap:28px;padding-top:8px}
-  .hero-main .txt .small{opacity:.85}
-  .hero-main h1{font-size:clamp(34px,4.6vw,76px)}
-  .hero-main .arrow{font-size:clamp(16px,1.4vw,20px);align-self:flex-start}
-  .hero-reel{display:flex;flex-direction:column;gap:10px;width:100%;max-width:calc(44svh * 16 / 9);justify-self:end}
-  .hero-reel.vert{max-width:calc(44svh * 4 / 5)}
-  .hero.has-bg .hero-reel{visibility:hidden}
-  .hero-foot{display:flex;justify-content:space-between;align-items:flex-end;padding:0 var(--g)}
-  .hero-foot .small{padding-bottom:4px}
-  .hero .wordmark{padding:6px var(--g) 0;margin-bottom:-1.4vw}
-  .hero .wordmark h2{font-size:22vw}
+  .hero{position:relative;min-height:100svh;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:auto 1fr auto;padding-top:68px;overflow:hidden}
+  .hero-video{position:absolute;inset:0;z-index:0;display:none}
+  .hero-video video{width:100%;height:100%;object-fit:cover}
+  .hero-video::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.4),rgba(0,0,0,0) 35%,rgba(0,0,0,.2) 60%,rgba(0,0,0,.95))}
+  .hero.has-video .hero-video{display:block}
+  .hero.has-video .reel-box{display:none}
+  .hero > *:not(.hero-video){position:relative;z-index:1}
+  .hero-top{display:flex;justify-content:space-between;gap:20px;padding:0 var(--g)}
+  .hero-top div{display:flex;flex-direction:column;gap:4px}
+  .hero-top div:last-child{text-align:right}
+  .hero-mid{display:grid;grid-template-columns:1fr auto 1fr;align-items:end;gap:var(--g);padding:24px var(--g)}
+  .hero-mid .scroll{align-self:end}
+  .hero-mid .play{justify-self:end;align-self:end;display:flex;align-items:center;gap:12px;border:1px solid var(--line);border-radius:99px;padding:10px 18px 10px 10px}
+  .hero-mid .play i{width:28px;height:28px;border-radius:50%;background:var(--accent);display:grid;place-items:center;font-style:normal;color:#000;font-size:10px}
+  .reel-box{width:min(34vw,calc(52svh * 4 / 5));aspect-ratio:4/5}
+  .reel-box.land{width:min(60vw,calc(52svh * 16 / 9));aspect-ratio:16/9}
+  .wordmark{padding:0 var(--g) 14px;display:flex;align-items:flex-end;justify-content:space-between;gap:var(--g)}
+  .wordmark h1{font-size:19vw;white-space:nowrap}
+  .wordmark .yr{font-family:var(--mono);font-size:12px;text-align:right;padding-bottom:2.4vw;white-space:nowrap}
+
+  /* CLIP: só o vídeo do embed do Instagram */
+  .clip{position:relative;width:100%;height:100%;overflow:hidden;background:#111}
+  .clip iframe{position:absolute;left:0;top:0;width:540px;border:0;transform-origin:0 0}
+  .clip video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .clip .cover-link{position:absolute;inset:0;z-index:2}
+  .clip::after{content:"";position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 -3px 0 var(--bg),inset 0 0 0 1px var(--line)}
 
   /* MANIFESTO */
-  .manifesto{padding:clamp(100px,14vw,200px) var(--g)}
-  .manifesto p{font-size:clamp(24px,2.6vw,40px);line-height:1.18;font-weight:400;letter-spacing:-.01em;max-width:26ch}
-  .manifesto p + p{margin-top:1.1em}
-
-  /* FAIXA BRANCA */
-  .white{background:var(--fg);color:#000;padding:clamp(70px,9vw,130px) var(--g)}
-  .white .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:clamp(60px,8vw,110px)}
-  .white .top b{font-weight:700;font-size:18px;letter-spacing:-.02em}
-  .white .top .script{font-size:24px;color:#000}
-  .white h2{font-size:clamp(46px,8.6vw,150px);text-align:center}
-  .white h2 em{font-style:normal;color:var(--accent)}
+  .manifesto{display:grid;grid-template-columns:repeat(12,1fr);gap:var(--g)}
+  .manifesto .tag{grid-column:1/4}
+  .manifesto p{grid-column:4/13;font-size:clamp(28px,3.6vw,58px);line-height:1.04;letter-spacing:-.03em;font-weight:500}
+  .manifesto p span{color:var(--dim)}
+  .manifesto .sig{grid-column:4/13;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-top:40px}
 
   /* TERRITÓRIOS */
-  .terr-title{padding:clamp(100px,14vw,200px) var(--g) clamp(70px,9vw,120px);display:flex;flex-direction:column;align-items:center;gap:22px}
-  .terr-title h2{font-size:clamp(46px,7.4vw,124px);text-align:center}
-  .terr{padding:0 var(--g) clamp(80px,10vw,140px)}
-  .terr .media{aspect-ratio:16/9}
-  .terr .num{font-family:var(--wide);font-weight:600;font-size:clamp(90px,15vw,230px);line-height:.8;letter-spacing:-.06em;margin:-.42em 0 0 -.02em;position:relative;z-index:3;pointer-events:none}
-  .terr .info{display:grid;grid-template-columns:repeat(12,1fr);gap:var(--g);margin-top:clamp(36px,5vw,70px)}
-  .terr .info > div{grid-column:1/7;display:flex;flex-direction:column;gap:14px}
-  .terr h3{font-size:clamp(32px,3.4vw,54px)}
-  .terr .script{font-size:clamp(20px,1.8vw,26px)}
-  .terr p{font-size:17px;line-height:1.5;max-width:44ch}
-  .cta-row{display:flex;justify-content:center;padding:clamp(30px,5vw,60px) var(--g) clamp(100px,12vw,170px)}
-  .cta-row .arrow{font-size:clamp(22px,2.4vw,34px)}
+  .terr h2{font-size:clamp(56px,11vw,190px);margin-bottom:clamp(40px,6vw,80px)}
+  .terr h2 em{font-style:normal;color:var(--accent)}
+  .terr-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--g)}
+  .terr-card{border-top:1px solid var(--fg);padding-top:16px;display:grid;grid-template-columns:1fr auto;gap:10px 20px}
+  .terr-card b{font-size:clamp(34px,4.4vw,72px);font-weight:800;text-transform:uppercase;letter-spacing:-.04em;line-height:.9}
+  .terr-card .n{font-family:var(--mono);font-size:12px;color:var(--accent)}
+  .terr-card p{grid-column:1/-1;font-size:16px;line-height:1.45;color:var(--dim);max-width:38ch}
+  .terr-card p strong{color:var(--fg);font-weight:500}
 
   /* MARQUEE */
-  .marquee{overflow:hidden;padding:clamp(20px,3vw,40px) 0}
-  .marquee-track{display:flex;width:max-content;animation:mq 40s linear infinite}
-  .marquee span{font-family:var(--wide);font-weight:600;text-transform:uppercase;font-size:clamp(90px,16vw,260px);letter-spacing:-.05em;white-space:nowrap;padding-right:.35em;line-height:1}
+  .marquee{overflow:hidden;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:18px 0;background:var(--accent);color:#000}
+  .marquee-track{display:flex;width:max-content;animation:mq 30s linear infinite}
+  .marquee span{font-size:clamp(40px,6vw,96px);font-weight:900;text-transform:uppercase;letter-spacing:-.04em;white-space:nowrap;padding-right:.4em}
   @keyframes mq{to{transform:translateX(-50%)}}
 
-  /* SERVIÇOS */
-  .services{padding:clamp(90px,12vw,170px) var(--g);display:flex;flex-direction:column;align-items:center}
-  .services > .small{margin-bottom:40px}
-  .services ul{list-style:none;display:flex;flex-direction:column;align-items:center}
-  .services li{display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 0}
-  .services li .script{font-size:clamp(17px,1.5vw,22px);text-transform:none}
-  .services li b{font-size:clamp(30px,4.4vw,68px);font-weight:600;text-transform:uppercase;letter-spacing:-.02em}
-  .services li b .roll span+span{color:var(--accent)}
+  /* SERVIÇOS LISTA */
+  .svc-list{list-style:none;border-top:1px solid var(--line)}
+  .svc-list li{border-bottom:1px solid var(--line)}
+  .svc-list .row{display:grid;grid-template-columns:70px 1fr auto;align-items:center;gap:var(--g);padding:10px 0;cursor:default}
+  .svc-list .row .n{font-family:var(--mono);font-size:12px;color:var(--dim)}
+  .svc-list .row .t{font-size:clamp(34px,6vw,96px);font-weight:900;text-transform:uppercase;letter-spacing:-.045em}
+  .svc-list .row .d{font-size:14px;color:var(--dim);max-width:30ch;text-align:right}
 
   /* CASES */
-  .cases{padding:clamp(90px,12vw,170px) var(--g)}
-  .sec-title{display:flex;flex-direction:column;align-items:center;gap:18px;margin-bottom:clamp(50px,7vw,100px)}
-  .sec-title h2{font-size:clamp(56px,10vw,170px)}
-  .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(50px,6vw,90px) var(--g);grid-auto-flow:dense}
-  .card{display:flex;flex-direction:column;gap:14px}
-  .card.wide{grid-column:1/-1}
-  .card .media{aspect-ratio:4/5}
-  .card.wide .media{aspect-ratio:16/9}
-  .card .cap{display:flex;flex-direction:column;gap:6px;overflow-wrap:anywhere}
-  .card .cap .arrow{font-size:16px;padding-bottom:6px;align-self:flex-start}
-  .card .cap .small{font-weight:400;text-transform:none;font-size:13px;letter-spacing:0}
+  .filters{display:flex;gap:4px 18px;flex-wrap:wrap;padding-bottom:10px}
+  .filters button{color:var(--dim);padding:4px 0}
+  .filters button sup{font-size:9px;margin-left:2px}
+  .filters button:hover{color:var(--fg)}
+  .filters button.on{color:var(--accent)}
+  .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:56px var(--g)}
+  .item.hide{display:none}
+  .item .meta{display:flex;justify-content:space-between;padding-bottom:8px;margin-bottom:10px;border-bottom:1px solid var(--line)}
+  .item .clipbox{aspect-ratio:4/5}
+  .item h3{font-size:22px;font-weight:600;letter-spacing:-.02em;margin-top:12px}
+  .item:nth-child(3n+2){margin-top:80px}
 
   /* SITES COM IA */
-  .grid.sites-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .sites-intro{max-width:30ch;margin:0 auto clamp(50px,7vw,90px);text-align:center;font-size:clamp(20px,2vw,28px);line-height:1.3}
-  .site .media{aspect-ratio:16/10;border-radius:4px}
-  .card.wide.site .media{aspect-ratio:16/8}
-  .site .media iframe,.media.site iframe{top:0;width:1440px;height:900px;transform-origin:0 0;pointer-events:none}
-  .site .media{transition:transform .7s cubic-bezier(.2,.7,.2,1)}
-  .site:hover .media{transform:scale(.985)}
+  .ai-intro{display:grid;grid-template-columns:repeat(12,1fr);gap:var(--g);margin-bottom:clamp(40px,6vw,80px)}
+  .ai-intro .tag{grid-column:1/4}
+  .ai-intro p{grid-column:4/13;font-size:clamp(22px,2.4vw,36px);line-height:1.12;letter-spacing:-.02em;font-weight:500}
+  .ai-intro p span{color:var(--dim)}
+  .sites{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:64px var(--g)}
+  .site{display:flex;flex-direction:column;gap:14px}
+  .site .meta{display:flex;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:8px}
+  .browser{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#0d0d0d;transition:transform .6s cubic-bezier(.2,.7,.2,1),border-color .4s}
+  .site:hover .browser{transform:translateY(-6px);border-color:var(--accent)}
+  .browser .chrome{display:flex;align-items:center;gap:6px;padding:9px 12px;border-bottom:1px solid var(--line)}
+  .browser .chrome i{width:8px;height:8px;border-radius:50%;background:var(--line)}
+  .browser .chrome .url{margin-left:10px;flex:1;font-family:var(--mono);font-size:10px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .browser .view{position:relative;aspect-ratio:16/10;overflow:hidden}
+  .browser .view iframe{position:absolute;top:0;left:0;width:1440px;height:900px;border:0;transform-origin:0 0;pointer-events:none}
+  .browser .view .soon{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--mono);font-size:11px;color:var(--dim);text-transform:uppercase}
+  .site h3{font-size:clamp(26px,2.6vw,40px);font-weight:700;letter-spacing:-.03em;line-height:1}
+  .site p{font-size:15px;color:var(--dim);line-height:1.45;max-width:46ch}
+  .site .chips{display:flex;gap:6px;flex-wrap:wrap}
+  .site .chips span{font-family:var(--mono);font-size:10px;text-transform:uppercase;border:1px solid var(--line);border-radius:99px;padding:4px 10px;color:var(--dim)}
+  .site .go{font-family:var(--mono);font-size:11px;text-transform:uppercase;color:var(--accent)}
 
   /* CLIENTES */
-  .clients{padding:clamp(90px,12vw,170px) var(--g);display:flex;flex-direction:column;align-items:center;gap:30px}
-  .clients h2{font-size:clamp(28px,3.4vw,52px);text-align:center}
-  .clients ul{list-style:none;display:flex;flex-wrap:wrap;justify-content:center;gap:10px 0;max-width:1200px}
-  .clients li{font-size:clamp(26px,3.6vw,56px);font-weight:300;text-transform:uppercase;letter-spacing:-.02em}
-  .clients li:not(:last-child)::after{content:"/";color:var(--accent);margin:0 .45em;font-weight:300}
+  .clients{display:grid;grid-template-columns:repeat(12,1fr);gap:var(--g)}
+  .clients .head{grid-column:1/5;display:flex;flex-direction:column;gap:16px}
+  .clients .head b{font-size:clamp(28px,3vw,46px);font-weight:600;letter-spacing:-.03em;line-height:1.02}
+  .clients ul{grid-column:5/13;list-style:none}
+  .clients li{font-size:clamp(36px,5.6vw,92px);font-weight:900;text-transform:uppercase;letter-spacing:-.045em;line-height:.95;border-bottom:1px solid var(--line);padding:10px 0 6px;display:flex;justify-content:space-between;align-items:baseline}
+  .clients li span{font-family:var(--mono);font-size:11px;font-weight:400;letter-spacing:.04em;color:var(--dim)}
 
   /* PROCESSO */
-  .process{padding:clamp(90px,12vw,170px) var(--g);border-top:1px solid var(--line)}
-  .process .top{display:grid;grid-template-columns:repeat(12,1fr);gap:var(--g);margin-bottom:clamp(50px,7vw,100px)}
-  .process h2{grid-column:1/8;font-size:clamp(46px,7vw,118px)}
-  .process h2 .script{display:block;font-size:.34em;margin-top:.3em;line-height:1}
-  .process .top p{grid-column:8/13;align-self:end;font-size:17px;line-height:1.5;color:var(--dim)}
-  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--g)}
-  .steps div{border-top:1px solid var(--fg);padding-top:16px;display:flex;flex-direction:column;gap:10px}
-  .steps b{font-size:24px;font-weight:600;text-transform:uppercase;letter-spacing:-.01em}
-  .steps p{font-size:15px;line-height:1.5;color:var(--dim)}
+  .process-head{display:grid;grid-template-columns:repeat(12,1fr);gap:var(--g);margin-bottom:clamp(40px,6vw,80px)}
+  .process-head h2{grid-column:1/8;font-size:clamp(52px,8vw,130px)}
+  .process-head p{grid-column:8/13;align-self:end;font-size:17px;line-height:1.45;color:var(--dim)}
+  .steps{display:grid;grid-template-columns:repeat(5,1fr);gap:var(--g)}
+  .steps div{border-top:1px solid var(--fg);padding-top:14px;display:flex;flex-direction:column;gap:10px}
+  .steps .n{font-family:var(--mono);font-size:11px;color:var(--accent)}
+  .steps b{font-size:24px;font-weight:700;letter-spacing:-.02em}
+  .steps p{font-size:14px;color:var(--dim);line-height:1.45}
 
-  /* CONTATO */
-  .contact{position:relative;padding:clamp(100px,13vw,190px) var(--g) clamp(70px,9vw,120px)}
-  .contact .kicker{display:flex;flex-direction:column;align-items:center;gap:6px;margin-bottom:26px}
-  .contact h2{font-size:clamp(42px,7.4vw,124px);width:max-content;max-width:100%;margin:0 auto clamp(60px,8vw,110px)}
-  .contact h2 span{display:block}
-  .contact h2 span:nth-child(2){padding-left:1.2em}
-  .contact h2 span:nth-child(3){padding-left:2.4em}
-  .contact h2 span:nth-child(4){padding-left:2.4em;color:var(--accent)}
-  .form{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-right:0;border-bottom:0}
-  .form label{display:flex;flex-direction:column;gap:10px;padding:18px;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
-  .form label.full{grid-column:1/-1}
-  .form input,.form textarea{background:none;border:0;outline:0;color:var(--fg);font:400 17px var(--sans);resize:vertical}
-  .form input::placeholder,.form textarea::placeholder{color:#555;text-transform:uppercase;font-size:13px}
-  .form label:focus-within{background:rgba(255,255,255,.04)}
-  .form .send{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;padding:22px 18px;background:var(--fg);color:#000;font-weight:600;font-size:clamp(18px,1.8vw,24px);text-transform:uppercase;text-align:left}
-  .form .send:hover{background:var(--accent)}
-  .contact .links{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--g);margin-top:clamp(50px,6vw,80px)}
-  .contact .links a{display:flex;flex-direction:column;gap:8px}
-  .contact .links a b{font-size:clamp(17px,1.6vw,22px);font-weight:500}
-  .contact .links a:hover b{color:var(--accent)}
+  /* NÚMEROS */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--g)}
+  .stat{border-top:1px solid var(--line);padding-top:14px}
+  .stat b{display:block;font-size:clamp(64px,9vw,150px);font-weight:900;letter-spacing:-.05em;line-height:.9;margin-top:24px}
 
-  footer{padding:30px var(--g) 22px;border-top:1px solid var(--line);overflow:hidden}
-  footer .fw{font-size:22vw;margin:10px 0 30px}
+  /* CTA + CONTATO */
+  .cta h2{font-size:clamp(48px,9vw,160px);margin-bottom:clamp(50px,7vw,100px)}
+  .cta h2 span{color:var(--accent)}
+  .contact{display:grid;grid-template-columns:repeat(12,1fr);gap:var(--g)}
+  .contact .links{grid-column:1/6;display:flex;flex-direction:column;gap:22px}
+  .contact .links a{display:flex;flex-direction:column;gap:8px;border-top:1px solid var(--fg);padding-top:12px}
+  .contact .links a b{font-size:clamp(20px,2vw,30px);font-weight:600;letter-spacing:-.02em;word-break:break-word}
+  .contact form{grid-column:7/13;display:flex;flex-direction:column;gap:6px}
+  .contact label{display:flex;flex-direction:column;gap:6px;border-bottom:1px solid var(--line);padding:14px 0 10px}
+  .contact input,.contact textarea{background:none;border:0;outline:0;color:var(--fg);font:500 20px var(--sans);letter-spacing:-.01em;resize:vertical}
+  .contact label:focus-within{border-color:var(--accent)}
+  .contact .send{margin-top:24px;align-self:flex-start;background:var(--fg);color:var(--bg);border-radius:99px;padding:16px 28px;font-weight:600;font-size:16px}
+  .contact .send:hover{background:var(--accent)}
+
+  footer{border-top:1px solid var(--line);padding:clamp(40px,6vw,80px) var(--g) 22px}
+  footer .fw{font-size:19vw;margin-bottom:24px;white-space:nowrap}
   footer .row{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;color:var(--dim)}
   footer .row a:hover{color:var(--fg)}
 
   @media (max-width:900px){
     .bar{grid-template-columns:1fr 1fr}
     .bar .mid{display:none}
-    .hero-main{grid-template-columns:1fr}
-    .hero-main .txt{order:2}
-    .terr .info > div,.process h2,.process .top p{grid-column:1/-1}
-    .steps{grid-template-columns:1fr 1fr}
+    .hero-mid{grid-template-columns:minmax(0,1fr)}
+    .hero-top{flex-direction:column;gap:14px}
+    .hero-top div:last-child{text-align:left}
+    .hero-mid .scroll{display:none}
+    .reel-box,.reel-box.land{width:100%;max-width:420px;justify-self:center}
+    .reel-box.land{max-width:none}
+    .hero-mid .play{justify-self:start}
+    .wordmark{flex-direction:column;align-items:flex-start;gap:6px}
+    .wordmark .yr{text-align:left;padding:0}
+    .manifesto .tag,.manifesto p,.manifesto .sig,.ai-intro .tag,.ai-intro p,.clients .head,.clients ul,.process-head h2,.process-head p,.contact .links,.contact form{grid-column:1/-1}
+    .terr-grid,.sites{grid-template-columns:minmax(0,1fr)}
     .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-    .contact h2 span:nth-child(n){padding-left:0}
-    .contact .links{grid-template-columns:1fr}
+    .item:nth-child(3n+2){margin-top:0}
+    .item:nth-child(2n){margin-top:60px}
+    .steps{grid-template-columns:1fr 1fr}
+    .stats{grid-template-columns:1fr 1fr}
+    .svc-list .row{grid-template-columns:40px 1fr}
+    .svc-list .row .d{display:none}
   }
-  @media (max-width:640px){
-    .grid,.grid.sites-grid{grid-template-columns:minmax(0,1fr)}
+  @media (max-width:600px){
+    .grid{grid-template-columns:minmax(0,1fr)}
+    .item:nth-child(2n){margin-top:0}
     .steps{grid-template-columns:1fr}
-    .form{grid-template-columns:1fr}
-    .hero-foot .small:last-child{display:none}
   }
   @media (prefers-reduced-motion:reduce){
     .rv{opacity:1;transform:none}
@@ -228,13 +239,13 @@
 <body>
 
 <script>
-  /* ================= EDITE AQUI =================
-     VÍDEOS: para os vídeos tocarem sozinhos, sem a moldura do Instagram,
-     exporte cada um em MP4 e coloque na pasta "videos" com o nome indicado em "arquivo".
-     Enquanto o MP4 não existir, o site mostra o embed do Instagram no lugar.
-     Vídeo da capa: "videos/capa.mp4" (ocupa a tela inteira atrás do título). */
-
-  const CAPA = { arquivo: "capa", instagram: "https://www.instagram.com/reel/DdzzxX2OHjW/", cliente: "CCFE", titulo: "Conferência de Mulheres", formato: "16:9" };
+  /* ================= EDITE AQUI ================= */
+  /* VÍDEOS: para tocarem sozinhos, sem a moldura do Instagram, exporte em MP4 e coloque na pasta "videos".
+     Capa: videos/capa.mp4 (vira o fundo da tela inteira).
+     Trabalhos: videos/<arquivo>.mp4, com o nome do campo "arquivo" de cada projeto.
+     Enquanto o MP4 não existir, o site mostra o vídeo do Instagram no lugar. */
+  const VIDEO_CAPA = "videos/capa.mp4";
+  const REEL_CAPA = { link: "https://www.instagram.com/reel/DdzzxX2OHjW/", cliente: "CCFE", titulo: "Conferência de Mulheres", categoria: "Aftermovie", formato: "16:9" };
 
   const CONTATO = {
     instagram: "mvvisual.co",
@@ -243,287 +254,280 @@
   };
 
   const PROJETOS = [
-    { arquivo: "conferencia-de-mulheres", titulo: "Conferência de Mulheres", cliente: "CCFE", categoria: "Aftermovie", instagram: "https://www.instagram.com/reel/DdzzxX2OHjW/", formato: "16:9" },
-    { arquivo: "wellness-day", titulo: "Wellness Day", cliente: "Prócapz", categoria: "Evento", instagram: "https://www.instagram.com/reel/DXz5gh0vued/" },
+    { arquivo: "conferencia-de-mulheres", titulo: "Conferência de Mulheres", cliente: "CCFE", categoria: "Eventos", instagram: "https://www.instagram.com/reel/DdzzxX2OHjW/", formato: "16:9" },
+    { arquivo: "wellness-day", titulo: "Wellness Day", cliente: "Prócapz", categoria: "Eventos", instagram: "https://www.instagram.com/reel/DXz5gh0vued/" },
     { arquivo: "academia-informa", titulo: "Academia Informa", cliente: "Polícia Penal DF", categoria: "Institucional", instagram: "https://www.instagram.com/reel/DYmbiDqMVFC/" },
-    { arquivo: "body-fit-day", titulo: "Body&Fit Day Sunset", cliente: "Prócapz", categoria: "Evento", instagram: "https://www.instagram.com/reel/DcZUvgzvQKH/" },
+    { arquivo: "body-fit-day", titulo: "Body&Fit Day Sunset", cliente: "Prócapz", categoria: "Eventos", instagram: "https://www.instagram.com/reel/DcZUvgzvQKH/" },
     { arquivo: "termobolic", titulo: "Lançamento Termobolic", cliente: "Prócapz", categoria: "Produto", instagram: "https://www.instagram.com/reel/DXAI_h5j7Nx/" },
-    { arquivo: "toda-linda-gummy", titulo: "Toda Linda Gummy", cliente: "Prócapz", categoria: "Produto", instagram: "https://www.instagram.com/reel/De2Wn-gCp7I/", formato: "16:9" },
     { arquivo: "beretta-apx", titulo: "Curso Beretta APX", cliente: "Polícia Penal DF", categoria: "Institucional", instagram: "https://www.instagram.com/reel/DZ40z7Es4Re/" },
     { arquivo: "planejamento-do-sorriso", titulo: "Planejamento do sorriso", cliente: "Dr. Xavier Odonto", categoria: "Saúde", instagram: "https://www.instagram.com/reel/DbwOyyuhGH2/" },
-    { arquivo: "trincheira", titulo: "Trincheira", cliente: "CCFE", categoria: "Aftermovie", instagram: "https://www.instagram.com/reel/Dd7Ql_gBsjJ/", formato: "16:9" },
+    { arquivo: "toda-linda-gummy", titulo: "Toda Linda Gummy", cliente: "Prócapz", categoria: "Produto", instagram: "https://www.instagram.com/reel/De2Wn-gCp7I/", formato: "16:9" },
     { arquivo: "academia-informa-2", titulo: "Academia Informa II", cliente: "Polícia Penal DF", categoria: "Institucional", instagram: "https://www.instagram.com/reel/DY4XjS7Mlar/" },
+    { arquivo: "trincheira", titulo: "Trincheira", cliente: "CCFE", categoria: "Eventos", instagram: "https://www.instagram.com/reel/Dd7Ql_gBsjJ/", formato: "16:9" },
     { arquivo: "lipcapz", titulo: "Lipcapz", cliente: "Prócapz", categoria: "Produto", instagram: "https://www.instagram.com/reel/DaWNAYXvkZ0/" },
     { arquivo: "clareamento-dental", titulo: "Clareamento dental", cliente: "Dr. Xavier Odonto", categoria: "Saúde", instagram: "https://www.instagram.com/reel/DcKDVKxBMKF/" }
   ];
 
-  // Sites criados com IA (o primeiro aparece grande)
+  // Sites criados com IA. Deixe "link" vazio ("") para mostrar como "em breve".
   const SITES_IA = [
-    { titulo: "Dr. Lucas Xavier", tipo: "Site institucional · Saúde", link: "https://drxavierodonto.github.io/" },
-    { titulo: "Culto da Virada", tipo: "Página de evento · CCFE", link: "https://ccfehub.github.io/culto-da-virada/" },
-    { titulo: "Links da Mavi", tipo: "Página de links · Creator", link: "https://mavi-links.pages.dev/" }
+    { titulo: "Dr. Lucas Xavier", cliente: "Dr. Xavier Odonto", tipo: "Site institucional", link: "https://drxavierodonto.github.io/",
+      descricao: "Site de cirurgião-dentista com tratamentos, agendamento pelo WhatsApp e vídeos do consultório.", tags: ["Saúde", "Site", "IA"] },
+    { titulo: "Culto da Virada", cliente: "CCFE", tipo: "Página de evento", link: "https://ccfehub.github.io/culto-da-virada/",
+      descricao: "Página do evento de Réveillon da igreja, com artes para telão e WhatsApp geradas no mesmo projeto.", tags: ["Evento", "Landing page", "IA"] },
+    { titulo: "Links da Mavi", cliente: "@mavileme_", tipo: "Página de links", link: "https://mavi-links.pages.dev/",
+      descricao: "Página de links da criadora de conteúdo, com redes sociais e cupom de desconto em destaque.", tags: ["Links", "Creator", "IA"] }
   ];
 </script>
 
-<header class="bar small">
+<header class="bar mono">
   <a href="#topo" class="brand">mvvisual.co</a>
-  <div class="mid"><span>BSB—DF—BR</span><span id="clock"></span></div>
-  <button class="menu-btn small" id="menuBtn"><span class="roll"><span>Menu+</span><span>Menu+</span></span></button>
+  <div class="mid"><span>BSB-DF-BR</span><span id="clock"></span></div>
+  <button class="menu-btn mono" id="menuBtn"><span class="roll"><span>Menu+</span><span>Menu+</span></span></button>
 </header>
 
 <div class="menu" id="menu">
   <nav id="menuNav"></nav>
-  <div class="foot small" id="menuSocial"></div>
+  <div class="foot mono"><span>(mvvisual.co)</span><span id="menuSocial"></span></div>
 </div>
 
 <section class="hero" id="topo">
-  <div class="hero-bg" id="heroBg" hidden></div>
-  <div class="hero-main">
-    <div class="txt">
-      <span class="small">Vídeo · Sites · Design<br>Brasília — DF — Brasil</span>
-      <h1 class="head">Do set ao<br>site no ar™</h1>
-      <a class="arrow" href="#contato"><span class="ar">→</span> Fale com a gente</a>
-    </div>
-    <div class="hero-reel">
-      <div class="media" id="heroReel"></div>
-      <span class="small dim" id="heroCap"></span>
-    </div>
+  <div class="hero-video"><video id="heroVideo" autoplay muted loop playsinline preload="auto"></video></div>
+  <div class="hero-top mono">
+    <div><span>Nativo &amp; real</span><span class="dim">Brasília — DF — BR</span></div>
+    <div><span>Vídeo · Sites · Design</span><span class="dim">Do roteiro ao site no ar</span></div>
   </div>
-  <div>
-    <div class="hero-foot small"><span>(Scroll)</span><span>Câmera &amp; código</span></div>
-    <div class="wordmark"><h2 class="wide fit">mvvisual</h2></div>
+  <div class="hero-mid">
+    <span class="scroll mono dim">(Scroll)</span>
+    <div class="reel-box" id="reelBox"><div class="clip" id="heroClip"></div></div>
+    <a class="play mono" href="#trabalhos"><i>▶</i><span class="roll"><span id="heroTitle"></span><span>Ver trabalhos</span></span></a>
+  </div>
+  <div class="wordmark">
+    <h1 class="big fit">mvvisual</h1>
+    <span class="yr">.co©<br><span class="dim">All rights reserved</span></span>
   </div>
 </section>
 
-<section class="manifesto">
-  <p class="rv">A mvvisual.co é um estúdio criativo que junta câmera e código.</p>
-  <p class="rv">A gente grava o seu evento, edita o reel, desenha a marca e coloca o site no ar. Tudo com o mesmo olhar, do primeiro take ao último clique.</p>
-  <p class="rv">Nascidos no digital.<br>Feitos no set.</p>
+<section class="sec">
+  <div class="manifesto rv">
+    <span class="tag">(Quem somos)</span>
+    <p>A mvvisual.co é o estúdio que une câmera e código. <span>Filmamos o seu evento, editamos o reel, desenhamos a marca e colocamos o site no ar, com um só time e um só olhar.</span></p>
+    <div class="sig mono"><span>Nascidos no digital.</span><span class="acc">Feitos no set.</span></div>
+  </div>
 </section>
 
-<section class="white">
-  <div class="top"><b>mvvisual.co</b><span class="script">O real não precisa de filtro.</span></div>
-  <h2 class="head rv">Câmera e código.<br><em>Um só olhar.</em></h2>
+<section class="sec terr">
+  <h2 class="big rv">Um olhar.<br><em>Dois</em> territórios.</h2>
+  <div class="terr-grid">
+    <div class="terr-card rv"><b>Vídeo<br>&amp; eventos</b><span class="n">01</span><p><strong>Reels, aftermovies e institucionais.</strong> Onde a mvvisual nasceu: no set, no evento, no meio do movimento.</p></div>
+    <div class="terr-card rv"><b>Sites<br>&amp; design</b><span class="n">02</span><p><strong>Sites, landing pages e identidade visual.</strong> Criados com IA, entregues rápido e prontos para o celular.</p></div>
+  </div>
 </section>
-
-<div class="terr-title">
-  <span class="small center">Do roteiro ao post<br>Do layout ao site</span>
-  <h2 class="head rv">Um olhar.<br>Dois territórios.</h2>
-  <span class="small center dim">mvvisual.co<br>Brasília — DF</span>
-</div>
-
-<section class="terr" id="servicos">
-  <div class="media rv" id="terr1"></div>
-  <div class="num">01</div>
-  <div class="info"><div class="rv">
-    <h3 class="head">Vídeo<br>&amp; eventos</h3>
-    <span class="script">Reels, aftermovies, institucionais.</span>
-    <p>Onde a mvvisual nasceu: no set, no evento, no meio do movimento. Vídeos pensados para o feed, editados para prender do primeiro segundo.</p>
-  </div></div>
-</section>
-
-<section class="terr">
-  <div class="media rv site" id="terr2"></div>
-  <div class="num">02</div>
-  <div class="info"><div class="rv">
-    <h3 class="head">Sites<br>&amp; design</h3>
-    <span class="script">Sites, landing pages, identidade.</span>
-    <p>A mesma estética do vídeo levada para a tela. Sites criados com IA, rápidos, prontos para o celular e no ar em poucos dias.</p>
-  </div></div>
-</section>
-
-<div class="cta-row"><a class="arrow" href="#contato"><span class="ar">→</span> Orçar um projeto</a></div>
 
 <div class="marquee" aria-hidden="true"><div class="marquee-track" id="marquee"></div></div>
 
-<section class="services">
-  <span class="small dim">(O que a gente faz)</span>
-  <ul id="svcList"></ul>
+<section class="sec" id="servicos">
+  <div class="sec-head"><h2 class="big">Serviços</h2><span class="tag">(O que fazemos)</span></div>
+  <ul class="svc-list" id="svcList"></ul>
 </section>
 
-<section class="cases" id="trabalhos">
-  <div class="sec-title"><span class="small dim">(Cases)</span><h2 class="head">Trabalhos</h2></div>
+<section class="sec" id="trabalhos">
+  <div class="sec-head">
+    <h2 class="big">Cases</h2>
+    <div class="filters mono" id="filters"></div>
+  </div>
   <div class="grid" id="grid"></div>
 </section>
 
-<section class="cases" id="sites">
-  <div class="sec-title"><span class="small dim">(Feitos com inteligência artificial)</span><h2 class="head">Sites com IA</h2></div>
-  <p class="sites-intro rv">Da ideia ao site publicado em dias, não meses. Clique para abrir cada um no ar.</p>
-  <div class="grid sites-grid" id="sitesGrid"></div>
+<section class="sec" id="sites">
+  <div class="sec-head"><h2 class="big">Sites com IA</h2><span class="tag">(Feitos com inteligência artificial)</span></div>
+  <div class="ai-intro rv">
+    <span class="tag">(Como funciona)</span>
+    <p>Usamos IA para ir da ideia ao site publicado em dias, não meses. <span>Você vê o resultado real abaixo: clique em qualquer um para abrir o site no ar.</span></p>
+  </div>
+  <div class="sites" id="sitesGrid"></div>
 </section>
 
-<section class="clients">
-  <span class="small dim">(Clientes)</span>
-  <h2 class="head rv">Marcas que confiam<br>no nosso olhar</h2>
-  <ul id="clientList" class="rv"></ul>
+<section class="sec">
+  <div class="clients">
+    <div class="head rv"><span class="tag">(Clientes)</span><b>Marcas que confiam o olhar delas à mvvisual.</b></div>
+    <ul id="clientList"></ul>
+  </div>
 </section>
 
-<section class="process">
-  <div class="top rv">
-    <h2 class="head">Resolvido antes.<span class="script">Leve no dia.</span></h2>
-    <p>Improvisar no set custa caro. Cada projeto é pensado antes de começar, para o dia da gravação ser leve e a entrega chegar no prazo.</p>
+<section class="sec">
+  <div class="process-head rv">
+    <h2 class="big">Resolvido<br><span class="acc">antes.</span></h2>
+    <p>Improvisar no set custa caro. Na mvvisual, cada projeto é pensado antes de começar, para o dia da gravação ser leve e a entrega chegar no prazo.</p>
   </div>
   <div class="steps">
-    <div class="rv"><b>Conversa</b><p>Entendemos o que você precisa dizer e para quem.</p></div>
-    <div class="rv"><b>Roteiro</b><p>A ideia nasce antes da câmera ligar ou da primeira tela.</p></div>
-    <div class="rv"><b>Produção</b><p>Gravação, design ou site em construção, sem surpresa.</p></div>
-    <div class="rv"><b>Entrega</b><p>Arquivo pronto para postar ou site no ar.</p></div>
+    <div class="rv"><span class="n">01</span><b>Conversa</b><p>Entendemos o que você precisa dizer e para quem.</p></div>
+    <div class="rv"><span class="n">02</span><b>Roteiro</b><p>A ideia criativa nasce antes da câmera ligar.</p></div>
+    <div class="rv"><span class="n">03</span><b>Plano</b><p>Locação, horários e takes definidos antes do dia.</p></div>
+    <div class="rv"><span class="n">04</span><b>Produção</b><p>Gravação, design ou site em construção, sem surpresa.</p></div>
+    <div class="rv"><span class="n">05</span><b>Entrega</b><p>Arquivo pronto para postar ou site no ar.</p></div>
   </div>
 </section>
 
-<section class="contact" id="contato">
-  <div class="kicker small"><span class="script" style="font-size:22px">\ Agenda aberta /</span><span>Brasília — DF — Brasil</span></div>
-  <h2 class="head rv"><span>Não é só</span><span>o vídeo.</span><span>É o que ele</span><span>faz por você.</span></h2>
-  <form class="form" id="form">
-    <label><span class="small">Nome</span><input name="nome" required autocomplete="name" placeholder="Nome e sobrenome"></label>
-    <label><span class="small">Empresa</span><input name="empresa" autocomplete="organization" placeholder="Sua empresa"></label>
-    <label class="full"><span class="small">Mensagem</span><textarea name="msg" rows="3" required placeholder="Fale sobre o seu projeto"></textarea></label>
-    <button class="send" type="submit"><span>Enviar pelo WhatsApp</span><span>→</span></button>
-  </form>
-  <div class="links" id="links"></div>
+<section class="sec cta" id="contato">
+  <h2 class="big rv">Não é só o vídeo.<br><span>É o resultado.</span></h2>
+  <div class="contact">
+    <div class="links" id="links"></div>
+    <form id="form">
+      <span class="tag"><span class="dot"></span>Agenda aberta — resposta pelo WhatsApp</span>
+      <label><span class="tag">Nome</span><input name="nome" required autocomplete="name"></label>
+      <label><span class="tag">Empresa</span><input name="empresa" autocomplete="organization"></label>
+      <label><span class="tag">O que você precisa?</span><textarea name="msg" rows="3" required></textarea></label>
+      <button class="send" type="submit"><span class="roll"><span>Enviar pelo WhatsApp ↗</span><span>Enviar pelo WhatsApp ↗</span></span></button>
+    </form>
+  </div>
 </section>
 
 <footer>
-  <div class="fw wide fit">mvvisual</div>
-  <div class="row small">
-    <span>mvvisual.co © <span id="yr"></span> — all rights reserved</span>
+  <div class="fw big fit">Vamos criar?</div>
+  <div class="row mono">
+    <span>© <span id="yr"></span> mvvisual.co — all rights reserved</span>
     <a href="#topo">Voltar ao topo ↑</a>
   </div>
 </footer>
 
 <script>
   const $ = s => document.querySelector(s);
+  const pad = n => String(n).padStart(2,'0');
   const roll = t => `<span class="roll"><span>${t}</span><span>${t}</span></span>`;
-  const embedUrl = link => {
+  const embed = link => {
     try{
       const m = new URL(link).pathname.match(/\/(p|reel|reels|tv)\/([^/]+)/);
       return m ? `https://www.instagram.com/${m[1]==='reels'?'reel':m[1]}/${m[2]}/embed/` : null;
     }catch(e){ return null; }
   };
-
-  /* ---------- Mídia ----------
-     1) tenta videos/<arquivo>.mp4 (toca sozinho, sem som, em loop, recortado para preencher a caixa)
-     2) se não existir, usa o embed do Instagram com o cabeçalho e o rodapé escondidos */
-  const mp4Exists = async name => {
-    if(!name || location.protocol === 'file:') return false;
-    try{ const r = await fetch(`videos/${name}.mp4`, {method:'HEAD'}); return r.ok; }catch(e){ return false; }
-  };
-  const makeVideo = (name, eager) => {
-    const v = document.createElement('video');
-    v.muted = true; v.loop = true; v.playsInline = true; v.autoplay = true;
-    v.setAttribute('muted',''); v.setAttribute('playsinline','');
-    v.preload = eager ? 'auto' : 'metadata';
-    v.src = `videos/${name}.mp4`;
-    return v;
-  };
-  // o embed é desenhado com 540px de largura e ampliado para preencher a caixa (sem encolher nem achatar)
-  const sizeEmbeds = () => document.querySelectorAll('.media[data-ratio] iframe').forEach(f => {
-    const box = f.parentElement, s = box.clientWidth / 540;
-    f.style.height = (57 + 540 * +box.dataset.ratio + 320) + 'px';
-    f.style.transform = `scale(${s}) translateY(-57px)`;
+  const clip = (link, title, lazy=true) => `<iframe src="${embed(link)}" ${lazy?'loading="lazy"':''} scrolling="no" title="${title}"></iframe>`;
+  // O embed do Instagram é desenhado com 540px e ampliado para preencher a caixa (sem encolher nem achatar)
+  // Reels verticais vêm com faixas pretas nas laterais: damos um zoom extra para a imagem preencher a caixa
+  const sizeEmbeds = () => document.querySelectorAll('.clip[data-ratio] iframe').forEach(f => {
+    const box = f.parentElement, r = +box.dataset.ratio, w = box.clientWidth, h = w * r;
+    const z = r > 1 ? 1.42 : 1, S = (w / 540) * z;
+    f.style.height = (57 + 540 * r + 320) + 'px';
+    const tx = (w - 540 * S) / 2, ty = -57 * S + (h - 540 * r * S) / 2;
+    f.style.transform = `translate(${tx}px, ${ty}px) scale(${S})`;
   });
-  const fillMedia = async (box, p, eager=false) => {
-    const ratio = p.formato === '16:9' ? 9/16 : 5/4;
-    if(await mp4Exists(p.arquivo)){
-      box.innerHTML = ''; box.appendChild(makeVideo(p.arquivo, eager));
-      box.insertAdjacentHTML('beforeend', `<a class="cover-link" href="${p.instagram}" target="_blank" rel="noopener" aria-label="Ver ${p.titulo} no Instagram"></a>`);
-      watchVideo(box.querySelector('video'));
-    } else {
-      box.dataset.ratio = ratio;
-      box.innerHTML = `<iframe src="${embedUrl(p.instagram)}" ${eager?'':'loading="lazy"'} scrolling="no" title="${p.titulo}"></iframe>`;
-      sizeEmbeds();
-    }
-  };
-  // só toca o vídeo quando está na tela
+  const ratioOf = p => p.formato === '16:9' ? 9/16 : 5/4;
+  // Se existir videos/<arquivo>.mp4, troca o Instagram pelo vídeo próprio (toca sozinho, sem som, em loop)
   const vio = new IntersectionObserver(es => es.forEach(e => e.isIntersecting ? e.target.play().catch(()=>{}) : e.target.pause()), {threshold:.2});
-  const watchVideo = v => vio.observe(v);
+  const useMp4 = async (box, p) => {
+    if(!p.arquivo || location.protocol === 'file:') return;
+    try{ if(!(await fetch(`videos/${p.arquivo}.mp4`, {method:'HEAD'})).ok) return; }catch(e){ return; }
+    const v = document.createElement('video');
+    v.muted = true; v.loop = true; v.playsInline = true; v.preload = 'metadata';
+    v.setAttribute('muted',''); v.setAttribute('playsinline','');
+    v.src = `videos/${p.arquivo}.mp4`;
+    box.removeAttribute('data-ratio'); box.innerHTML = '';
+    box.appendChild(v);
+    box.insertAdjacentHTML('beforeend', `<a class="cover-link" href="${p.instagram}" target="_blank" rel="noopener" aria-label="Ver ${p.titulo} no Instagram"></a>`);
+    vio.observe(v);
+  };
 
   // Relógio
   const tick = () => $('#clock').textContent = new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit',timeZone:'America/Sao_Paulo'});
   tick(); setInterval(tick, 15000);
 
   // Menu
-  const MENU = [['Home','#topo'],['Serviços','#servicos'],['Trabalhos','#trabalhos'],['Sites com IA','#sites'],['Contato','#contato']];
-  $('#menuNav').innerHTML = MENU.map(([t,h]) => `<a href="${h}">${roll(t)}</a>`).join('');
+  const MENU = [['Home','#topo'],['Serviços','#servicos'],['Cases','#trabalhos'],['Sites com IA','#sites'],['Contato','#contato']];
+  $('#menuNav').innerHTML = MENU.map(([t,h],i) => `<a href="${h}" class="big">${roll(t)}<span class="tag">${pad(i+1)}</span></a>`).join('');
   const menu = $('#menu'), btn = $('#menuBtn');
   const setMenu = open => { menu.classList.toggle('open', open); btn.querySelectorAll('.roll span').forEach(s => s.textContent = open ? 'Fechar×' : 'Menu+'); };
   btn.onclick = () => setMenu(!menu.classList.contains('open'));
   menu.querySelectorAll('nav a').forEach(a => a.onclick = () => setMenu(false));
   addEventListener('keydown', e => e.key === 'Escape' && setMenu(false));
 
-  // Capa: vídeo próprio em tela cheia, ou o reel em destaque
-  (async () => {
-    if(await mp4Exists(CAPA.arquivo)){
-      const bg = $('#heroBg'); bg.hidden = false; bg.appendChild(makeVideo(CAPA.arquivo, true));
-      $('.hero').classList.add('has-bg');
-    } else {
-      const box = $('#heroReel');
-      box.style.aspectRatio = CAPA.formato === '16:9' ? '16/9' : '4/5';
-      if(CAPA.formato !== '16:9') $('.hero-reel').classList.add('vert');
-      fillMedia(box, CAPA, true);
-      $('#heroCap').innerHTML = `→ ${CAPA.titulo} — ${CAPA.cliente}`;
-    }
-  })();
-
-  // O Instagram não mostra o mesmo post duas vezes na página, então quem já aparece em cima sai da grade
-  const emDestaque = new Set([CAPA.instagram]);
-
-  // Territórios
-  const terrVideo = PROJETOS.find(p => p.titulo === 'Trincheira') || PROJETOS[0];
-  emDestaque.add(terrVideo.instagram);
-  fillMedia($('#terr1'), terrVideo);
-  const t2 = $('#terr2'), s0 = SITES_IA[0];
-  t2.innerHTML = `<iframe src="${s0.link}" loading="lazy" tabindex="-1" title="Prévia de ${s0.titulo}"></iframe><a class="cover-link" href="${s0.link}" target="_blank" rel="noopener" aria-label="Abrir ${s0.titulo}"></a>`;
+  // Capa
+  $('#heroClip').innerHTML = clip(REEL_CAPA.link, REEL_CAPA.titulo, false);
+  $('#heroClip').dataset.ratio = ratioOf(REEL_CAPA);
+  $('#heroTitle').textContent = `${REEL_CAPA.titulo} — ${REEL_CAPA.cliente}`;
+  if(REEL_CAPA.formato === '16:9') $('#reelBox').classList.add('land');
+  const vid = $('#heroVideo');
+  const src = document.createElement('source');
+  src.src = VIDEO_CAPA; src.type = 'video/mp4';
+  vid.appendChild(src);
+  vid.addEventListener('loadeddata', () => $('.hero').classList.add('has-video'));
 
   // Marquee
-  const mq = 'Do set ao site no ar • ';
-  $('#marquee').innerHTML = `<span>${mq.repeat(3)}</span><span>${mq.repeat(3)}</span>`;
+  const mq = 'Do roteiro ao site no ar  •  ';
+  $('#marquee').innerHTML = `<span>${mq.repeat(4)}</span><span>${mq.repeat(4)}</span>`;
 
   // Serviços
   const SERVICOS = [
-    ['Reels', 'para o feed'],
-    ['Aftermovies', 'o evento em poucos minutos'],
-    ['Vídeo institucional', 'a história da marca'],
-    ['Cobertura de eventos', 'foto e vídeo'],
-    ['Sites & landing pages', 'feitos com IA'],
-    ['Identidade visual', 'logo, cores, peças']
+    ['Reels','Vertical, pensado para o feed.'],
+    ['Aftermovies','O evento inteiro em poucos minutos.'],
+    ['Institucional','A história da sua marca em vídeo.'],
+    ['Fotografia','Produto, retrato, evento e campanha.'],
+    ['Sites','Sites e landing pages feitos com IA.'],
+    ['Identidade visual','Logo, cores e peças para redes.']
   ];
-  $('#svcList').innerHTML = SERVICOS.map(([t,d]) => `<li class="rv"><span class="script">${d}</span><b>${roll(t)}</b></li>`).join('');
+  $('#svcList').innerHTML = SERVICOS.map(([t,d],i) =>
+    `<li class="rv"><div class="row"><span class="n">${pad(i+1)}</span><span class="t">${roll(t)}</span><span class="d">${d}</span></div></li>`).join('');
 
-  // Trabalhos
+  // Cases
   const grid = $('#grid');
-  PROJETOS.filter(p => !emDestaque.has(p.instagram)).forEach(p => {
+  // o Instagram não mostra o mesmo post duas vezes na página: o vídeo da capa sai da grade
+  PROJETOS.filter(p => p.instagram !== REEL_CAPA.link).forEach(p => {
     const el = document.createElement('article');
-    el.className = 'card rv' + (p.formato === '16:9' ? ' wide' : '');
-    el.innerHTML = `<div class="media"></div>
-      <div class="cap"><a class="arrow" href="${p.instagram}" target="_blank" rel="noopener"><span class="ar">→</span> ${p.titulo}</a>
-      <span class="small dim">${p.cliente} · ${p.categoria}</span></div>`;
+    el.className = 'item';
+    el.dataset.cat = p.categoria;
+    el.innerHTML = `
+      <div class="meta mono"><span>${p.cliente}</span><span class="dim">${p.categoria}</span></div>
+      <div class="clipbox" style="aspect-ratio:${p.formato==='16:9'?'16/9':'4/5'}"><div class="clip" data-ratio="${ratioOf(p)}">${clip(p.instagram, p.titulo)}</div></div>
+      <h3>${p.titulo}</h3>`;
     grid.appendChild(el);
-    fillMedia(el.querySelector('.media'), p);
+    useMp4(el.querySelector('.clip'), p);
+  });
+  const counts = PROJETOS.reduce((a, p) => (a[p.categoria] = (a[p.categoria]||0) + 1, a), {});
+  const filters = $('#filters');
+  [['Todos', PROJETOS.length], ...Object.entries(counts)].forEach(([c, n], i) => {
+    const b = document.createElement('button');
+    b.textContent = c;
+    if(i === 0) b.classList.add('on');
+    b.onclick = () => {
+      filters.querySelectorAll('button').forEach(x => x.classList.remove('on'));
+      b.classList.add('on');
+      grid.querySelectorAll('.item').forEach(el => el.classList.toggle('hide', c !== 'Todos' && el.dataset.cat !== c));
+    };
+    filters.appendChild(b);
   });
 
   // Sites com IA
-  $('#sitesGrid').innerHTML = SITES_IA.map((s,i) => `
-    <a class="card site rv${i===0?' wide':''}" href="${s.link}" target="_blank" rel="noopener">
-      <div class="media"><iframe src="${s.link}" loading="lazy" tabindex="-1" title="Prévia de ${s.titulo}"></iframe></div>
-      <div class="cap"><span class="arrow"><span class="ar">→</span> ${s.titulo}</span><span class="small dim">${s.tipo} · ${s.link.replace(/^https?:\/\//,'').replace(/\/$/,'')}</span></div>
-    </a>`).join('');
-  const scaleSites = () => document.querySelectorAll('.site .media, .media.site').forEach(v => {
+  const host = u => u.replace(/^https?:\/\//,'').replace(/\/$/,'');
+  $('#sitesGrid').innerHTML = SITES_IA.map((s,i) => {
+    const tagOpen = s.link ? `<a class="site rv" href="${s.link}" target="_blank" rel="noopener">` : `<div class="site rv">`;
+    const tagClose = s.link ? '</a>' : '</div>';
+    const view = s.link
+      ? `<iframe src="${s.link}" loading="lazy" tabindex="-1" title="Prévia de ${s.titulo}"></iframe>`
+      : `<div class="soon">Link em breve</div>`;
+    return `${tagOpen}
+      <div class="meta mono"><span>${s.cliente}</span><span class="dim">${s.tipo}</span></div>
+      <div class="browser"><div class="chrome"><i></i><i></i><i></i><span class="url">${s.link ? host(s.link) : '—'}</span></div><div class="view">${view}</div></div>
+      <h3>${s.titulo}</h3>
+      <p>${s.descricao}</p>
+      <div class="chips">${s.tags.map(t=>`<span>${t}</span>`).join('')}</div>
+      ${s.link ? `<span class="go">${roll('Abrir site ↗')}</span>` : ''}
+    ${tagClose}`;
+  }).join('');
+  const scaleViews = () => document.querySelectorAll('.browser .view').forEach(v => {
     const f = v.querySelector('iframe'); if(f) f.style.transform = `scale(${v.clientWidth/1440})`;
   });
+  scaleViews(); addEventListener('resize', scaleViews);
 
   // Clientes
-  $('#clientList').innerHTML = [...new Set(PROJETOS.map(p => p.cliente))].map(c => `<li>${c}</li>`).join('');
+  $('#clientList').innerHTML = [...new Set(PROJETOS.map(p => p.cliente))]
+    .map(c => `<li class="rv">${c}</li>`).join('');
 
   // Contato
   const wa = msg => `https://wa.me/${CONTATO.whatsapp}?text=${encodeURIComponent(msg)}`;
   const phone = CONTATO.whatsapp.replace(/^55(\d{2})(\d{5})(\d{4})$/, '($1) $2-$3');
-  const ig = `https://www.instagram.com/${CONTATO.instagram}/`;
   $('#links').innerHTML = `
-    <a href="${wa('Olá! Vi o portfólio da mvvisual.co e quero um orçamento.')}" target="_blank" rel="noopener"><span class="small dim">WhatsApp ↗</span><b>${phone}</b></a>
-    <a href="mailto:${CONTATO.email}"><span class="small dim">E-mail ↗</span><b>${CONTATO.email}</b></a>
-    <a href="${ig}" target="_blank" rel="noopener"><span class="small dim">Instagram ↗</span><b>@${CONTATO.instagram}</b></a>`;
-  $('#menuSocial').innerHTML = `<a href="${ig}" target="_blank" rel="noopener">Instagram ↗</a><a href="${wa('Olá! Vi o portfólio da mvvisual.co.')}" target="_blank" rel="noopener">WhatsApp ↗</a>`;
+    <a href="${wa('Olá! Vi o portfólio da mvvisual.co e quero um orçamento.')}" target="_blank" rel="noopener"><span class="tag">WhatsApp ↗</span><b>${phone}</b></a>
+    <a href="mailto:${CONTATO.email}"><span class="tag">E-mail ↗</span><b>${CONTATO.email}</b></a>
+    <a href="https://www.instagram.com/${CONTATO.instagram}/" target="_blank" rel="noopener"><span class="tag">Instagram ↗</span><b>@${CONTATO.instagram}</b></a>`;
+  $('#menuSocial').innerHTML = `<a href="https://www.instagram.com/${CONTATO.instagram}/" target="_blank" rel="noopener">Instagram ↗</a>`;
   $('#form').onsubmit = e => {
     e.preventDefault();
     const f = new FormData(e.target);
@@ -533,17 +537,18 @@
   $('#yr').textContent = new Date().getFullYear();
 
   // Revelar ao rolar
-  const io = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }), {threshold:.12});
+  const io = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }), {threshold:.15});
   document.querySelectorAll('.rv').forEach(el => io.observe(el));
 
   // Texto gigante ocupando a largura
   const fit = () => document.querySelectorAll('.fit').forEach(el => {
     el.style.fontSize = '100px';
     const p = el.parentElement, cs = getComputedStyle(p);
-    const w = p.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+    let w = p.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+    if(p.classList.contains('wordmark') && innerWidth > 900) w -= p.querySelector('.yr').offsetWidth + 24;
     el.style.fontSize = (100 * w / el.scrollWidth) + 'px';
   });
-  const layout = () => { fit(); sizeEmbeds(); scaleSites(); };
+  const layout = () => { fit(); sizeEmbeds(); };
   layout();
   document.fonts && document.fonts.ready.then(layout);
   addEventListener('resize', layout);
