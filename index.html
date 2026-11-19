@@ -294,6 +294,26 @@
   .contact .send{margin-top:24px;align-self:flex-start;background:var(--fg);color:var(--bg);border-radius:99px;padding:16px 28px;font-weight:600;font-size:16px}
   .contact .send:hover{background:var(--accent)}
 
+  /* CONTATO EM TODO LUGAR */
+  .bar .right{justify-self:end;display:flex;align-items:center;gap:22px}
+  .menu .foot .contacts{display:flex;gap:6px 22px;flex-wrap:wrap}
+  .wa-fab{position:fixed;right:var(--g);bottom:calc(var(--g) + env(safe-area-inset-bottom));z-index:40;width:58px;height:58px;border-radius:50%;background:var(--accent);color:#000;display:grid;place-items:center;box-shadow:0 10px 30px rgba(0,0,0,.45);opacity:0;visibility:hidden;transform:translateY(16px) scale(.9);transition:opacity .4s,transform .5s cubic-bezier(.2,.7,.2,1),visibility 0s linear .5s,background .3s}
+  .wa-fab.show{opacity:1;visibility:visible;transform:none;transition:opacity .4s,transform .5s cubic-bezier(.2,.7,.2,1),visibility 0s,background .3s}
+  .wa-fab:hover{background:var(--fg)}
+  .wa-fab svg{width:28px;height:28px}
+  .contact .base{display:flex;flex-direction:column;gap:8px;border-top:1px solid var(--fg);padding-top:12px}
+  .contact .base b{font-size:clamp(20px,2vw,30px);font-weight:600;letter-spacing:-.02em}
+  .contact .base p{font-size:15px;line-height:1.45;color:var(--dim);max-width:40ch}
+  .contact fieldset{border:0;border-bottom:1px solid var(--line);padding:14px 0 14px;display:flex;flex-direction:column;gap:10px;min-width:0}
+  .contact fieldset .tag{padding:0}
+  .chips-sel{display:flex;flex-wrap:wrap;gap:8px}
+  .contact .chip{position:relative;display:inline-flex;border:0;padding:0;cursor:pointer}
+  .chip input{position:absolute;opacity:0;width:1px;height:1px}
+  .chip span{font-family:var(--mono);font-size:11px;letter-spacing:.04em;text-transform:uppercase;border:1px solid var(--line);border-radius:99px;padding:8px 14px;color:var(--dim);transition:border-color .3s,color .3s}
+  .chip:hover span{color:var(--fg)}
+  .chip input:checked+span{border-color:var(--accent);color:var(--fg)}
+  .chip input:focus-visible+span{outline:2px solid var(--accent);outline-offset:3px}
+
   footer{border-top:1px solid var(--line);padding:clamp(40px,6vw,80px) var(--g) 22px}
   footer .fw{font-size:19vw;margin-bottom:24px;white-space:nowrap}
   footer .row{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;color:var(--dim)}
@@ -301,7 +321,7 @@
 
   @media (max-width:900px){
     .bar{grid-template-columns:1fr 1fr}
-    .bar .mid{display:none}
+    .bar .mid,.bar .wa-top{display:none}
     .hero-mid{grid-template-columns:minmax(0,1fr)}
     .hero-top{flex-direction:column;gap:14px}
     .hero-top div:last-child{text-align:left}
@@ -374,8 +394,14 @@
   const CONTATO = {
     instagram: "mvvisual.co",
     whatsapp:  "5561982378512",
-    email:     "mvvisualco@gmail.com"
+    email:     "mvvisualco@gmail.com",
+    cidade:    "Brasília — DF"
   };
+
+  // Mensagem que já vem escrita em todos os botões de WhatsApp do site
+  const MSG_WHATSAPP = "Olá! Vi o portfólio da mvvisual.co e quero um orçamento.";
+  // Opções do campo "Serviço" no formulário de contato
+  const SERVICOS_FORM = ["Vídeo", "Site", "Identidade", "Vídeo + site"];
 
   const PROJETOS = [
     { arquivo: "planejamento-do-sorriso", capa: true, titulo: "Planejamento do sorriso", cliente: "Dr. Xavier Odonto", categoria: "Saúde", instagram: "https://www.instagram.com/reel/DbwOyyuhGH2/" },
@@ -445,13 +471,20 @@
 <header class="bar mono">
   <a href="#topo" class="brand">mvvisual.co</a>
   <div class="mid"><span>BSB-DF-BR</span><span id="clock"></span></div>
-  <button class="menu-btn mono" id="menuBtn" aria-expanded="false" aria-controls="menu" aria-label="Abrir menu"><span class="roll" aria-hidden="true"><span>Menu+</span><span>Menu+</span></span></button>
+  <div class="right">
+    <a class="wa-top" data-wa target="_blank" rel="noopener"><span class="roll"><span>WhatsApp ↗</span><span aria-hidden="true">WhatsApp ↗</span></span></a>
+    <button class="menu-btn mono" id="menuBtn" aria-expanded="false" aria-controls="menu" aria-label="Abrir menu"><span class="roll" aria-hidden="true"><span>Menu+</span><span>Menu+</span></span></button>
+  </div>
 </header>
 
 <div class="menu" id="menu" inert>
   <nav id="menuNav"></nav>
-  <div class="foot mono"><span>(mvvisual.co)</span><span id="menuSocial"></span></div>
+  <div class="foot mono"><span>(mvvisual.co)</span><span class="contacts" id="menuContatos"></span></div>
 </div>
+
+<a class="wa-fab" id="waFab" data-wa target="_blank" rel="noopener" aria-label="Falar com a mvvisual.co no WhatsApp">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2a9.8 9.8 0 0 0-8.4 14.8L2.3 21.7l4.8-1.3A9.8 9.8 0 1 0 12 2.2z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M8.7 7.3c.2-.4.4-.4.7-.4h.5c.2 0 .4 0 .6.4l.8 1.9c.1.2.1.4-.1.6l-.5.7c-.1.2-.2.3 0 .6.5.9 1.2 1.7 2.1 2.3.4.3.8.5 1.2.6.2.1.4 0 .5-.1l.8-.9c.2-.2.4-.2.6-.1l1.8.9c.3.1.4.2.4.4 0 .3 0 1.1-.5 1.6-.5.6-1.4.9-2 .9-.8 0-2.4-.4-4-1.9-2-1.8-2.6-3.8-2.7-4.4-.2-1 .3-1.9.5-2.2z" fill="currentColor"/></svg>
+</a>
 
 <main id="conteudo" tabindex="-1">
 <section class="hero" id="topo">
@@ -594,6 +627,7 @@
       <span class="tag"><span class="dot"></span>Agenda aberta — resposta pelo WhatsApp</span>
       <label><span class="tag">Nome</span><input name="nome" required autocomplete="name"></label>
       <label><span class="tag">Empresa</span><input name="empresa" autocomplete="organization"></label>
+      <fieldset><legend class="tag">Serviço</legend><div class="chips-sel" id="chipsServico"></div></fieldset>
       <label><span class="tag">O que você precisa?</span><textarea name="msg" rows="3" required></textarea></label>
       <button class="send" type="submit"><span class="roll"><span>Enviar pelo WhatsApp ↗</span><span aria-hidden="true">Enviar pelo WhatsApp ↗</span></span></button>
     </form>
@@ -614,6 +648,13 @@
   const $ = s => document.querySelector(s);
   const pad = n => String(n).padStart(2,'0');
   const roll = t => `<span class="roll"><span>${t}</span><span aria-hidden="true">${t}</span></span>`;
+  // WhatsApp: link com a mensagem pronta e número no formato (61) 98237-8512
+  const wa = (msg = MSG_WHATSAPP) => `https://wa.me/${CONTATO.whatsapp}?text=${encodeURIComponent(msg)}`;
+  const phone = CONTATO.whatsapp.replace(/^55(\d{2})(\d{5})(\d{4})$/, '($1) $2-$3');
+  const ligarWhats = () => document.querySelectorAll('[data-wa]').forEach(a => {
+    a.href = wa(a.dataset.wa || MSG_WHATSAPP);
+    a.target = '_blank'; a.rel = 'noopener';
+  });
   // Quem pede menos movimento no sistema não recebe vídeo tocando sozinho
   const MENOS_MOVIMENTO = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const embed = link => {
@@ -793,20 +834,37 @@
   }
 
   // Contato
-  const wa = msg => `https://wa.me/${CONTATO.whatsapp}?text=${encodeURIComponent(msg)}`;
-  const phone = CONTATO.whatsapp.replace(/^55(\d{2})(\d{5})(\d{4})$/, '($1) $2-$3');
+  const insta = `https://www.instagram.com/${CONTATO.instagram}/`;
   $('#links').innerHTML = `
-    <a href="${wa('Olá! Vi o portfólio da mvvisual.co e quero um orçamento.')}" target="_blank" rel="noopener"><span class="tag">WhatsApp ↗</span><b>${phone}</b></a>
+    <a data-wa><span class="tag">WhatsApp ↗</span><b>${phone}</b></a>
     <a href="mailto:${CONTATO.email}"><span class="tag">E-mail ↗</span><b>${CONTATO.email}</b></a>
-    <a href="https://www.instagram.com/${CONTATO.instagram}/" target="_blank" rel="noopener"><span class="tag">Instagram ↗</span><b>@${CONTATO.instagram}</b></a>`;
-  $('#menuSocial').innerHTML = `<a href="https://www.instagram.com/${CONTATO.instagram}/" target="_blank" rel="noopener">Instagram ↗</a>`;
+    <a href="${insta}" target="_blank" rel="noopener"><span class="tag">Instagram ↗</span><b>@${CONTATO.instagram}</b></a>
+    <div class="base"><span class="tag">Base</span><b>${CONTATO.cidade}</b><p>Atendemos presencialmente no DF e sites para todo o Brasil.</p></div>`;
+  $('#menuContatos').innerHTML = `
+    <a data-wa>WhatsApp ${phone} ↗</a>
+    <a href="mailto:${CONTATO.email}">${CONTATO.email} ↗</a>
+    <a href="${insta}" target="_blank" rel="noopener">@${CONTATO.instagram} ↗</a>`;
+  $('#chipsServico').innerHTML = SERVICOS_FORM.map(s => `<label class="chip"><input type="radio" name="servico" value="${s}"><span>${s}</span></label>`).join('');
   $('#form').onsubmit = e => {
     e.preventDefault();
     const f = new FormData(e.target);
-    const msg = `Olá! Sou ${f.get('nome')}${f.get('empresa') ? ' (' + f.get('empresa') + ')' : ''}.\n${f.get('msg')}`;
+    const msg = [MSG_WHATSAPP,
+      `Nome: ${f.get('nome')}`,
+      f.get('empresa') ? `Empresa: ${f.get('empresa')}` : '',
+      f.get('servico') ? `Serviço: ${f.get('servico')}` : '',
+      f.get('msg')].filter(Boolean).join('\n');
     registrarContato('formulario');
     open(wa(msg), '_blank', 'noopener');
   };
+  ligarWhats();
+
+  // Botão flutuante: aparece depois de ~80% da primeira tela e some quando o contato está visível
+  let contatoVisivel = false;
+  const fab = $('#waFab');
+  const atualizaFab = () => fab.classList.toggle('show', scrollY > innerHeight * .8 && !contatoVisivel);
+  new IntersectionObserver(es => { contatoVisivel = es[0].isIntersecting; atualizaFab(); }, {threshold:.15}).observe($('#contato'));
+  addEventListener('scroll', atualizaFab, {passive:true});
+  atualizaFab();
   $('#yr').textContent = new Date().getFullYear();
 
   /* Analytics: só carrega se ANALYTICS_TOKEN estiver preenchido. Equivale ao snippet oficial:
@@ -835,7 +893,7 @@
   };
   document.addEventListener('click', e => {
     const a = e.target.closest('a[href*="wa.me"]');
-    if(a) registrarContato(a.closest('#menu') ? 'menu' : a.closest('#contato') ? 'contato' : 'link');
+    if(a) registrarContato(a.closest('#menu') ? 'menu' : a.closest('#contato') ? 'contato' : a.closest('.bar') ? 'topo' : a.id === 'waFab' ? 'flutuante' : 'link');
   });
 
   // Revelar ao rolar
