@@ -491,14 +491,14 @@
     ['Identidade visual','Logo, cores e peças para redes.']
   ];
 
-  /* NÚMEROS (seção antes do Processo). Se a lista ficar vazia, a seção não aparece.
-     valor: "auto:projetos" e "auto:clientes" são calculados a partir de PROJETOS.
+  /* NÚMEROS (seção "Números", depois de Clientes).
+     Os 4 primeiros são calculados sozinhos: vídeos (PROJETOS), sites no ar (SITES_IA com link),
+     marcas atendidas (clientes sem repetir) e formatos de entrega (SERVICOS).
+     Aqui você acrescenta números REAIS que queira mostrar. valor = só o número; sufixo = o que vem depois.
      Exemplos (tire as barras // para ativar):
-       { valor: "auto:projetos", rotulo: "Projetos em vídeo" },
-       { valor: "auto:clientes", rotulo: "Clientes" },
-       { valor: "+500 mil", rotulo: "Visualizações geradas" },
-       { valor: "100%", rotulo: "Entregas no prazo" }, */
-  const NUMEROS = [
+       { valor: 500, sufixo: " mil", rotulo: "Visualizações geradas" },
+       { valor: 100, sufixo: "%", rotulo: "Entregas no prazo" }, */
+  const NUMEROS_EXTRA = [
   ];
 
   /* DEPOIMENTOS reais de clientes. Se a lista ficar vazia, a seção não aparece.
@@ -675,8 +675,8 @@
   </div>
 </section>
 
-<section class="sec" id="numeros" hidden>
-  <div class="sec-head"><span class="tag">(Números)</span></div>
+<section class="sec" id="numeros">
+  <div class="sec-head"><h2 class="big">Números</h2><span class="tag">(Até aqui)</span></div>
   <div class="stats" id="stats"></div>
 </section>
 
@@ -923,11 +923,32 @@
   // 4 cópias: a 1ª é lida pelo leitor de tela; as outras só completam o loop
   $('#clientTrack').innerHTML = `<ul class="cmq-set">${itensClientes}</ul>` + `<ul class="cmq-set" aria-hidden="true">${itensClientes}</ul>`.repeat(3);
 
-  // Números (a seção só aparece se NUMEROS tiver itens)
-  const AUTO = { 'auto:projetos': PROJETOS.length, 'auto:clientes': new Set(PROJETOS.map(p => p.cliente)).size };
-  if(NUMEROS.length){
-    $('#stats').innerHTML = NUMEROS.map(n => `<div class="stat rv"><span class="tag">${n.rotulo}</span><b>${n.valor in AUTO ? pad(AUTO[n.valor]) : n.valor}</b></div>`).join('');
-    $('#numeros').hidden = false;
+  // Números: 4 calculados a partir dos dados + os reais de NUMEROS_EXTRA. Contam de 0 até o valor ao aparecer.
+  const NUMS = [
+    { valor: PROJETOS.length, rotulo: 'Vídeos no portfólio' },
+    { valor: SITES_IA.filter(s => s.link).length, rotulo: 'Sites no ar' },
+    { valor: CLIENTES.length, rotulo: 'Marcas atendidas' },
+    { valor: SERVICOS.length, rotulo: 'Formatos de entrega' },
+    ...NUMEROS_EXTRA.filter(n => n && n.rotulo && isFinite(parseFloat(n.valor)))
+  ];
+  const casas = v => (String(v).split('.')[1] || '').length;
+  const fmtNum = (v, dec) => dec ? v.toLocaleString('pt-BR', {minimumFractionDigits: dec, maximumFractionDigits: dec}) : (v < 10 ? pad(v) : v.toLocaleString('pt-BR'));
+  $('#stats').innerHTML = NUMS.map(n => {
+    const v = parseFloat(n.valor), dec = casas(n.valor), suf = n.sufixo || '';
+    return `<div class="stat rv"><span class="tag">${n.rotulo}</span><b data-n="${v}" data-dec="${dec}" data-suf="${suf}">${fmtNum(MENOS_MOVIMENTO ? v : 0, dec)}${suf}</b></div>`;
+  }).join('');
+  const contar = b => {
+    const v = +b.dataset.n, dec = +b.dataset.dec, suf = b.dataset.suf, t0 = performance.now(), D = 1400;
+    const passo = t => {
+      const x = Math.min(1, Math.max(0, (t - t0) / D)), e = 1 - Math.pow(1 - x, 3);
+      b.textContent = fmtNum(dec ? v * e : Math.round(v * e), dec) + suf;
+      if(x < 1) requestAnimationFrame(passo);
+    };
+    requestAnimationFrame(passo);
+  };
+  if(!MENOS_MOVIMENTO){
+    const cio = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting){ contar(e.target); cio.unobserve(e.target); } }), {threshold:.5});
+    document.querySelectorAll('#stats b').forEach(b => cio.observe(b));
   }
 
   // Depoimentos (a seção só aparece se houver depoimentos preenchidos)
