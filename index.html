@@ -139,12 +139,7 @@
 
   /* HERO */
   .hero{position:relative;min-height:100svh;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:auto 1fr auto;padding-top:68px;overflow:hidden}
-  .hero-video{position:absolute;inset:0;z-index:0;display:none}
-  .hero-video video{width:100%;height:100%;object-fit:cover}
-  .hero-video::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.4),rgba(0,0,0,0) 35%,rgba(0,0,0,.2) 60%,rgba(0,0,0,.95))}
-  .hero.has-video .hero-video{display:block}
-  .hero.has-video .reel-box{display:none}
-  .hero > *:not(.hero-video){position:relative;z-index:1}
+  .hero > *{position:relative;z-index:1}
   .hero-top{display:flex;justify-content:space-between;gap:20px;padding:0 var(--g)}
   .hero-top div{display:flex;flex-direction:column;gap:4px}
   .hero-top div:last-child{text-align:right}
@@ -177,7 +172,7 @@
   .loader-num{font-weight:900;letter-spacing:-.06em;line-height:.8;font-size:clamp(140px,34vw,520px);font-variant-numeric:tabular-nums}
   .loader-bar{height:2px;background:var(--line);margin-top:18px}
   .loader-bar i{display:block;height:100%;background:var(--accent);transform-origin:left;transform:scaleX(0)}
-  .reel-box{width:min(34vw,calc(52svh * 4 / 5));aspect-ratio:4/5}
+  .reel-box{width:min(34vw,calc(52svh * 4 / 5));aspect-ratio:4/5;padding:0;text-align:left}
   .reel-box.land{width:min(60vw,calc(52svh * 16 / 9));aspect-ratio:16/9}
   .wordmark{padding:0 var(--g) 14px;display:flex;align-items:flex-end;justify-content:space-between;gap:var(--g)}
   .wordmark h1{font-size:19vw;white-space:nowrap}
@@ -246,10 +241,11 @@
   .thumb:hover .ttl em{opacity:1;transform:none}
   /* play próprio só aparece nos vídeos em MP4 (nos do Instagram fica o botão deles) */
   .thumb .play{position:absolute;left:50%;top:50%;z-index:3;transform:translate(-50%,-50%);display:none;place-items:center;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
-  .thumb .play i{width:54px;height:54px;border-radius:50%;background:var(--fg);color:#000;display:grid;place-items:center;font-style:normal;font-size:14px;padding-left:3px;transition:background .4s}
+  .thumb .play i{width:58px;height:58px;border-radius:50%;background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.45);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);color:#fff;display:grid;place-items:center;transition:background .4s,border-color .4s,color .4s}
+  .ico-play{width:18px;height:18px;margin-left:3px;fill:currentColor}
   .thumb.own .play,.thumb.img .play{display:grid}
   .thumb:hover .play{transform:translate(-50%,-50%) scale(1.08)}
-  .thumb:hover .play i{background:var(--accent)}
+  .thumb:hover .play i{background:var(--accent);border-color:var(--accent);color:#000}
   .thumb.own .play{opacity:0;transition:opacity .4s}
   .thumb.own:hover .play{opacity:1}
   .item:nth-child(3n+2){margin-top:80px}
@@ -493,9 +489,13 @@
      LOGO DO CLIENTE (opcional): logo: "logos/procapz.svg" em qualquer projeto do cliente.
        A logo aparece em branco no lugar do nome, na seção Clientes. */
 
-  // Vídeo de fundo da capa: coloque videos/capa.mp4 e troque para true
-  const USAR_VIDEO_CAPA = false;
-  const VIDEO_CAPA = "videos/capa.mp4";
+  /* VÍDEO DA CAPA (o que se vê logo de cara).
+     true  = a capa toca VIDEO_CAPA_LOOP (trecho curto, sem som, em loop) e "Assistir reel" abre VIDEO_CAPA (completo, com som).
+     false = a capa e o modal usam o vídeo do Instagram de REEL_CAPA. */
+  const USAR_VIDEO_CAPA = true;
+  const VIDEO_CAPA      = "videos/capa.mp4";
+  const VIDEO_CAPA_LOOP = "videos/capa-loop.mp4";
+  const POSTER_CAPA     = "capas/capa.jpg";        // imagem que aparece enquanto o vídeo carrega
   const REEL_CAPA = { link: "https://www.instagram.com/reel/DdzzxX2OHjW/", cliente: "CCFE", titulo: "Conferência de Mulheres", categoria: "Aftermovie", formato: "16:9" };
 
   const CONTATO = {
@@ -603,16 +603,15 @@
 
 <main id="conteudo" tabindex="-1">
 <section class="hero" id="topo">
-  <div class="hero-video"><video id="heroVideo" muted loop playsinline preload="none" aria-hidden="true"></video></div>
   <div class="hero-top mono">
     <div><span>Para empresas, marcas e saúde</span><span class="dim">Brasília — DF — BR</span></div>
     <div><span>Vídeo · Sites · Design</span><span class="dim">Do roteiro ao site no ar</span></div>
   </div>
   <div class="hero-mid">
     <div class="hero-note rv"><span class="hand hand-u">do roteiro ao<br>site no ar.<svg class="scribble" viewBox="0 0 200 12" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M2 8 C 34 3, 66 11, 100 6 S 166 2, 198 7"/></svg></span><span class="scroll mono dim">(Scroll)</span></div>
-    <a class="reel-box thumb" id="reelBox" target="_blank" rel="noopener"><div class="clip" id="heroClip"></div><span class="play"><i>▶</i></span></a>
+    <button type="button" class="reel-box thumb" id="reelBox" aria-haspopup="dialog"><div class="clip" id="heroClip"></div><span class="play"><i><svg class="ico-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l12.5-7.5z"/></svg></i></span></button>
     <div class="hero-ctas">
-      <button class="hero-btn mono" id="reelOpen" type="button" aria-haspopup="dialog"><i>▶</i><span class="roll"><span class="reel-lbl">Assistir reel</span><span class="reel-lbl" aria-hidden="true">Assistir reel</span></span></button>
+      <button class="hero-btn mono" id="reelOpen" type="button" aria-haspopup="dialog"><i><svg class="ico-play" viewBox="0 0 24 24" aria-hidden="true" style="width:11px;height:11px;margin-left:2px"><path d="M7 4.5v15l12.5-7.5z"/></svg></i><span class="roll"><span class="reel-lbl">Assistir reel</span><span class="reel-lbl" aria-hidden="true">Assistir reel</span></span></button>
       <a class="talk" href="#contato"><span class="roll"><span>Fale com a gente →</span><span aria-hidden="true">Fale com a gente →</span></span></a>
     </div>
   </div>
@@ -794,6 +793,7 @@
 <script>
   const $ = s => document.querySelector(s);
   const pad = n => String(n).padStart(2,'0');
+  const PLAY = '<svg class="ico-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l12.5-7.5z"/></svg>';
   const roll = t => `<span class="roll"><span>${t}</span><span aria-hidden="true">${t}</span></span>`;
   // WhatsApp: link com a mensagem pronta e número no formato (61) 98237-8512
   const wa = (msg = MSG_WHATSAPP) => `https://wa.me/${CONTATO.whatsapp}?text=${encodeURIComponent(msg)}`;
@@ -875,18 +875,34 @@
   addEventListener('keydown', e => { if(e.key === 'Escape' && menu.classList.contains('open')) setMenu(false); });
 
   // Capa
-  $('#heroClip').innerHTML = clip(REEL_CAPA.link, REEL_CAPA.titulo, false);
-  Object.assign($('#heroClip').dataset, { ratio: ratioOf(REEL_CAPA), box: boxOf(REEL_CAPA), fill: fillOf(REEL_CAPA) });
+  if(USAR_VIDEO_CAPA){
+    // MP4 próprio em loop, sem som (quem pede menos movimento vê só a imagem parada)
+    const v = document.createElement('video');
+    v.muted = true; v.loop = true; v.playsInline = true;
+    v.setAttribute('muted', ''); v.setAttribute('playsinline', ''); v.setAttribute('aria-hidden', 'true');
+    v.poster = POSTER_CAPA;
+    v.preload = MENOS_MOVIMENTO ? 'none' : 'auto';
+    if(!MENOS_MOVIMENTO) v.autoplay = true;
+    v.src = VIDEO_CAPA_LOOP;
+    $('#heroClip').appendChild(v);
+    vio.observe(v);                              // pausa quando sai da tela
+    $('#reelBox').classList.add('own');
+  } else {
+    $('#heroClip').innerHTML = clip(REEL_CAPA.link, REEL_CAPA.titulo, false);
+    Object.assign($('#heroClip').dataset, { ratio: ratioOf(REEL_CAPA), box: boxOf(REEL_CAPA), fill: fillOf(REEL_CAPA) });
+  }
   // Modal do reel: MP4 próprio se USAR_VIDEO_CAPA for true; senão, o vídeo do Instagram de REEL_CAPA
-  const modal = $('#reelModal'), abrirBtn = $('#reelOpen'), caixa = $('#reelModalBox');
+  const modal = $('#reelModal'), caixa = $('#reelModalBox');
+  let abriuPor = $('#reelOpen');                 // o foco volta para quem abriu (botão ou a própria capa)
   document.querySelectorAll('.reel-lbl').forEach(s => s.textContent = `Assistir reel — ${REEL_CAPA.cliente}`);
   $('#reelModalTitle').textContent = `${REEL_CAPA.titulo} — ${REEL_CAPA.cliente}`;
-  const abrirReel = () => {
+  const abrirReel = e => {
+    abriuPor = (e && e.currentTarget) || $('#reelOpen');
     caixa.className = 'modal-box' + (USAR_VIDEO_CAPA ? ' vid' : '');
     // altura do embed do Instagram: cabeçalho + vídeo + rodapé (sem sobrar espaço em branco)
     caixa.style.height = USAR_VIDEO_CAPA ? '' : `min(100%, ${Math.round(57 + 540 * ratioOf(REEL_CAPA) + 175)}px)`;
     caixa.innerHTML = USAR_VIDEO_CAPA
-      ? `<video src="${VIDEO_CAPA}" controls autoplay playsinline></video>`
+      ? `<video src="${VIDEO_CAPA}" poster="${POSTER_CAPA}" controls autoplay playsinline></video>`
       : `<iframe src="${embed(REEL_CAPA.link)}" title="${REEL_CAPA.titulo} — ${REEL_CAPA.cliente}" allow="autoplay; encrypted-media; fullscreen"></iframe>`;
     modal.hidden = false;
     document.documentElement.classList.add('travado');
@@ -897,9 +913,10 @@
     modal.hidden = true;
     caixa.innerHTML = '';                       // para o vídeo
     document.documentElement.classList.remove('travado');
-    abrirBtn.focus();
+    abriuPor.focus();
   };
-  abrirBtn.onclick = abrirReel;
+  $('#reelOpen').onclick = abrirReel;
+  $('#reelBox').onclick = abrirReel;
   $('#reelClose').onclick = fecharReel;
   modal.addEventListener('click', e => { if(!e.target.closest('.modal-box,.modal-close')) fecharReel(); });
   modal.addEventListener('keydown', e => {
@@ -911,15 +928,8 @@
       f[(i + (e.shiftKey ? -1 : 1) + f.length) % f.length].focus();
     }
   });
-  $('#reelBox').href = REEL_CAPA.link;
-  $('#reelBox').setAttribute('aria-label', `Assistir ${REEL_CAPA.titulo} — ${REEL_CAPA.cliente} no Instagram`);
+  $('#reelBox').setAttribute('aria-label', `Assistir ${REEL_CAPA.titulo} — ${REEL_CAPA.cliente}`);
   if(REEL_CAPA.formato === '16:9') $('#reelBox').classList.add('land');
-  if(USAR_VIDEO_CAPA){
-    const vid = $('#heroVideo');
-    vid.addEventListener('loadeddata', () => $('.hero').classList.add('has-video'));
-    if(MENOS_MOVIMENTO) vid.preload = 'metadata'; else vid.autoplay = true;   // sem autoplay para quem pede menos movimento
-    vid.src = VIDEO_CAPA;
-  }
 
   // Marquee
   const mq = 'Empresas  •  Marcas  •  Saúde  •  ';
@@ -942,7 +952,7 @@
         <div class="clip" ${clipAttrs(p)}>${p.video || p.capa ? '' : clip(p.instagram, p.titulo)}</div>
         <span class="shade"></span>
         <span class="lbl"><span>${p.cliente}</span><span>${p.categoria}</span></span>
-        <span class="play"><i>▶</i></span>
+        <span class="play"><i>${PLAY}</i></span>
         <span class="ttl"><b>${p.titulo}</b><em>Assistir ↗</em></span>
       </a>${p.contexto || p.resultado ? `
       <p class="proof">${p.contexto ? `<span>${p.contexto}</span>` : ''}${p.resultado ? `<span class="res">${p.resultado}</span>` : ''}</p>` : ''}`;
