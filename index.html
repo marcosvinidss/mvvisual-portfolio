@@ -279,6 +279,19 @@
   .steps{display:grid;grid-template-columns:repeat(5,1fr);gap:var(--g)}
   .steps div{border-top:1px solid var(--fg);padding-top:14px;display:flex;flex-direction:column;gap:10px}
   .steps .n{font-family:var(--mono);font-size:11px;color:var(--accent)}
+  .steps .top{display:flex;justify-content:space-between;align-items:center}
+  .steps svg{width:22px;height:22px;fill:none;stroke:var(--accent);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+  /* comparação: o comum × na mvvisual */
+  .compare{display:grid;grid-template-columns:1fr 1fr;gap:var(--g);margin-bottom:clamp(48px,7vw,96px)}
+  .cmp{border-top:1px solid var(--line);padding-top:14px;display:flex;flex-direction:column;gap:14px}
+  .cmp ul{list-style:none;display:flex;flex-direction:column}
+  .cmp li{display:flex;gap:14px;align-items:center;font-size:clamp(20px,2vw,30px);font-weight:500;letter-spacing:-.02em;line-height:1.15;padding:10px 0;border-bottom:1px solid var(--line)}
+  .cmp li i{font-style:normal;font-family:var(--mono);font-size:20px;line-height:1;flex:none;width:1em}
+  .cmp.old{color:var(--dim)}
+  .cmp.old li span{text-decoration:line-through;text-decoration-thickness:1px}
+  .cmp.new{border-top:2px solid var(--accent)}
+  .cmp.new .tag{color:var(--accent)}
+  .cmp.new li i{color:var(--accent)}
   .steps b{font-size:24px;font-weight:700;letter-spacing:-.02em}
   .steps p{font-size:14px;color:var(--dim);line-height:1.45}
 
@@ -369,6 +382,7 @@
     .item:nth-child(3n+2){margin-top:0}
     .item:nth-child(2n){margin-top:60px}
     .steps{grid-template-columns:1fr 1fr}
+    .compare{grid-template-columns:minmax(0,1fr)}
     .stats{grid-template-columns:1fr 1fr}
     .svc-list .row{grid-template-columns:40px 1fr}
     .svc-list .row .d{display:none}
@@ -701,12 +715,18 @@
     <h2 class="big">Resolvido<br><span class="acc">antes.</span></h2>
     <p>Improvisar no set custa caro. Na mvvisual, cada projeto é pensado antes de começar, para o dia da gravação ser leve e a entrega chegar no prazo.</p>
   </div>
+  <div class="compare">
+    <div class="cmp old rv"><span class="tag">(O comum)</span>
+      <ul><li><i>×</i><span>Improvisar no dia da gravação</span></li><li><i>×</i><span>Vídeo bonito, sem objetivo</span></li><li><i>×</i><span>Um fornecedor para cada coisa</span></li><li><i>×</i><span>Site que leva meses</span></li></ul></div>
+    <div class="cmp new rv"><span class="tag">(Na mvvisual)</span>
+      <ul><li><i>→</i><span>Roteiro e plano antes de gravar</span></li><li><i>→</i><span>Cada peça com um objetivo claro</span></li><li><i>→</i><span>Vídeo, marca e site no mesmo time</span></li><li><i>→</i><span>Site no ar em dias, com IA</span></li></ul></div>
+  </div>
   <div class="steps">
-    <div class="rv"><span class="n">01</span><b>Conversa</b><p>Entendemos o que você precisa dizer e para quem.</p></div>
-    <div class="rv"><span class="n">02</span><b>Roteiro</b><p>A ideia criativa nasce antes da câmera ligar.</p></div>
-    <div class="rv"><span class="n">03</span><b>Plano</b><p>Locação, horários e takes definidos antes do dia.</p></div>
-    <div class="rv"><span class="n">04</span><b>Produção</b><p>Gravação, design ou site em construção, sem surpresa.</p></div>
-    <div class="rv"><span class="n">05</span><b>Entrega</b><p>Arquivo pronto para postar ou site no ar.</p></div>
+    <div class="rv"><span class="top"><span class="n">01</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H10l-6 4z"/></svg></span><b>Conversa</b><p>Entendemos o que você precisa dizer e para quem.</p></div>
+    <div class="rv"><span class="top"><span class="n">02</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h6"/></svg></span><b>Roteiro</b><p>A ideia criativa nasce antes da câmera ligar.</p></div>
+    <div class="rv"><span class="top"><span class="n">03</span><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="1.5"/><path d="M4 10h16M9 3v4M15 3v4"/></svg></span><b>Plano</b><p>Locação, horários e takes definidos antes do dia.</p></div>
+    <div class="rv"><span class="top"><span class="n">04</span><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="12" height="11" rx="1.5"/><path d="M15 11l6-3.5v10L15 14"/></svg></span><b>Produção</b><p>Gravação, design ou site em construção, sem surpresa.</p></div>
+    <div class="rv"><span class="top"><span class="n">05</span><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.8 2.8L16 9.6"/></svg></span><b>Entrega</b><p>Arquivo pronto para postar ou site no ar.</p></div>
   </div>
 </section>
 
