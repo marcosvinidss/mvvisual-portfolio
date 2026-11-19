@@ -189,6 +189,8 @@
   .terr-card .n{font-family:var(--mono);font-size:12px;color:var(--accent)}
   .terr-card p{grid-column:1/-1;font-size:16px;line-height:1.45;color:var(--dim);max-width:38ch}
   .terr-card p strong{color:var(--fg);font-weight:500}
+  .pill{grid-column:1/-1;justify-self:start;margin-top:8px;display:inline-flex;font-family:var(--mono);font-size:11px;letter-spacing:.04em;text-transform:uppercase;border:1px solid var(--line);border-radius:99px;padding:11px 18px;transition:border-color .3s}
+  .pill:hover{border-color:var(--accent)}
 
   /* MARQUEE */
   .marquee{overflow:hidden;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:18px 0;background:var(--accent);color:#000}
@@ -587,8 +589,10 @@
 <section class="sec terr">
   <h2 class="big rv">Um olhar.<br><em>Dois</em> territórios.</h2>
   <div class="terr-grid">
-    <div class="terr-card rv"><b>Vídeo<br>para marcas</b><span class="n">01</span><p><strong>Reels, institucionais e conteúdo de produto.</strong> Para empresas, clínicas e consultórios que querem passar confiança e aparecer bem no feed.</p></div>
-    <div class="terr-card rv"><b>Sites<br>&amp; design</b><span class="n">02</span><p><strong>Sites, landing pages e identidade visual.</strong> Criados com IA, entregues rápido e prontos para o celular, com o paciente ou cliente a um clique do WhatsApp.</p></div>
+    <div class="terr-card rv"><b>Vídeo<br>para marcas</b><span class="n">01</span><p><strong>Reels, institucionais e conteúdo de produto.</strong> Para empresas, clínicas e consultórios que querem passar confiança e aparecer bem no feed.</p>
+      <a class="pill" data-wa="Olá! Vi o portfólio da mvvisual.co e quero orçar um vídeo para a minha marca."><span class="roll"><span>Orçar um vídeo ↗</span><span aria-hidden="true">Orçar um vídeo ↗</span></span></a></div>
+    <div class="terr-card rv"><b>Sites<br>&amp; design</b><span class="n">02</span><p><strong>Sites, landing pages e identidade visual.</strong> Criados com IA, entregues rápido e prontos para o celular, com o paciente ou cliente a um clique do WhatsApp.</p>
+      <a class="pill" data-wa="Olá! Vi o portfólio da mvvisual.co e quero orçar um site / identidade visual."><span class="roll"><span>Orçar um site ↗</span><span aria-hidden="true">Orçar um site ↗</span></span></a></div>
   </div>
 </section>
 
