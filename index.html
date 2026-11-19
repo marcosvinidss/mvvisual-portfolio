@@ -259,13 +259,18 @@
   .site .chips span{font-family:var(--mono);font-size:10px;text-transform:uppercase;border:1px solid var(--line);border-radius:99px;padding:4px 10px;color:var(--dim)}
   .site .go{font-family:var(--mono);font-size:11px;text-transform:uppercase;color:var(--accent)}
 
-  /* CLIENTES */
-  .clients{display:grid;grid-template-columns:repeat(12,1fr);gap:var(--g)}
-  .clients .head{grid-column:1/5;display:flex;flex-direction:column;gap:16px}
-  .clients .head b{font-size:clamp(28px,3vw,46px);font-weight:600;letter-spacing:-.03em;line-height:1.02}
-  .clients ul{grid-column:5/13;list-style:none}
-  .clients li{font-size:clamp(36px,5.6vw,92px);font-weight:900;text-transform:uppercase;letter-spacing:-.045em;line-height:.95;border-bottom:1px solid var(--line);padding:10px 0 6px;display:flex;justify-content:space-between;align-items:baseline}
-  .clients li span{font-family:var(--mono);font-size:11px;font-weight:400;letter-spacing:.04em;color:var(--dim)}
+  /* CLIENTES (faixa contínua) */
+  .clients{display:grid;grid-template-columns:repeat(12,1fr);gap:var(--g);margin-bottom:clamp(40px,6vw,80px)}
+  .clients .tag{grid-column:1/4}
+  .clients b{grid-column:4/10;font-size:clamp(28px,3vw,46px);font-weight:600;letter-spacing:-.03em;line-height:1.02}
+  .clients p{grid-column:10/13;align-self:end;font-size:15px;line-height:1.45;color:var(--dim)}
+  .cmq{margin:0 calc(var(--g) * -1);overflow:hidden;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:clamp(16px,2vw,26px) 0}
+  .cmq-track{display:flex;width:max-content;animation:mq 40s linear infinite}
+  .cmq:hover .cmq-track{animation-play-state:paused}
+  .cmq-set{display:flex;list-style:none}
+  .cmq-set li{display:flex;align-items:center;font-size:clamp(44px,7vw,120px);font-weight:900;text-transform:uppercase;letter-spacing:-.045em;line-height:1;white-space:nowrap}
+  .cmq-set .sep{color:var(--accent);font-size:.38em;font-weight:400;margin:0 .7em;letter-spacing:0}
+  .cmq-set img.logo{height:.72em;width:auto;filter:brightness(0) invert(1);object-fit:contain}
 
   /* PROCESSO */
   .process-head{display:grid;grid-template-columns:repeat(12,1fr);gap:var(--g);margin-bottom:clamp(40px,6vw,80px)}
@@ -303,9 +308,6 @@
   .about-txt{grid-column:8/13;display:flex;flex-direction:column;gap:16px}
   .about-txt b{font-size:clamp(34px,4.4vw,72px);font-weight:800;text-transform:uppercase;letter-spacing:-.04em;line-height:.9}
   .about-txt p{font-size:17px;line-height:1.5;color:var(--dim);max-width:44ch}
-
-  /* LOGOS DE CLIENTES */
-  .clients li img.logo{height:.7em;width:auto;max-width:60%;filter:brightness(0) invert(1);object-fit:contain}
 
   /* CTA + CONTATO */
   .cta h2{font-size:clamp(48px,9vw,160px);margin-bottom:clamp(50px,7vw,100px)}
@@ -359,7 +361,7 @@
     .wordmark{flex-direction:column;align-items:flex-start;gap:6px}
     .wordmark .yr{text-align:left;padding:0}
     .quote .tag,.quote blockquote,.quote figcaption,.about .tag,.about figure,.about-txt,
-    .manifesto .tag,.manifesto p,.manifesto .sig,.ai-intro .tag,.ai-intro p,.clients .head,.clients ul,.process-head h2,.process-head p,.contact .links,.contact form{grid-column:1/-1}
+    .manifesto .tag,.manifesto p,.manifesto .sig,.ai-intro .tag,.ai-intro p,.clients .tag,.clients b,.clients p,.process-head h2,.process-head p,.contact .links,.contact form{grid-column:1/-1}
     .terr-grid,.sites{grid-template-columns:minmax(0,1fr)}
     .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
     .item:nth-child(3n+2){margin-top:0}
@@ -378,6 +380,9 @@
   @media (prefers-reduced-motion:reduce){
     .rv{opacity:1;transform:none}
     .marquee-track{animation:none}
+    .cmq-track{animation:none;width:auto}
+    .cmq-set{flex-wrap:wrap;padding:0 var(--g);row-gap:12px}
+    .cmq-set[aria-hidden]{display:none}
   }
 </style>
 </head>
@@ -649,17 +654,24 @@
   </div>
 </section>
 
-<section class="sec">
-  <div class="clients">
-    <div class="head rv"><span class="tag">(Clientes)</span><b>Marcas que confiam o olhar delas à mvvisual.</b></div>
-    <ul id="clientList">
-      <!-- GERADO:INICIO clientes -->
-      <li>Dr. Xavier Odonto</li>
-      <li>Prócapz</li>
-      <li>Polícia Penal DF</li>
-      <li>CCFE</li>
-      <!-- GERADO:FIM clientes -->
-    </ul>
+<section class="sec" id="clientes">
+  <div class="clients rv">
+    <span class="tag">(Clientes)</span>
+    <b>Marcas que confiam o olhar delas à mvvisual.</b>
+    <p>Saúde, marcas de produto, instituição pública e eventos: formatos diferentes, o mesmo cuidado com a imagem.</p>
+  </div>
+  <div class="cmq">
+    <div class="cmq-track" id="clientTrack">
+      <ul class="cmq-set">
+        <!-- GERADO:INICIO clientes -->
+        <li>Dr. Xavier Odonto<span class="sep" aria-hidden="true">✦</span></li>
+        <li>Prócapz<span class="sep" aria-hidden="true">✦</span></li>
+        <li>Polícia Penal DF<span class="sep" aria-hidden="true">✦</span></li>
+        <li>CCFE<span class="sep" aria-hidden="true">✦</span></li>
+        <li>@mavileme_<span class="sep" aria-hidden="true">✦</span></li>
+        <!-- GERADO:FIM clientes -->
+      </ul>
+    </div>
   </div>
 </section>
 
@@ -903,10 +915,13 @@
     ${tagClose}`;
   }).join('');
 
-  // Clientes
-  const logoDe = c => (PROJETOS.find(p => p.cliente === c && p.logo) || {}).logo;
-  $('#clientList').innerHTML = [...new Set(PROJETOS.map(p => p.cliente))]
-    .map(c => `<li class="rv">${logoDe(c) ? `<img class="logo" src="${logoDe(c)}" alt="${c}" loading="lazy" decoding="async">` : c}</li>`).join('');
+  // Clientes: faixa em loop com a lista única de PROJETOS + SITES_IA (logo opcional no lugar do nome)
+  const TODOS = [...PROJETOS, ...SITES_IA];
+  const CLIENTES = [...new Set(TODOS.map(p => p.cliente))];
+  const logoDe = c => (TODOS.find(p => p.cliente === c && p.logo) || {}).logo;
+  const itensClientes = CLIENTES.map(c => `<li>${logoDe(c) ? `<img class="logo" src="${logoDe(c)}" alt="${c}" loading="lazy" decoding="async">` : c}<span class="sep" aria-hidden="true">✦</span></li>`).join('');
+  // 4 cópias: a 1ª é lida pelo leitor de tela; as outras só completam o loop
+  $('#clientTrack').innerHTML = `<ul class="cmq-set">${itensClientes}</ul>` + `<ul class="cmq-set" aria-hidden="true">${itensClientes}</ul>`.repeat(3);
 
   // Números (a seção só aparece se NUMEROS tiver itens)
   const AUTO = { 'auto:projetos': PROJETOS.length, 'auto:clientes': new Set(PROJETOS.map(p => p.cliente)).size };

@@ -146,12 +146,15 @@ html_cases = "\n".join(
     f'<span class="ttl"><b>{e(p["titulo"])}</b></span></a>{prova(p)}</article>'
     for p in projetos if p["instagram"] != capa["link"])
 
+todos = projetos + sites   # clientes = lista única de PROJETOS + SITES_IA
+
 def logo_de(c):
-    return next((p["logo"] for p in projetos if p["cliente"] == c and p.get("logo")), None)
+    return next((p["logo"] for p in todos if p["cliente"] == c and p.get("logo")), None)
 
 html_clientes = "\n".join(
-    f'<li><img class="logo" src="{e(logo_de(c))}" alt="{e(c)}" loading="lazy" decoding="async"></li>' if logo_de(c) else f"<li>{e(c)}</li>"
-    for c in dict.fromkeys(p["cliente"] for p in projetos))
+    (f'<li><img class="logo" src="{e(logo_de(c))}" alt="{e(c)}" loading="lazy" decoding="async">' if logo_de(c) else f"<li>{e(c)}")
+    + '<span class="sep" aria-hidden="true">✦</span></li>'
+    for c in dict.fromkeys(p["cliente"] for p in todos))
 
 def host(u):
     return re.sub(r"^https?://", "", u).rstrip("/")
@@ -171,7 +174,7 @@ html_sites = "\n".join(partes)
 
 fonte = trocar_secao(fonte, "servicos", html_serv, "    ")
 fonte = trocar_secao(fonte, "cases", html_cases, "    ")
-fonte = trocar_secao(fonte, "clientes", html_clientes, "      ")
+fonte = trocar_secao(fonte, "clientes", html_clientes, "        ")
 fonte = trocar_secao(fonte, "sites", html_sites, "    ")
 
 arq.write_text(fonte, encoding="utf-8")
