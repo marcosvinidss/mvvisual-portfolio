@@ -300,14 +300,16 @@
   .quote blockquote{grid-column:4/13;font-size:clamp(24px,3vw,46px);line-height:1.08;letter-spacing:-.03em;font-weight:500}
   .quote figcaption{grid-column:4/13;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-top:12px}
 
-  /* QUEM ESTÁ POR TRÁS */
-  .about{display:grid;grid-template-columns:repeat(12,1fr);gap:var(--g);align-items:end}
-  .about .tag{grid-column:1/4;align-self:start}
-  .about figure{grid-column:4/8}
-  .about figure img{width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;border-radius:6px;filter:grayscale(.15)}
-  .about-txt{grid-column:8/13;display:flex;flex-direction:column;gap:16px}
-  .about-txt b{font-size:clamp(34px,4.4vw,72px);font-weight:800;text-transform:uppercase;letter-spacing:-.04em;line-height:.9}
-  .about-txt p{font-size:17px;line-height:1.5;color:var(--dim);max-width:44ch}
+  /* QUEM FAZ */
+  .who{display:grid;grid-template-columns:repeat(12,1fr);gap:var(--g);align-items:end}
+  .who-foto{grid-column:1/6;aspect-ratio:2/3;border-radius:6px;overflow:hidden;background:#0b0b0b;border:1px solid var(--line);display:grid;place-items:center}
+  .who-foto img{width:100%;height:100%;object-fit:cover;filter:grayscale(1)}
+  .monogram{font-weight:900;letter-spacing:-.07em;color:var(--accent);font-size:clamp(120px,17vw,280px);line-height:1;padding-right:.07em}
+  .who-txt{grid-column:7/13;display:flex;flex-direction:column;gap:18px;align-items:flex-start}
+  .who-txt h2{font-size:clamp(56px,8vw,140px)}
+  .who-txt .cargo{font-family:var(--mono);font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--accent)}
+  .who-txt p{font-size:clamp(20px,2vw,28px);line-height:1.2;letter-spacing:-.02em;font-weight:500;max-width:28ch}
+  .who-txt p.dim{color:var(--dim)}
 
   /* CTA + CONTATO */
   .cta h2{font-size:clamp(48px,9vw,160px);margin-bottom:clamp(50px,7vw,100px)}
@@ -360,7 +362,7 @@
     .hero-ctas{justify-self:start;align-items:flex-start}
     .wordmark{flex-direction:column;align-items:flex-start;gap:6px}
     .wordmark .yr{text-align:left;padding:0}
-    .quote .tag,.quote blockquote,.quote figcaption,.about .tag,.about figure,.about-txt,
+    .quote .tag,.quote blockquote,.quote figcaption,.who-foto,.who-txt,
     .manifesto .tag,.manifesto p,.manifesto .sig,.ai-intro .tag,.ai-intro p,.clients .tag,.clients b,.clients p,.process-head h2,.process-head p,.contact .links,.contact form{grid-column:1/-1}
     .terr-grid,.sites{grid-template-columns:minmax(0,1fr)}
     .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -509,13 +511,16 @@
     // { texto: "", nome: "", cargo: "", cliente: "Prócapz" },
   ];
 
-  /* QUEM ESTÁ POR TRÁS (entre o manifesto e os territórios).
-     foto: caminho da foto (ex.: "sobre/marcos.jpg", vertical 4:5, ~800px de largura).
-     Sem foto (ou se o arquivo não existir), a seção não aparece. */
+  /* QUEM FAZ (seção depois de Números).
+     foto: coloque a foto em fotos/marcos.jpg (vertical 2:3, ~800x1200) e escreva "fotos/marcos.jpg".
+     Sem foto (ou se o arquivo não existir), aparece o monograma "mv" na cor de destaque.
+     nome: a 1ª palavra fica na 1ª linha e o resto na 2ª. texto2 aparece em cinza. */
   const SOBRE = {
-    foto: "",
-    nome: "",
-    texto: ""
+    nome:   "Marcos Vinicius",
+    cargo:  "Direção, câmera e código",
+    foto:   "",
+    texto:  "Formado em TI, filmo e programo.",
+    texto2: "Por isso o mesmo olhar vai do roteiro do vídeo até o site no ar."
   };
 
   /* Sites criados com IA. Deixe "link" vazio ("") para mostrar como "em breve".
@@ -580,14 +585,6 @@
     <span class="tag">(Quem somos)</span>
     <p>A mvvisual.co é o estúdio que cuida da imagem de empresas, marcas e profissionais da saúde. <span>Gravamos o vídeo, desenhamos a marca e colocamos o site no ar, com um só time e um só olhar.</span></p>
     <div class="sig mono"><span>Empresas · Marcas · Clínicas &amp; consultórios</span><span class="acc">Câmera e código.</span></div>
-  </div>
-</section>
-
-<section class="sec" id="sobre" hidden>
-  <div class="about rv">
-    <span class="tag">(Quem está por trás)</span>
-    <figure><img id="sobreFoto" alt="" decoding="async" width="800" height="1000"></figure>
-    <div class="about-txt"><b id="sobreNome"></b><p id="sobreTexto"></p></div>
   </div>
 </section>
 
@@ -678,6 +675,20 @@
 <section class="sec" id="numeros">
   <div class="sec-head"><h2 class="big">Números</h2><span class="tag">(Até aqui)</span></div>
   <div class="stats" id="stats"></div>
+</section>
+
+<section class="sec" id="quem">
+  <div class="who">
+    <figure class="who-foto rv" id="quemFoto"><span class="monogram" aria-hidden="true">mv</span></figure>
+    <div class="who-txt rv">
+      <span class="tag">(Quem faz)</span>
+      <h2 class="big" id="quemNome">Marcos<br>Vinicius</h2>
+      <span class="cargo" id="quemCargo">Direção, câmera e código</span>
+      <p id="quemTexto">Formado em TI, filmo e programo.</p>
+      <p class="dim" id="quemTexto2">Por isso o mesmo olhar vai do roteiro do vídeo até o site no ar.</p>
+      <a class="talk" data-wa><span class="roll"><span>Falar comigo ↗</span><span aria-hidden="true">Falar comigo ↗</span></span></a>
+    </div>
+  </div>
 </section>
 
 <section class="sec" id="depoimentos" hidden>
@@ -790,7 +801,7 @@
   tick(); setInterval(tick, 15000);
 
   // Menu
-  const MENU = [['Home','#topo'],['Serviços','#servicos'],['Cases','#trabalhos'],['Sites com IA','#sites'],['Contato','#contato']];
+  const MENU = [['Home','#topo'],['Serviços','#servicos'],['Cases','#trabalhos'],['Sites com IA','#sites'],['Quem faz','#quem'],['Contato','#contato']];
   $('#menuNav').innerHTML = MENU.map(([t,h],i) => `<a href="${h}" class="big">${roll(t)}<span class="tag">${pad(i+1)}</span></a>`).join('');
   const menu = $('#menu'), btn = $('#menuBtn');
   // Menu acessível: fechado = inerte (sem foco); aberto = foco no primeiro link; ao fechar, foco volta ao botão
@@ -960,13 +971,18 @@
     $('#depoimentos').hidden = false;
   }
 
-  // Quem está por trás (só aparece se a foto existir)
+  // Quem faz: nome em duas linhas; foto em preto e branco ou o monograma "mv"
+  const nomes = SOBRE.nome.trim().split(/\s+/);
+  $('#quemNome').innerHTML = nomes.length > 1 ? `${nomes[0]}<br>${nomes.slice(1).join(' ')}` : SOBRE.nome;
+  $('#quemCargo').textContent = SOBRE.cargo;
+  $('#quemTexto').textContent = SOBRE.texto;
+  $('#quemTexto2').textContent = SOBRE.texto2 || '';
+  $('#quemTexto2').hidden = !SOBRE.texto2;
   if(SOBRE.foto){
-    const img = $('#sobreFoto');
-    img.onload = () => { $('#sobre').hidden = false; };   // seção escondida não carrega imagem lazy, por isso esta não é lazy
-    img.alt = SOBRE.nome ? `${SOBRE.nome}, mvvisual.co` : 'Quem está por trás da mvvisual.co';
-    $('#sobreNome').textContent = SOBRE.nome;
-    $('#sobreTexto').textContent = SOBRE.texto;
+    const img = new Image();
+    img.alt = `${SOBRE.nome}, mvvisual.co`;
+    img.decoding = 'async';
+    img.onload = () => $('#quemFoto').replaceChildren(img);   // se a foto não existir, fica o monograma
     img.src = SOBRE.foto;
   }
 
