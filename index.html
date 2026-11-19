@@ -359,6 +359,14 @@
   .chip input:focus-visible+span{outline:2px solid var(--accent);outline-offset:3px}
 
   footer{border-top:1px solid var(--line);padding:clamp(40px,6vw,80px) var(--g) 22px}
+  .fcols{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--g);margin-bottom:clamp(48px,7vw,96px)}
+  .fcols > div{display:flex;flex-direction:column;align-items:flex-start;gap:8px;border-top:1px solid var(--line);padding-top:12px;min-width:0}
+  .fcols .tag{margin-bottom:6px}
+  .fcols nav{display:flex;flex-direction:column;gap:8px}
+  .fcols a{overflow-wrap:anywhere}
+  .fcols a:hover{color:var(--accent)}
+  .fcols a[href^="mailto"]{text-transform:none}
+  .fcols a[href^="mailto"]{text-transform:none}
   footer .fw{font-size:19vw;margin-bottom:24px;white-space:nowrap}
   footer .row{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;color:var(--dim)}
   footer .row a:hover{color:var(--fg)}
@@ -383,6 +391,7 @@
     .item:nth-child(2n){margin-top:60px}
     .steps{grid-template-columns:1fr 1fr}
     .compare{grid-template-columns:minmax(0,1fr)}
+    .fcols{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:32px}
     .stats{grid-template-columns:1fr 1fr}
     .svc-list .row{grid-template-columns:40px 1fr}
     .svc-list .row .d{display:none}
@@ -590,7 +599,7 @@
   </div>
   <div class="wordmark">
     <h1 class="big fit">mvvisual</h1>
-    <span class="yr">.co©<br><span class="dim">Todos os direitos reservados</span></span>
+    <span class="yr">.co©<br><span class="dim">todos os direitos reservados</span></span>
   </div>
 </section>
 
@@ -748,6 +757,12 @@
 </main>
 
 <footer>
+  <div class="fcols mono">
+    <div><span class="tag">Navegar</span><nav id="footNav" aria-label="Rodapé"></nav></div>
+    <div><span class="tag">Contato</span><a data-wa id="footTel"></a><a id="footMail"></a></div>
+    <div><span class="tag">Redes</span><a id="footInsta" target="_blank" rel="noopener"></a></div>
+    <div><span class="tag">Base</span><span id="footBase"></span><span class="dim">Vídeo · Sites · Design</span></div>
+  </div>
   <div class="fw big fit">Vamos criar?</div>
   <div class="row mono">
     <span>© <span id="yr"></span> mvvisual.co — todos os direitos reservados</span>
@@ -1029,6 +1044,12 @@
     registrarContato('formulario');
     open(wa(msg), '_blank', 'noopener');
   };
+  // Rodapé: navegação, contato, redes e base
+  $('#footNav').innerHTML = MENU.map(([t,h]) => `<a href="${h}">${roll(t)}</a>`).join('');
+  $('#footTel').innerHTML = roll(phone);
+  Object.assign($('#footMail'), { href: `mailto:${CONTATO.email}`, innerHTML: roll(CONTATO.email) });
+  Object.assign($('#footInsta'), { href: insta, innerHTML: roll('Instagram @' + CONTATO.instagram) });
+  $('#footBase').textContent = CONTATO.cidade;
   ligarWhats();
 
   // Botão flutuante: aparece depois de ~80% da primeira tela e some quando o contato está visível
